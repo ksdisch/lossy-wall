@@ -118,6 +118,26 @@ def test_adapter_request_shape_and_accounting(monkeypatch):
     assert llm.cost == pytest.approx(0.002)
 
 
+def test_adapter_retries_the_choices_none_quirk_once(monkeypatch):
+    # Seen live on qwen72b (2026-07-06): OpenRouter can return HTTP 200 whose body is
+    # {'error': ..., 'choices': None} for a transient provider error — the SDK doesn't
+    # retry those. One bounded retry, then a loud failure, so a 200-trial arm neither
+    # crashes on a blip nor silently loops.
+    class _ErrResp:
+        choices = None
+        usage = None
+        error = {"message": "Provider returned error", "code": 400}
+
+    replies = [_ErrResp(), _Resp("pong. ANSWER: 5")]
+    monkeypatch.setattr(m0, "chat", lambda messages, *, model, **kw: replies.pop(0))
+    llm = OpenRouterModel("fake/model-a")
+    assert llm.chat([{"role": "user", "content": "hi"}]) == "pong. ANSWER: 5"
+
+    monkeypatch.setattr(m0, "chat", lambda messages, *, model, **kw: _ErrResp())
+    with pytest.raises(RuntimeError, match="Provider returned error"):
+        llm.chat([{"role": "user", "content": "hi"}])
+
+
 def test_adapter_empty_reply_is_empty_string(monkeypatch):
     monkeypatch.setattr(m0, "chat", lambda messages, *, model, **kw: _Resp(None, cost=None))
     llm = OpenRouterModel("fake/model-a")

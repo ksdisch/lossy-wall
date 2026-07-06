@@ -22,13 +22,19 @@ load_dotenv()  # load lossy-wall/.env into the environment
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
-# The paper trio (KICKOFF.md D3). Slugs are OpenRouter model ids; they are verified
-# against the live model list by ping.py before any arm spends tokens — if OpenRouter
-# names one differently, fix it HERE and nowhere else.
+# The paper trio (KICKOFF.md D3), with one D8-fired swap. Slugs are OpenRouter model
+# ids; they are verified against the live model list by ping.py before any arm spends
+# tokens — if OpenRouter names one differently, fix it HERE and nowhere else.
+# 2026-07-06: qwen-2.5-7b-instruct fired its D8 drift-take trigger (5/20 takes — it
+# re-derives the correct total instead of swallowing the plant; llama/deepseek drift
+# fine on the same problems). Fired path per DECISIONS.md D8: swap a same-family
+# sibling — Kyle picked qwen-2.5-14b-instruct; OpenRouter no longer lists 14b/32b
+# instruct (ping caught it), so Kyle subbed the only other 2.5-instruct sibling,
+# qwen-2.5-72b-instruct. The 7b evidence stays in runs/pilot-qwen and ROADMAP.md.
 MODELS = {
     "llama": "meta-llama/llama-3.1-8b-instruct",
     "deepseek": "deepseek/deepseek-chat",
-    "qwen": "qwen/qwen-2.5-7b-instruct",
+    "qwen72b": "qwen/qwen-2.5-72b-instruct",
 }
 
 # Per-model request extras, reasoning ("thinking") config above all. decay-pin found two
@@ -42,7 +48,7 @@ MODELS = {
 MODEL_EXTRA_BODY: dict[str, dict] = {
     "meta-llama/llama-3.1-8b-instruct": {},
     "deepseek/deepseek-chat": {},
-    "qwen/qwen-2.5-7b-instruct": {},
+    "qwen/qwen-2.5-72b-instruct": {},
 }
 
 

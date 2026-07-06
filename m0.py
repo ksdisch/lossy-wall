@@ -125,7 +125,7 @@ class OpenRouterModel:
         self.completion_tokens = 0
         self.cost = 0.0
 
-    def chat(self, messages) -> str:
+    def _request(self, messages):
         # usage.include merged WITHOUT clobbering any per-model reasoning config
         extra = {**MODEL_EXTRA_BODY.get(self.slug, {}), "usage": {"include": True}}
         resp = chat(messages, model=self.slug, temperature=self.temperature,
@@ -138,6 +138,18 @@ class OpenRouterModel:
             cost = getattr(usage, "cost", None)
             if isinstance(cost, (int, float)):
                 self.cost += cost
+        return resp
+
+    def chat(self, messages) -> str:
+        resp = self._request(messages)
+        if resp.choices is None:
+            # OpenRouter can return HTTP 200 with {'error': ..., 'choices': None} for a
+            # transient provider error (seen live on qwen72b, 2026-07-06); the SDK does
+            # not retry those. One bounded retry, then fail loudly — never silently.
+            resp = self._request(messages)
+            if resp.choices is None:
+                raise RuntimeError(f"{self.slug}: choices=None twice — "
+                                   f"{getattr(resp, 'error', None)}")
         return resp.choices[0].message.content or ""
 
 
