@@ -69,6 +69,19 @@ choices): the directed correction's verbatim wording, the exact system prompt, w
 commitment depth the headline tables use (v1 fixes ONE depth and matches theirs), and the
 exact note templates (paper App. A / their `problems.py`).
 
+**Pinned after reading the source (2026-07-06, task 2):** all four fidelity items are now
+closed from the cloned repo's `experiment.py`/`problems.py` — the cross-session runner
+fixes commitment at **depth 8**; the session-2 frame is `[system, user(note),
+user(directed correction)]` (the note travels as a user turn); the note templates and the
+correction wording are re-typed verbatim into `notes.py` (D6); their client runs
+temperature 0.0 / max_tokens 600 (our runner's temperature choice is flagged as a
+mini-decision there). Their runner also special-cases **g=1.0 under lossy to carry the
+full session-1 transcript** instead of a note — ours mirrors that in `runner.py`. One
+correction to item 6 above: their n=96/cell is **32 problems × 3 seeds** (8 canonical +
+24 machine-generated per family by verified generators), not depth-pooling — the author
+generates problems programmatically too, which makes D5's fresh-per-trial generation
+protocol-consistent rather than a deviation.
+
 ## What gets ported from decay-pin (lives at `~/Projects/decay-pin`)
 
 Copy-and-adapt, the lineage's settled port method (decay-pin's D1: full control, tiny files,
