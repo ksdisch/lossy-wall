@@ -9,11 +9,13 @@ from __future__ import annotations
 import pytest
 
 from fake import DriftFake
+from grader import took
 from notes import INTEGRITY, memory_note
 from problems import CANONICAL, FOLLOWUPS
-from runner import (ARMS, DEPTH, SYSTEM, SourceGateError, build_trajectory,
-                    expected_source_presence, last_answer, plant, reclaim_cross,
-                    run_session2, session2_base, verify_note_gate)
+from runner import (ARMS, DEPTH, SYSTEM, TAKE_PROBE, SourceGateError,
+                    build_trajectory, expected_source_presence, last_answer, plant,
+                    reclaim_cross, run_session2, session2_base, take_probe,
+                    verify_note_gate)
 
 P = CANONICAL[0]   # notebooks
 
@@ -52,6 +54,22 @@ def test_build_trajectory_depth_bounds():
     assert len(build_trajectory(DriftFake(P), P, depth=0)) == 3
     with pytest.raises(ValueError):
         build_trajectory(DriftFake(P), P, depth=len(FOLLOWUPS) + 1)
+
+
+def test_take_probe_measures_without_touching_the_state():
+    # D11 (2026-07-06): the take test gets its OWN measurement turn, because the
+    # existing turns fail two mechanical ways found live — FOLLOWUPS[7] answers in
+    # cents (wrong units vs problem.drift), and llama drops the ANSWER format on
+    # precisely the dollar-restatement turns (prose commitment, unparseable). The
+    # probe demands the format inline (the author's own correction-turn idiom) and
+    # is NEVER carried: session 2 inherits the depth-8 state exactly as theirs.
+    assert "'ANSWER: <answer>'" in TAKE_PROBE
+    assert "pre-tax total" in TAKE_PROBE
+    traj = build_trajectory(DriftFake(P), P)
+    before = [dict(m) for m in traj]
+    reply = take_probe(DriftFake(P, seed=3), traj)
+    assert traj == before                      # measurement-only: state unmodified
+    assert took(reply, P) is True              # the fake stays committed to the drift
 
 
 def test_session2_note_cells_frame():
