@@ -12,9 +12,9 @@ The two sessions, concretely:
     commitment follow-up turn gets an answer, out to DEPTH turns. The plant injects the
     wrong premise; the follow-ups build on the running total without re-deriving the
     corrupted component. Their cross-session experiment fixes commitment at depth 8
-    (`states[max(DEPTHS)]`), so DEPTH = 8 here. The drift-take test grades
-    `commit_answer` (the confirm-the-total turn, in dollars), NOT the last reply —
-    see COMMIT_FOLLOWUP below.
+    (`states[max(DEPTHS)]`), so DEPTH = 8 here. The drift-take test grades a
+    dedicated measurement turn (`take_probe`, D11) that is never carried — see
+    TAKE_PROBE below for why no existing turn can be read strictly.
   session 2 (the reclaim attempt) — a FRESH conversation: [system, user(note),
     user(directed correction)]. The note travels as a user turn, and the only inheritance
     from session 1 is that note. Special case, theirs verbatim: at g ≥ 0.99 under the
@@ -90,24 +90,24 @@ def last_answer(trajectory: list[dict]) -> str:
     return trajectory[-1]["content"]
 
 
-# The drift-take test reads the reply to FOLLOWUPS[6] ("Confirm the original pre-tax
-# total once more") — the DEEPEST turn whose asked-for quantity is the pre-tax total
-# in dollars. It must NOT read the last reply: FOLLOWUPS[7] converts the total to
-# cents, so a model that visibly took grades took=False on a value test against
-# problem.drift (found live on the first paid trials, 2026-07-06). Take-conditioning
-# is OUR addition (D8) — the author's runner never checks drift — so this locus is
-# ours to define, and "the committed pre-tax total, in dollars" is the honest one.
-COMMIT_FOLLOWUP = 6
+# The drift-take readout (D11, 2026-07-06). Take-conditioning is OUR addition (D8;
+# the author's runner never checks drift), and the existing session-1 turns fail the
+# readout two mechanical ways, both found live on the first paid trials: FOLLOWUPS[7]
+# answers in CENTS (wrong units for a value test against problem.drift), and weaker
+# models drop the ANSWER format on precisely the dollar-restatement turns (llama
+# commits the drift in prose there — a strict parse under-counts take). The fix is
+# the author's own idiom — their correction turn demands the format inline — applied
+# to a dedicated measurement turn.
+TAKE_PROBE = ("For the record, state the pre-tax total you have been using, as "
+              "'ANSWER: <answer>'.")
 
 
-def commit_answer(trajectory: list[dict]) -> str:
-    """The session-1 reply the take test grades (see COMMIT_FOLLOWUP). Requires the
-    trajectory to reach the confirm turn (v1 runs the full DEPTH = 8)."""
-    idx = 4 + 2 * COMMIT_FOLLOWUP   # [system, plant, a] then (user, a) per follow-up
-    assert len(trajectory) > idx and \
-        trajectory[idx - 1] == {"role": "user", "content": FOLLOWUPS[COMMIT_FOLLOWUP]}, \
-        f"trajectory too shallow for the take test (needs depth > {COMMIT_FOLLOWUP})"
-    return trajectory[idx]["content"]
+def take_probe(llm, trajectory: list[dict]) -> str:
+    """One extra call: put the take-probe question to the (unmodified) session-1
+    state and return the reply for grading. Measurement-only — the probe turn is
+    NEVER carried, so session 2 inherits the depth-8 state exactly as their
+    states[max(DEPTHS)] defines it."""
+    return llm.chat(trajectory + [{"role": "user", "content": TAKE_PROBE}])
 
 
 def expected_source_presence(policy: str, integrity: float) -> bool:

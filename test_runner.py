@@ -12,9 +12,9 @@ from fake import DriftFake
 from grader import took
 from notes import INTEGRITY, memory_note
 from problems import CANONICAL, FOLLOWUPS
-from runner import (ARMS, COMMIT_FOLLOWUP, DEPTH, SYSTEM, SourceGateError,
-                    build_trajectory, commit_answer, expected_source_presence,
-                    last_answer, plant, reclaim_cross, run_session2, session2_base,
+from runner import (ARMS, DEPTH, SYSTEM, TAKE_PROBE, SourceGateError,
+                    build_trajectory, expected_source_presence, last_answer, plant,
+                    reclaim_cross, run_session2, session2_base, take_probe,
                     verify_note_gate)
 
 P = CANONICAL[0]   # notebooks
@@ -56,26 +56,20 @@ def test_build_trajectory_depth_bounds():
         build_trajectory(DriftFake(P), P, depth=len(FOLLOWUPS) + 1)
 
 
-def test_commit_answer_reads_the_confirm_turn_not_the_cents_turn():
-    # Regression, found live on the first paid trials (2026-07-06): FOLLOWUPS[7]
-    # converts the running total to CENTS, so the last reply is in the wrong units
-    # for a value test against problem.drift — a model that visibly took got scored
-    # took=False. The take test must read the deepest turn whose asked-for quantity
-    # IS the pre-tax total in dollars: FOLLOWUPS[6] ("Confirm ... once more").
+def test_take_probe_measures_without_touching_the_state():
+    # D11 (2026-07-06): the take test gets its OWN measurement turn, because the
+    # existing turns fail two mechanical ways found live — FOLLOWUPS[7] answers in
+    # cents (wrong units vs problem.drift), and llama drops the ANSWER format on
+    # precisely the dollar-restatement turns (prose commitment, unparseable). The
+    # probe demands the format inline (the author's own correction-turn idiom) and
+    # is NEVER carried: session 2 inherits the depth-8 state exactly as theirs.
+    assert "'ANSWER: <answer>'" in TAKE_PROBE
+    assert "pre-tax total" in TAKE_PROBE
     traj = build_trajectory(DriftFake(P), P)
-    assert traj[15] == {"role": "user", "content": FOLLOWUPS[COMMIT_FOLLOWUP]}
-    assert commit_answer(traj) == traj[16]["content"]
-    doctored = list(traj)
-    doctored[16] = {"role": "assistant", "content": "Confirming. ANSWER: 55"}
-    doctored[18] = {"role": "assistant", "content": "In cents. ANSWER: 5500"}
-    assert took(commit_answer(doctored), P) is True    # the commitment, in dollars
-    assert took(last_answer(doctored), P) is False     # the unit trap this replaces
-
-
-def test_commit_answer_requires_the_confirm_turn():
-    shallow = build_trajectory(DriftFake(P), P, depth=3)   # confirm turn never asked
-    with pytest.raises(AssertionError):
-        commit_answer(shallow)
+    before = [dict(m) for m in traj]
+    reply = take_probe(DriftFake(P, seed=3), traj)
+    assert traj == before                      # measurement-only: state unmodified
+    assert took(reply, P) is True              # the fake stays committed to the drift
 
 
 def test_session2_note_cells_frame():
