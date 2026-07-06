@@ -1,6 +1,6 @@
 # M0 Start-of-Stage Brief — the fit-pilot
 
-*Written 2026-07-06 · status: **awaiting Kyle's sign-off on D5–D9** · scope source of truth: `docs/KICKOFF.md`*
+*Written 2026-07-06 · status: **signed off 2026-07-06 — D5–D9 decided, all as recommended** (recorded in `DECISIONS.md`) · scope source of truth: `docs/KICKOFF.md`*
 
 ## What M0 is, in plain terms
 
