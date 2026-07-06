@@ -48,7 +48,12 @@ MODELS = {
 MODEL_EXTRA_BODY: dict[str, dict] = {
     "meta-llama/llama-3.1-8b-instruct": {},
     "deepseek/deepseek-chat": {},
-    "qwen/qwen-2.5-72b-instruct": {},
+    # 2026-07-06: the 72b route has two providers — Novita hard-400s chat completions
+    # ("does not support endpoint: completions"), so when DeepInfra rate-limits,
+    # OpenRouter falls through to Novita and the arm dies mid-run (400s are not
+    # retried). Pin to DeepInfra: its 429s ARE retried with backoff (max_retries=8).
+    "qwen/qwen-2.5-72b-instruct": {"provider": {"order": ["deepinfra"],
+                                                "allow_fallbacks": False}},
 }
 
 
