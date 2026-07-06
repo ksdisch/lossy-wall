@@ -23,8 +23,10 @@ Third rung of the reproduce-and-measure lineage:
 
 ## What success looks like (v1)
 
-All under pre-committed CI gates, on ≥2 of 3 models unless stated
-(llama-3.1-8b-instruct / deepseek-chat / qwen-2.5-7b, via OpenRouter):
+All under pre-committed CI gates, on ≥2 of 3 models unless stated — the roster began
+as the paper trio (llama-3.1-8b-instruct / deepseek-chat / qwen-2.5-7b, via
+OpenRouter); qwen-2.5-7b fired its M0 drift-take trigger and v1 currently proceeds
+two-model, with a qwen-2.5-72b re-attempt deferred to the M1 brief (D12):
 
 1. **The wall** — at wall integrity (g ≤ 0.3), the lossy policy's reclaim rate has a
    Wilson CI consistent with ~0, *and* the Newcombe interval on (source_first − lossy)
@@ -40,10 +42,18 @@ and the **cross-check cell**: our independently built harness vs the author's re
 agreement or disagreement reported either way. Non-goals, always: direction + structure,
 never point estimates; no LLM-judge grading, ever; zero frontier spend in v1.
 
-*Status: kicked off 2026-07-06 — scaffold only, no harness code yet. Building starts at
-**M0, the fit-pilot** (drift-take pilot + disposition probe, per-model kill/swap
-triggers armed).*
+*Status: **M0 complete (2026-07-06)** — machinery green (anti-rig 3/3, 64 tests, $0
+until gated), both riskiest assumptions answered YES for ≈ $0.17 total. Drift takes:
+llama 14/20 (green) and deepseek 13/20 (amber — a weak-ish take, so deepseek's
+session-1 generation runs ~1.5× inflated from M1 on, per D8). The disposition probe
+reproduced the title claim's shape at full strength on deepseek: lossy note at the
+wall → 10/12 confident wrong answers; blank memory → 12/12 abstentions (Newcombe
+[+46%, +95%]). llama shows the paper's predicted abstainer null (+1/12). Verdict
+tables, cost ledger, and the qwen-slot story: `ROADMAP.md`. Next: **M1, the wall**
+(needs its start-of-stage brief).*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, seeded
-with the kickoff's D1–D4).
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D12)
+· [`ROADMAP.md`](ROADMAP.md) (milestone status + M0 verdicts and cost ledger) ·
+[`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
+[`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief).

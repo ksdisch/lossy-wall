@@ -152,3 +152,69 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   demands the effect be enormous in a 12-trial glimpse — risking benching deepseek (the
   model the paper's disposition score says should carry claim 3) on pilot noise. The
   null path is a reportable verdict, not a failure — `docs/KICKOFF.md` pre-commits it.
+
+## D10 · Sampling: temperature 0.0 / max_tokens 600 — match the author's harness
+
+- **Date / decider:** 2026-07-06 / Kyle (mid-M0, before the first pilot ran)
+- **Options:** (A) temperature 0.0 and max_tokens 600, exactly their
+  `reclaim-eval/src/reclaim/llm.py`; (B) provider-default temperature (~1.0), closer
+  to how the models run in the wild.
+- **Decision: A — match the paper.**
+- **Why:** protocol fidelity is riskiest assumption #4, and the cross-check cell (D1)
+  only reads cleanly if sampling matches — the same logic that picked D6's verbatim
+  templates. If our rates diverged from theirs under a different temperature, protocol
+  drift and sampling noise would be indistinguishable. The CLAUDE.md guardrail ("don't
+  chase determinism via temp 0 — get signal from N") is satisfied, not violated:
+  trial-to-trial variation comes from D5's fresh problems, the temperature is recorded
+  on every logged row, and no determinism is claimed — the paid trials themselves
+  showed run-to-run variation at temp 0.0 (provider-side nondeterminism), which is why
+  N carries the statistics.
+
+## D11 · Drift-take readout: a dedicated take-probe turn, never carried
+
+- **Date / decider:** 2026-07-06 / Kyle (mid-M0, after hand-reading the first paid
+  trajectories)
+- **Options:** (A) one dedicated measurement turn appended after the 8 follow-ups —
+  "state the pre-tax total you have been using, as 'ANSWER: <answer>'" — the format
+  demanded inline (the author's own correction-turn idiom), graded by the same strict
+  parser as everything else, and NEVER carried into session 2 (the depth-8 state stays
+  exactly their `states[max(DEPTHS)]`); (B) read the deepest session-1 turn that
+  happens to carry a parseable ANSWER line; (C) a looser session-1-only parser (fall
+  back to the last dollar figure in the confirm reply).
+- **Decision: A — the take-probe turn** (+1 call per trajectory, ~11% more session-1
+  spend — pennies).
+- **Why:** the first paid trials produced two live findings that kill the naive
+  readouts. (1) The last follow-up converts the running total to CENTS, so grading the
+  final reply against `problem.drift` mis-scores a visibly taken trajectory. (2) llama
+  drops the ANSWER format on precisely the two dollar-restatement turns — it commits
+  the planted wrong total in prose there — so ANY strict parse of existing turns
+  under-counts take, and B would grade the cents or half-the-total turns instead
+  (wrong quantities). C reintroduces the loose-parsing failure class the paper's own
+  v2 parser fix removed. A keeps ONE parser, strict everywhere; the take test is our
+  addition (D8 — the author's runner never checks drift), so the readout locus is ours
+  to define, and a format-explicit measurement turn is the honest mechanical one.
+  Bonus lesson recorded in fake.py: the DriftFake answers dollars with a perfect
+  ANSWER line on every turn, so the anti-rig suite could never have caught either
+  failure — deterministic fakes validate mechanics, not real-model behavior.
+
+## D12 · The qwen slot: trigger → swap → infrastructure block → two-model close
+
+- **Date / decider:** 2026-07-06 / Kyle (the swap picks; the two-model close follows
+  D8's pre-committed path)
+- **What happened, in order:** qwen-2.5-7b fired its D8 drift-take trigger (5/20
+  takes, Wilson [11%, 47%] — the whole interval below the 50% line; hand-read
+  trajectories show it re-deriving the correct total rather than trusting the plant,
+  while llama/deepseek drift fine on the same problems). Fired path: fidelity audit
+  (recipe verbatim-confirmed) → same-family swap. Kyle picked qwen-2.5-14b-instruct;
+  OpenRouter no longer lists 14b/32b instruct (ping's free slug check caught it), so
+  Kyle subbed qwen-2.5-72b-instruct. The 72b route then proved unrunnable today: its
+  fallback provider (Novita) hard-400s chat completions, and its working provider
+  (DeepInfra) was throttled upstream past 8 backoff retries, twice — 4 trials
+  completed (3 takes, promising) out of 20.
+- **Decision: M0 closes two-model (llama + deepseek);** the 72b re-attempt is deferred
+  to the M1 start-of-stage brief (route recovery or a direct provider key are both
+  plausible by then).
+- **Why:** M0's two riskiest-assumption questions were already answered on the
+  survivors, D8 pre-commits the two-model path in writing, and holding the milestone
+  hostage to a third-party throttle buys nothing the M1 brief can't buy later with
+  the same $0.06. KICKOFF's success criteria need ≥2 of 3 models — satisfied.
