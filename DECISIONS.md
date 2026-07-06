@@ -72,3 +72,83 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   makes the comparison table honest: our Wilson intervals beside their bootstrap
   intervals, labeled as different methods. Pre-committing which method decides removes a
   researcher degree of freedom — no picking whichever interval flatters the claim.
+
+## D5 · Trial independence: fresh generated problems, one per trial
+
+- **Date / decider:** 2026-07-06 / Kyle (M0 brief sign-off; full options in
+  `docs/M0-BRIEF.md`)
+- **Options:** (A) a freshly generated ledger problem for every trial in a cell — the four
+  policy notes for a trial still derive from the *same* session-1 trajectory, a pairing
+  that's native to the design (policies are write-time transformations of one trace);
+  (B) the paper's exact trial economy, 8 problems × 3 seeds reused across cells.
+- **Decision: A — fresh per trial.**
+- **Why:** Wilson intervals assume independent trials; reusing 8 problem templates makes
+  trials cluster, so N quietly means less than N — the silent-statistics bug D4 exists to
+  prevent. The cross-policy pairing is kept (it makes comparisons fairer), and treating
+  paired arms as unpaired in Newcombe errs conservative. Paper-faithful bookkeeping lives
+  where it belongs: the cross-check cell (D1).
+
+## D6 · Note templates: verbatim from the paper
+
+- **Date / decider:** 2026-07-06 / Kyle (M0 brief sign-off)
+- **Options:** (A) re-type the note templates exactly from paper App. A and the author's
+  `problems.py` into our `notes.py`, with a comment citing the source; (B) paraphrase
+  them, as a robustness-to-phrasing point.
+- **Decision: A — verbatim.**
+- **Why:** replication first. Protocol fidelity is riskiest assumption #4, and the
+  cross-check cell only means something if the protocol matches; if paraphrased numbers
+  diverged, we couldn't tell protocol drift from real disagreement. Reading their code as
+  a protocol reference is sanctioned (D1); importing it never is — re-typing with
+  attribution keeps that wall. Robustness-to-phrasing is a post-v1 luxury.
+
+## D7 · Claim 2's equivalence margin: δ = 0.10, committed now
+
+- **Date / decider:** 2026-07-06 / Kyle (M0 brief sign-off)
+- **Options:** (A) δ = 0.10, committed before the project's first paid call, with a
+  pre-committed escalation rule — claim 2's cell runs at N=40 and a single stray reclaim
+  (which alone widens the Newcombe interval past ±0.10) extends it to N≈90 before
+  judging; (B) δ = 0.15 at N=40 flat, no escalation needed; (C) defer the choice to the
+  M2 brief.
+- **Decision: A — δ = 0.10 now, escalation pre-committed.**
+- **Why:** an equivalence margin only protects the claim if it's fixed before data
+  exists; committing before ANY paid call is the maximally clean version, and it costs
+  nothing today. The tight margin makes "lossy_padded ≈ lossy" mean something (0.15 is
+  loose enough to invite "that's generous"), and these cells cost pennies, so the
+  escalation is cheap insurance. Gate mechanics: the Newcombe interval on
+  (lossy_padded − lossy) must sit entirely inside ±0.10 — containment, not
+  `excludes_zero`.
+
+## D8 · Drift-take kill/swap trigger: tiered at N=20 per model
+
+- **Date / decider:** 2026-07-06 / Kyle (M0 brief sign-off)
+- **Options:** at N=20 pilot session-1 trajectories per model — (A) tiered:
+  **≥ 14/20 take → green**; **10–13/20 → amber**: audit our session-1 recipe against the
+  author's `experiment.py` once, then proceed with generation inflated by 1/t̂ and the
+  weak take noted in the README; **< 10/20 → the trigger fires**: fidelity audit → swap a
+  same-family sibling (the swap pick is its own mini-decision at trigger time) → if two
+  models die, v1 proceeds two-model and says so. (B) a single line at 50%. (C) a hard
+  line at 70%.
+- **Decision: A — tiered.**
+- **Why:** the amber tier is what makes the trigger honest — it distinguishes "broken"
+  from "expensive but fine" and pre-commits the response to each, where B hides
+  cost-doubling weakness and C kills models the experiment could honestly carry. The
+  paper reports no take rates, so the tiers come from cost-and-signal logic (a take rate
+  t multiplies session-1 cost by 1/t and, when low, says the paper's precondition barely
+  reproduces). Known before any trigger pull: killing llama specifically would weaken the
+  cross-check anchor (it's the paper's primary model).
+
+## D9 · Disposition-probe powerability: tiered at N=12 per arm
+
+- **Date / decider:** 2026-07-06 / Kyle (M0 brief sign-off)
+- **Options:** per model, wrong-emission gap (lossy − blank) at g=0.1, 12 trials per
+  arm — (A) tiered: **gap ≥ 4/12 → green** (a true gap that size is measurable at M2's
+  N≈40); **2–3/12 → amber**: extend the probe to 24/arm before deciding; **≤ 1/12 →
+  claim-3 null on that model**, reported plainly; **no green model → claim 3 is
+  pre-registered as an honest null** and v1 proceeds on claims 1–2. (B) green at any
+  positive gap (≥ 2/12). (C) green only at ≥ 6/12.
+- **Decision: A — tiered.**
+- **Why:** 4/12 is roughly where a 12-trial pilot's signal outweighs its noise for an
+  N≈40 follow-up; B routinely funds a full arm on noise that melts at N=40, and C
+  demands the effect be enormous in a 12-trial glimpse — risking benching deepseek (the
+  model the paper's disposition score says should carry claim 3) on pilot noise. The
+  null path is a reportable verdict, not a failure — `docs/KICKOFF.md` pre-commits it.
