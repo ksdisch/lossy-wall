@@ -37,6 +37,8 @@ MODELS = {
 # outcomes. Our trio predates that behavior (plain chat models), so all three start with
 # no extra config; ping.py re-establishes this empirically (an empty/truncated pong is
 # the tell), and any needed switch gets recorded HERE with the ping date.
+# Ping 2026-07-06: all three replied 'pong' cleanly under the neutral config — no
+# hidden-reasoning burn on this trio; {} stands.
 MODEL_EXTRA_BODY: dict[str, dict] = {
     "meta-llama/llama-3.1-8b-instruct": {},
     "deepseek/deepseek-chat": {},
