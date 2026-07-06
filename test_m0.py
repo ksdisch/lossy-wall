@@ -164,6 +164,25 @@ def test_run_pilot_on_fake_counts_takes_and_writes_logs(tmp_path):
     assert pids["fakea"] == pids["fakeb"]
 
 
+class CentsAwareFake(DriftFake):
+    """DriftFake that answers the cents follow-up IN CENTS, as real models do — the
+    plain DriftFake answers dollars on every turn and so can never catch a
+    unit-transform scoring bug (how the live take-test bug slipped the anti-rig net)."""
+
+    def chat(self, messages) -> str:
+        last = (messages[-1].get("content") or "").lower()
+        if "in cents" in last:
+            return f"ANSWER: {self.problem.drift * 100:g}"
+        return super().chat(messages)
+
+
+def test_run_pilot_take_test_survives_the_cents_turn(tmp_path):
+    llm_for = lambda slug, problem: CentsAwareFake(problem, seed=1)  # noqa: E731
+    res = run_pilot(llm_for, n=2, seed=0, runs_root=tmp_path,
+                    models={"fakea": FAKES["fakea"]})
+    assert res["fakea"]["takes"] == 2   # last reply is cents; the confirm turn decides
+
+
 # ── the disposition probe on the fake (task 7 machinery) ─────────────────────────────
 
 def test_run_probe_reuses_takes_and_grades_the_wall(tmp_path):

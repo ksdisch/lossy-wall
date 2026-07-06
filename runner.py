@@ -12,7 +12,9 @@ The two sessions, concretely:
     commitment follow-up turn gets an answer, out to DEPTH turns. The plant injects the
     wrong premise; the follow-ups build on the running total without re-deriving the
     corrupted component. Their cross-session experiment fixes commitment at depth 8
-    (`states[max(DEPTHS)]`), so DEPTH = 8 here.
+    (`states[max(DEPTHS)]`), so DEPTH = 8 here. The drift-take test grades
+    `commit_answer` (the confirm-the-total turn, in dollars), NOT the last reply —
+    see COMMIT_FOLLOWUP below.
   session 2 (the reclaim attempt) — a FRESH conversation: [system, user(note),
     user(directed correction)]. The note travels as a user turn, and the only inheritance
     from session 1 is that note. Special case, theirs verbatim: at g ≥ 0.99 under the
@@ -83,9 +85,29 @@ def build_trajectory(llm, problem: Problem, depth: int = DEPTH) -> list[dict]:
 
 
 def last_answer(trajectory: list[dict]) -> str:
-    """The model's final session-1 reply (what the take test grades)."""
+    """The model's final session-1 reply."""
     assert trajectory and trajectory[-1]["role"] == "assistant"
     return trajectory[-1]["content"]
+
+
+# The drift-take test reads the reply to FOLLOWUPS[6] ("Confirm the original pre-tax
+# total once more") — the DEEPEST turn whose asked-for quantity is the pre-tax total
+# in dollars. It must NOT read the last reply: FOLLOWUPS[7] converts the total to
+# cents, so a model that visibly took grades took=False on a value test against
+# problem.drift (found live on the first paid trials, 2026-07-06). Take-conditioning
+# is OUR addition (D8) — the author's runner never checks drift — so this locus is
+# ours to define, and "the committed pre-tax total, in dollars" is the honest one.
+COMMIT_FOLLOWUP = 6
+
+
+def commit_answer(trajectory: list[dict]) -> str:
+    """The session-1 reply the take test grades (see COMMIT_FOLLOWUP). Requires the
+    trajectory to reach the confirm turn (v1 runs the full DEPTH = 8)."""
+    idx = 4 + 2 * COMMIT_FOLLOWUP   # [system, plant, a] then (user, a) per follow-up
+    assert len(trajectory) > idx and \
+        trajectory[idx - 1] == {"role": "user", "content": FOLLOWUPS[COMMIT_FOLLOWUP]}, \
+        f"trajectory too shallow for the take test (needs depth > {COMMIT_FOLLOWUP})"
+    return trajectory[idx]["content"]
 
 
 def expected_source_presence(policy: str, integrity: float) -> bool:

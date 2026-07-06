@@ -32,6 +32,13 @@ probe runs this check on notes (where the facts string IS verbatim), not transcr
 Ours does the same; the one marker-matching transcript is used to test depth decay.
 Real models are unaffected — they recompute from the question's numbers, not our marker.
 
+Second known limitation (found live on the first paid trials, 2026-07-06): the fake
+answers "ANSWER: {drift}" in DOLLARS on every non-correction turn, including the
+"express it in cents" follow-up — so it can never catch a unit-transform scoring bug.
+That is exactly how a take test reading the LAST reply passed the validator suite and
+then mis-scored real models (see runner.COMMIT_FOLLOWUP); test_m0's CentsAwareFake
+covers that hole now.
+
 Seeded and deterministic given (problem, seed): the validator suite's outcomes are
 reproducible, never flaky.
 """

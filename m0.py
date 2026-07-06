@@ -3,7 +3,7 @@
 Two questions, answered cheaply before the full grid spends tokens:
 
   pilot — does drift TAKE? N session-1 trajectories per model at depth 8; the take test
-      is mechanical (grader.took on the last ANSWER line). D8's tiers decide per model:
+      is mechanical (grader.took on the confirm-the-total turn — runner.commit_answer). D8's tiers decide per model:
       >= 70% green / 50–70% amber / < 50% the kill-swap trigger fires.
   probe — is claim 3 POWERABLE? Session 2 at the wall (g=0.1), lossy note vs blank,
       counting wrong emissions (grader.emitted_wrong). D9's tiers decide per model:
@@ -48,7 +48,7 @@ from client import MODEL_EXTRA_BODY, MODELS, chat
 from grader import emitted_wrong, grade, parse_answer, took
 from notes import memory_note
 from problems import Problem, generate
-from runner import build_trajectory, last_answer, run_session2
+from runner import build_trajectory, commit_answer, run_session2
 from stats import newcombe_diff, wilson
 
 TEMPERATURE = 0.0   # D10: match their harness (their llm.py runs temp 0.0)
@@ -203,7 +203,7 @@ def run_pilot(llm_for, n: int = PILOT_N, seed: int = SEED, runs_root="runs",
             calls0 = getattr(llm, "calls", 0)
             cost0 = getattr(llm, "cost", 0.0)
             trajectory = build_trajectory(llm, problem)
-            reply = last_answer(trajectory)
+            reply = commit_answer(trajectory)   # the confirm-the-total turn, in dollars
             take = took(reply, problem)
             takes += take
             _write_trajectory(arm_dir / f"trial-{i:02d}.jsonl", trajectory)
@@ -267,7 +267,7 @@ def run_probe(llm_for, n_per_arm: int = PROBE_N, seed: int = SEED, runs_root="ru
                 problem = pilot_problem(seed, next_trial)
                 llm = llm_for(slug, problem)
                 trajectory = build_trajectory(llm, problem)
-                take = took(last_answer(trajectory), problem)
+                take = took(commit_answer(trajectory), problem)
                 _write_trajectory(probe_dir / f"topup-trial-{next_trial:02d}.jsonl",
                                   trajectory)
                 _append_jsonl(topup_path, {"trial": next_trial, "pid": problem.pid,
