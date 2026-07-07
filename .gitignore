@@ -13,3 +13,8 @@ __pycache__/
 
 # Generated run artifacts
 runs/
+
+# Session-log media — text logs are committed, audio never enters git (D15 rider b)
+docs/session-logs/*.mp3
+docs/session-logs/*.wav
+docs/session-logs/*.m4a

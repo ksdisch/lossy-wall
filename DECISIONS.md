@@ -218,3 +218,75 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   survivors, D8 pre-commits the two-model path in writing, and holding the milestone
   hostage to a third-party throttle buys nothing the M1 brief can't buy later with
   the same $0.06. KICKOFF's success criteria need ≥2 of 3 models — satisfied.
+
+## D13 · The 72b slot: one bounded re-attempt, then the roster freezes
+
+- **Date / decider:** 2026-07-06 / Kyle (M1 brief sign-off; full options in
+  `docs/M1-BRIEF.md`)
+- **Options:** (A) one bounded re-attempt now, before any grid call — re-run
+  `uv run m0.py pilot 20 qwen72b` once (~$0.06); completes → D8's tiers as written,
+  green/amber → the D9 probe (~$0.01) and 72b joins M1's grid labeled in every table
+  as a same-family, 10×-size substitution, never as the paper's qwen-7b;
+  infrastructure-fails again → v1 closes two-model **permanently**, no further
+  attempts in any later milestone. (B) defer the re-attempt to M2 — but a model
+  joining then would have to backfill M1 cells after their gate was judged, splitting
+  the judge-once discipline. (C) close two-model now, abandoning a 3/4-take pilot
+  that $0.06 would finish.
+- **Decision: A — one bounded re-attempt.** The roster freezes before the first grid
+  call, whatever the outcome.
+- **Why:** the only option that terminates the D12 thread today at known cost, and
+  both outcomes are useful — a third family strengthens KICKOFF's "≥2 of 3", a clean
+  close is honest. The success criteria are already satisfiable two-model, so this is
+  upside, not need.
+- **Outcome:** recorded below in this entry once the re-attempt runs (same session).
+
+## D14 · Claim-1's "consistent with ~0": ceiling 0.10 with a pre-committed N-ladder
+
+- **Date / decider:** 2026-07-06 / Kyle (M1 brief sign-off; full options + computed
+  bounds in `docs/M1-BRIEF.md`)
+- **Options:** operationalize KICKOFF claim 1's "lossy RR consistent with ~0" as a
+  ceiling on the Wilson 95% *upper* bound, chosen together with the N schedule —
+  (A) ceiling 0.10, judged at N=40, with D7's escalate-on-a-stray idiom;
+  (B) ceiling 0.15 judged once at N=40, no escalation — cheaper, but a loose reading
+  of the paper's 0.00 and a second smallness bar next to D7's 0.10;
+  (C) no ceiling, judge the Newcombe gap alone — drops half the pre-registered claim.
+- **Decision: A — ceiling 0.10 + the ladder.** Per lossy cell: run to N=20, stop for
+  the **checkpoint** (hand-read ≥3 randomly picked trials against raw logs — the M0
+  scoring lesson institutionalized — plus futility: ≥4 reclaims → not-cleared, stop;
+  nothing can clear at 20, 0/20's bound is 16.1%). Extend to N=40 and judge: 0/40
+  (bound 8.8%) clears; 1–3 reclaims → escalate **once** to N≈90, where ≤3 total
+  reclaims clears (3/90 → 9.3%); ≥4 reclaims at any point is final — not-cleared
+  (4/90 → 10.9%). source_first cells fixed at N=40, no ceiling; the Newcombe gap
+  (source_first − lossy) is judged once, at final Ns. A model clears claim 1 only if
+  both components hold at both g ∈ {0.1, 0.3}; v1 clears on ≥2 models of the final
+  roster.
+- **Why:** pre-commitment is worth most at the headline, where the temptation to bend
+  would be strongest. One project-wide smallness scale (D7's ±0.10) instead of two; a
+  stray reclaim neither kills the claim nor gets waved through — it buys a bigger
+  sample, exactly like D7; and the checkpoint's only powers are bug-catching and
+  futility stops, so the early look can never flatter the result. ≥4 lossy reclaims
+  failing the gate is itself reportable structure (the paper says 0.00; we'd be
+  measuring ≥10% — DISCREPANT territory for M3's table, not a shrug).
+
+## D15 · Run evidence must survive the machine (+ two riders, both yes)
+
+- **Date / decider:** 2026-07-06 / Kyle (M1 brief sign-off; full options in
+  `docs/M1-BRIEF.md`)
+- **Options:** (A) commit paid-run evidence per milestone — `runs/` stays gitignored
+  as the working directory; each milestone's closing PR copies its JSONLs into
+  `evidence/<milestone>/` and commits them (text JSONL, ~1 MB per milestone);
+  (B) keep gitignored, archive manually — the convention that just left M0's
+  evidence stranded on a single machine; (C) external storage (release assets /
+  gist) — more moving parts than ~1 MB deserves.
+- **Decision: A — commit evidence per milestone**, plus both riders: **(a)** commit
+  `uv.lock` (standard for an application — pins the exact dependency versions runs
+  used); **(b)** commit session-log *text*, gitignore media
+  (`docs/session-logs/*.mp3` and kin — the ~4 MB M0 audio memo never enters git).
+- **Why:** the methodology stands on auditable trials (per-trial gates, hand-read
+  checkpoints); evidence that lives on exactly one machine — the near-miss this
+  brief's remote drafting session exposed, when a fresh clone could see none of it —
+  makes those guarantees unverifiable after the fact. The committed bank is also
+  literally M2's input (D5's pairing made durable), so this is reproducibility and
+  M2's substrate in one move. Executed at sign-off: M0's surviving JSONLs archived to
+  `evidence/m0/` (70 files, ~460 KB), `uv.lock` committed, the M0 session-log text
+  committed, media gitignored.
