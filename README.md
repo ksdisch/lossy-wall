@@ -49,13 +49,13 @@ session-1 generation runs ~1.5× inflated from M1 on, per D8). The disposition p
 reproduced the title claim's shape at full strength on deepseek: lossy note at the
 wall → 10/12 confident wrong answers; blank memory → 12/12 abstentions (Newcombe
 [+46%, +95%]). llama shows the paper's predicted abstainer null (+1/12). Verdict
-tables, cost ledger, and the qwen-slot story: `ROADMAP.md`. Next: **M1, the wall** —
-start-of-stage brief out for sign-off ([`docs/M1-BRIEF.md`](docs/M1-BRIEF.md),
-proposing D13–D15).*
+tables, cost ledger, and the qwen-slot story: `ROADMAP.md`. Now running: **M1, the
+wall** — brief signed 2026-07-06 ([`docs/M1-BRIEF.md`](docs/M1-BRIEF.md), D13–D15
+recorded in `DECISIONS.md`).*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D12)
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D15)
 · [`ROADMAP.md`](ROADMAP.md) (milestone status + M0 verdicts and cost ledger) ·
 [`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
 [`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief) ·
-[`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, out for sign-off).
+[`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed).
