@@ -426,6 +426,19 @@ def test_judge_fails_claim2_and_nulls_claim3_honestly(tmp_path):
     assert m["claim3"]["lossy"]["wrong"] == 2
 
 
+def test_judge_keeps_the_archived_split_untallied_before_blank_final_n(tmp_path):
+    # the no-peek pledge, mechanically: claim 3's arms are counted once, at judge
+    # time, AFTER the blank cell reaches its final N (=N_JUDGE; blank has no ladder).
+    # A judge call while blank sits mid-run must NOT tally the archived comparator.
+    _write_rows(tmp_path, "m1-grid-fakea", {
+        **_CLEAN_M1,
+        ("lossy", 0.1): ["emit_attractor"] * 82 + ["abstain"] * 8,
+    })
+    _write_rows(tmp_path, "m2-grid-fakea", {("blank", 0.1): ["abstain"] * 20})
+    m = m2.judge(tmp_path, {"fakea": FAKES["fakea"]})["models"]["fakea"]
+    assert m["claim3"] == {"pending": True, "blank_n": 20}
+
+
 def test_judge_two_cleared_models_clear_claim2_v1(tmp_path):
     for key in FAKES:
         _write_rows(tmp_path, f"m1-grid-{key}", _CLEAN_M1)
