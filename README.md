@@ -61,12 +61,27 @@ third slot resolved GREEN (D13: 72b took 18/20; labeled a same-family 10× subst
 Mid-milestone, the mandatory checkpoint hand-read caught a live parser blindspot
 (deepseek's LaTeX-escaped `ANSWER: \$…`), whose fix revised M0's deepseek take
 verdict upward to 20/20 GREEN — details in ROADMAP's † note. The wall figure:
-[`docs/figs/m1-wall.png`](docs/figs/m1-wall.png). M1 spend ≈ $0.45; project ≈ $0.62.
-Next: **M2, the controls** (needs its start-of-stage brief).*
+[`docs/figs/m1-wall.png`](docs/figs/m1-wall.png). M1 spend ≈ $0.45; project ≈ $0.62.*
+
+*Status: **M2 complete (2026-07-07)** — **claim 2 (content, not length) CLEARED,
+3 of 3 models; claim 3 (worse than empty — the title claim) CLEARED on deepseek.**
+The budget-match control: padding the lossy note to the source-first note's length
+rescued nothing (2/350 padded reclaims, both hand-read lucky guesses; every padded
+cell contained inside the pre-committed ±10% of plain lossy, both escalations
+resolving at 1/90) while source_first beats the padded note by ≥ +87.6% everywhere.
+The emission gap, counted blind against M1's archived rows only after the blank arm
+reached its final N: lossy 52/90 confident wrong answers vs blank **0/40** (40/40
+explicit declines) — gap +58%, Newcombe [+44.2%, +67.5%]. The knob fills complete
+the committed figure ([`docs/figs/m2-knob.png`](docs/figs/m2-knob.png),
+[`docs/figs/m2-emission.png`](docs/figs/m2-emission.png)); llama's high-g dip is
+real model behaviour, documented in the checkpoint record. M2 spend $0.29 measured;
+project ≈ $0.91. Next: **M3 — the cross-check cell + capstone** (needs its
+start-of-stage brief).*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D15)
-· [`ROADMAP.md`](ROADMAP.md) (milestone status + M0 verdicts and cost ledger) ·
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D18)
+· [`ROADMAP.md`](ROADMAP.md) (milestone status + verdict tables and cost ledgers) ·
 [`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
 [`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief) ·
-[`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed).
+[`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed) ·
+[`docs/M2-BRIEF.md`](docs/M2-BRIEF.md) (the M2 start-of-stage brief, signed).

@@ -323,6 +323,14 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   comparator (4/90 fails against a 0/40 comparator at +10.9% but clears against
   deepseek's 1/90 at +9.8%) — so the ladder is the whole schedule and the
   checkpoint's power over these cells is the hand-read only.
+- **Outcome (2026-07-07, M2 close):** **claim 2 CLEARED, 3 of 3 models** (bar ≥2).
+  Every padded cell contained inside ±0.10, every separation ≥ +87.6% at the floor.
+  Both pre-computed boundary cases fired and resolved exactly as written: deepseek
+  padded@0.1 (1/40 vs its 1/90 comparator → escalate → 1/90, contained ±5.0%) and
+  qwen72b padded@0.3 (1/40 vs 0/40 → escalate → bank top-up 40→90 taken ($0.174,
+  the priced contingency) → 1/90, contained [−7.7%, +6.0%]). Both strays were
+  hand-read lucky recoveries kept under strict scoring; contained sibling cells
+  never re-touched. Verdict tables: `ROADMAP.md` M2.
 
 ## D17 · Claim 3's design: a new blank arm vs the archived lossy comparator, counted blind
 
@@ -349,6 +357,13 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   The design's one weakness — the two arms were sampled on different dates
   (temperature 0.0, same pinned models and routes) — is named in the record and
   reported with the result. No gate consumes a bigger abstainer null.
+- **Outcome (2026-07-07, M2 close):** **claim 3 CLEARED on deepseek.** The archived
+  split, counted once at judge time (blank at final N=40, enforced in code): lossy
+  52/90 wrong emissions (33 attractor + 19 other-wrong, 37 abstains, 1 reclaim) vs
+  blank 0/40 (40/40 abstains). Gap +58%, Newcombe [+44.2%, +67.5%] — excludes zero
+  decisively. The blank replies were hand-read at the checkpoint (explicit declines,
+  classified exactly as a human reads them). Abstainer nulls restated per rider (a):
+  llama +1/12, qwen72b 0/12, not extended.
 
 ## D18 · The knob fills: N=40 uniform, all three models
 
@@ -367,3 +382,12 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   project keeps closing off. If a knob cell lands mid-range (the wall's onset, the
   most interesting descriptive outcome), N=40 already resolves it. The absolute
   cost difference is dimes; the transcript cells dominate M2's spend either way.
+- **Outcome (2026-07-07, M2 close):** deepseek and qwen72b at the ceiling in all
+  four knob cells (40/40 each: lossy@0.6, lossy@1.0-transcript, sf@0.6, sf@1.0) —
+  the curves converge above the source threshold as the protocol predicts. llama
+  dips at high g (38, 28, 27, 26 of 40; sf replicate consistent −3%
+  [−22.4%, +17.6%]); the targeted read attributes it to 600-token-cap abstains
+  (rambling verification loops, no ANSWER line — several with the correct total
+  computed mid-reply) plus genuine attractor re-emissions with the source in hand.
+  Real behaviour, honestly read; carried as a caveat on the llama panel of
+  `docs/figs/m2-knob.png`. N=40 uniform held — no mid-run extensions anywhere.
