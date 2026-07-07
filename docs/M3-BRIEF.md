@@ -1,8 +1,9 @@
 # M3 Start-of-Stage Brief — cross-check + capstone
 
-*Written 2026-07-07 · status: **awaiting Kyle's sign-off** — D19–D22 proposed below; no M3
-code and no paid call until Kyle signs · scope source of truth: `docs/KICKOFF.md`
-(Milestone 3) · format follows `docs/M2-BRIEF.md`.*
+*Written 2026-07-07 · status: **signed 2026-07-07** — D19-A (rider a: no), D20-A (rider
+a: yes), D21-A, and D22-A picked by Kyle and recorded in `DECISIONS.md`; the build may
+start · scope source of truth: `docs/KICKOFF.md` (Milestone 3) · format follows
+`docs/M2-BRIEF.md`.*
 
 ## What M3 is, in plain terms
 

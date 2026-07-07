@@ -391,3 +391,88 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   computed mid-reply) plus genuine attractor re-emissions with the source in hand.
   Real behaviour, honestly read; carried as a caveat on the llama panel of
   `docs/figs/m2-knob.png`. N=40 uniform held — no mid-run extensions anywhere.
+
+## D19 · The oracle run: their pilot, their defaults, the paper economy, on llama
+
+- **Date / decider:** 2026-07-07 / Kyle (M3 brief sign-off; full options in
+  `docs/M3-BRIEF.md`)
+- **Options:** (A) the author's `run_pilot.py --real --fix --task arith` on
+  llama-3.1-8b-instruct at their tool defaults — temperature 0.0 (= D10's sampling)
+  and the full 32-problem × 3-seed paper economy, n=96 per (policy, g, arm) cell,
+  ~4,896 calls ≈ $0.08–0.15, staged seed-1-smoke → checkpoint → `--seeds 3` resume;
+  (B) the README cost-note economy (`--n 8`, n=24/cell, ~1,224 calls) — cheaper, but
+  roughly double the agreement criterion's blind spot and no longer n-matched to the
+  paper's tab:wall; (C) deepseek as the overlap model — points the one
+  protocol-validation instrument at a cell where THEIR readout is known-suspect (the
+  escaped-`\$` parser blindspot), so a disagreement couldn't tell our-protocol-drift
+  from their-parser-bug. Rider (a): repeat the run at temperature 0.7.
+- **Decision: A — paper economy on llama at their defaults; rider (a) NO.**
+- **Why:** the author's own protocol at the author's own published cell size through
+  the author's own unmodified code is the strongest form of D1's promise; sampling is
+  matched to our archived cells by construction (their tool default = our D10); and
+  the agreement criterion has real teeth at n=96 (boundary arithmetic pinned in the
+  brief: it tolerates 8/96-scale noise, fires on a ≥ ~12-point structural shift). The
+  0.7 rider would put a second oracle number on the same condition to buy the
+  point-matching v1 never claims. Known trade-off, priced: their runner is serial and
+  stays unmodified — ~2.5–4.5 h background wall-clock, resume-safe.
+
+## D20 · The cross-check is a protocol-fidelity line, not a re-judging
+
+- **Date / decider:** 2026-07-07 / Kyle (M3 brief sign-off; full options in
+  `docs/M3-BRIEF.md`)
+- **Options:** (A) per-claim verdicts stand as judged (judged-once); the cross-check
+  adds a separate protocol-fidelity line — **AGREE** iff the Newcombe 95% interval on
+  (their rate − ours) contains zero on all six wall-region overlap cells, else
+  **DISCREPANT** + the pre-committed protocol audit (protocol diff first, readout
+  recount second, cause or "unexplained" reported either way) — with the
+  verdict-vocabulary mapping (REPRODUCED / PARTIAL / NULL / DISCREPANT) committed in
+  the brief before the oracle run exists; (B) the cross-check gates the headline
+  (REPRODUCED requires AGREE) — hands the author's harness, with two documented
+  defects (broken table replay, parser blindspot), a veto over our verdict; (C) no
+  pre-committed mapping — the researcher degree of freedom the project keeps closing.
+  Rider (a): a pre-declared, $0, descriptive wrong-emission recount of the archived
+  llama and qwen72b lossy@0.1 rows (n=40 each) so their tab:blank values get a
+  same-protocol neighbor in the comparison table.
+- **Decision: A — separate fidelity line, mapping pre-committed; rider (a) YES**
+  (counted once at table time; gates nothing; the blank arms stay at probe n=12 —
+  D17's declined rider stays declined).
+- **Why:** the claim verdicts and the protocol-fidelity question measure different
+  things — what our protocol found, and whether two independent builds of the
+  protocol agree — and keeping them separate is what lets both be reported honestly.
+  A DISCREPANT cross-check still lands in the README headline sentence with its audit
+  finding, not in a footnote; it just cannot rewrite judged records.
+
+## D21 · bootstrap.py: the author's method verbatim, over every gated cell and gap
+
+- **Date / decider:** 2026-07-07 / Kyle (M3 brief sign-off; full options in
+  `docs/M3-BRIEF.md`)
+- **Options:** (A) percentile bootstrap, B=5,000, seeded `random.Random(0)` — their
+  `boot_ci` re-typed with attribution (D6's rule: reference, re-type, never import) —
+  for every GATED cell rate and gap in claims 1–3, with independent two-arm
+  resampling for differences (arms treated unpaired everywhere, D5/D14's
+  conservative convention); appendix table beside Wilson/Newcombe; (B) claim-1 cells
+  only — skips two of three claims gated on the same machinery; (C) every cell
+  including the knob descriptives — decoration on cells that gate nothing.
+- **Decision: A — every gated cell and gap.**
+- **Why:** the appendix exists so a reader can check that the interval-method choice
+  never drove a verdict, so it must cover exactly the verdict-driving numbers and
+  nothing else. Wilson decided and still decides (D4); any disagreement is flagged
+  and Wilson stands. The known 0/n degeneracy (every resample of 0/40 is 0/40, so the
+  bootstrap interval collapses to [0.000, 0.000] — false certainty at the extremes)
+  was named in the brief before any output existed; the appendix shows it as a taught
+  result, which is itself the argument for D4.
+
+## D22 · The capstone: one composite figure
+
+- **Date / decider:** 2026-07-07 / Kyle (M3 brief sign-off; full options in
+  `docs/M3-BRIEF.md`)
+- **Options:** (A) one `docs/figs/capstone.png` — knob curves per model (both
+  policies, padded points, the blank point) + claim-3 emission bars + the cross-check
+  comparison panel (ours vs their-run vs paper-committed on the llama wall cells) —
+  built entirely from archived rows plus the oracle run, $0 new spend; (B) bless the
+  M2 figure pair as the capstone — zero new code, but no single shareable image and
+  the cross-check never gets visualized; (C) A without the cross-check panel.
+- **Decision: A — the composite, cross-check panel included.**
+- **Why:** v1's deliverable is one legible artifact; a capstone that needs three
+  files and a paragraph of arrangement isn't one. The milestone figures
+  (`m1-wall.png`, `m2-knob.png`, `m2-emission.png`) stay frozen as committed records.
