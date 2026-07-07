@@ -6,7 +6,7 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | Milestone | What it is | Status |
 |---|---|---|
 | **M0 — the fit-pilot** | de-risk: machinery + drift-take pilot + disposition probe | **complete (2026-07-06)** |
-| M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | next — needs its start-of-stage brief |
+| M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **brief out for sign-off (2026-07-07):** `docs/M1-BRIEF.md`, D13–D15 proposed |
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | pending |
 | M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | pending |
 | M4 — logic family | gated post-v1 (only if the effect shows) | gated |
