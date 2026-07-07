@@ -379,8 +379,9 @@ def make_figure(judged: dict, path=FIGURE_PATH) -> None:
             ax.errorbar(xs, ys, yerr=[lo_err, hi_err], color=color, marker=marker,
                         capsize=4, label=policy)
             for x, y, n in zip(xs, ys, ns):
+                dy = -14 if y > 0.9 else 6   # points at the ceiling annotate below
                 ax.annotate(f"n={n}", (x, y), textcoords="offset points",
-                            xytext=(6, 6), fontsize=8, color=color)
+                            xytext=(6, dy), fontsize=8, color=color)
         ax.set_xticks(KNOB_AXIS)
         ax.set_xlim(0.0, 1.05)
         ax.set_ylim(-0.05, 1.05)

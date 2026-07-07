@@ -50,9 +50,19 @@ ROADMAP's † note). The disposition probe reproduced the title claim's shape at
 strength on deepseek: lossy note at the wall → 11/12 confident wrong answers; blank
 memory → 12/12 abstentions (Newcombe [+55%, +99%], corrected likewise). llama shows
 the paper's predicted abstainer null (+1/12). Verdict
-tables, cost ledger, and the qwen-slot story: `ROADMAP.md`. Now running: **M1, the
-wall** — brief signed 2026-07-06 ([`docs/M1-BRIEF.md`](docs/M1-BRIEF.md), D13–D15
-recorded in `DECISIONS.md`).*
+tables, cost ledger, and the qwen-slot story: `ROADMAP.md`.*
+
+*Status: **M1 complete (2026-07-06)** — **claim 1 (the wall) CLEARED, 3 of 3 models.**
+At matched character budget, directed corrections reclaim 1/290 lossy-note trials
+(llama 0/80, deepseek 1/130 after its pre-committed escalation, qwen-2.5-72b 0/80)
+vs **240/240** source-first trials; every lossy Wilson-95 upper bound sits under the
+pre-committed 0.10 ceiling and every Newcombe gap floor is above +87%. The roster's
+third slot resolved GREEN (D13: 72b took 18/20; labeled a same-family 10× substitute).
+Mid-milestone, the mandatory checkpoint hand-read caught a live parser blindspot
+(deepseek's LaTeX-escaped `ANSWER: \$…`), whose fix revised M0's deepseek take
+verdict upward to 20/20 GREEN — details in ROADMAP's † note. The wall figure:
+[`docs/figs/m1-wall.png`](docs/figs/m1-wall.png). M1 spend ≈ $0.45; project ≈ $0.62.
+Next: **M2, the controls** (needs its start-of-stage brief).*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
 record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D15)

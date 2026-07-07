@@ -99,3 +99,79 @@ judgment calls after seeing results.
 - **1/t̂ inflation** — if only fraction t̂ of session-1 trajectories take, generating
   N usable trials costs N/t̂ session-1 runs; D8's amber tier prices this in instead of
   killing the model.
+
+---
+
+## M1 — the wall (2026-07-06)
+
+### The teaching note
+
+**What M1 measured, and what it found.** M1 is the headline: once compression drops a
+note's *source* (the line items you'd need to recompute) and keeps only its
+*conclusion* (the wrong total the model committed to), does a directed correction stop
+working? Yes — at full strength, on all three models. Holding a lossy note at the
+wall, told exactly where the error is, the roster reclaimed the correct total in 1 of
+290 lossy trials (llama 0/80, deepseek 1/130, qwen72b 0/80 across both wall
+integrities). Spend the *same character budget* keeping the source instead — drop the
+recomputable conclusion, keep the line items — and the correction works every single
+time: 240/240 source_first reclaims, with the model visibly redoing the arithmetic in
+each sampled reply. Claim 1's pre-committed gate (Wilson-95 upper bound ≤ 0.10 on
+every lossy cell; Newcombe gap above zero; both g; ≥2 models) cleared 3-for-3. This is
+the paper's RR 0.00 vs 0.99–1.00 wall, reproduced.
+
+**Why "consistent with ~0" needed a ladder, and how the ladder earned its keep.** A
+0-for-20 cell does *not* mean the true rate is 0% — the honest Wilson bound says "up
+to 16.1%", which is why nothing was allowed to clear at the N=20 checkpoint. The
+ladder (D14) pre-committed what every outcome would mean before data existed: 0/40
+clears (bound 8.8%), 1–3 strays buy one extension to N≈90, ≥4 is final failure. And
+then reality used it: deepseek's lossy@0.1 cell produced exactly one "reclaim" — a
+hand-read showed the model *assuming* a plausible round subtotal with no source in
+context and landing on the true total by pure luck ($150, attractor $157). Strict
+scoring keeps it (the commitment is the value; unscoring it by judging the process
+would bend the gate) — so the cell escalated, ran 50 more trials, gained nothing, and
+cleared at [0.2%, 6.0%]. A stray neither killed the claim nor got waved through; it
+bought a bigger sample. That's what pre-commitment is *for*.
+
+**The day's central lesson, round two: the hand-read caught a live parser bug the
+fakes never could.** The very first advisory look at raw bank replies showed deepseek
+writing `ANSWER: \$197` — the dollar sign LaTeX-escaped — on about a third of its
+replies. Our parser (re-typed verbatim from the author's) read that as "no numeric
+commit," so true takes were being scored as no-takes. Fixed with regression tests
+(PR #10), the blast radius was all in the conservative direction, and re-scoring M0's
+archived evidence *revised an M0 verdict upward*: deepseek's pilot was really 20/20
+GREEN, not 13/20 AMBER — the ×1.54 cost mandate had been a parser artifact. Two
+lineage lessons compound here: (1) M0's "eyes on raw replies" rule found in one sample
+what 92 green tests couldn't, because deterministic fakes only validate mechanics;
+(2) committing evidence (D15) is what made re-scoring M0 possible at all — you can't
+re-derive verdicts from evidence you didn't keep. Bonus protocol note for M3: the
+author's parser shares the blindspot, so their deepseek cells may under-read the same
+way at the cross-check cell.
+
+**The infrastructure story had a happy ending.** The 72b slot that M0 couldn't run
+(provider throttled past 8 retries, twice) completed its bounded D13 re-attempt
+cleanly the next session: 18/20 takes, GREEN — and then its bank hit the same 429
+throttle mid-build and *lost nothing*, because M1's bank is resume-aware and
+append-only (a deliberate divergence from m0.py's replace-on-rerun pilots: the bank
+is a durable asset, M2's input, so it extends rather than re-runs). One retry later
+it finished at a 0.91 take rate. Total cost of the third model, pilot to verdict:
+about $0.20 — and it bought claim 1 its "3 of 3" instead of "2 of 2".
+
+### New words
+
+- **The ladder / judged looks** — the pre-committed N schedule (checkpoint 20 → judge
+  40 → one escalation to ≈90) where each look's *powers* are fixed in advance: the
+  checkpoint can only stop or continue, never clear; the judge point clears or
+  escalates; the escalated look is final.
+- **Lucky recovery / lucky confabulation** — a no-source reply that guesses its way
+  to the true value (deepseek's 1/130); kept as a reclaim under strict scoring, and
+  the reason "consistent with ~0" is a ceiling rather than "exactly 0".
+- **Resume-aware / append-only runner** — a driver that extends its logged state
+  instead of replacing it (the bank, the grid); what makes an escalation cheap and a
+  mid-run throttle harmless.
+- **Replicate cells (in practice)** — sf@0.1 and sf@0.3 carry the identical note
+  string, so their agreement (+0% on every model) is a free run-integrity check that
+  costs two cells' pennies.
+- **Escaped-dollar blindspot** — `ANSWER: \$197` parsing as "no commit"; the M1
+  instance of the lineage's recurring failure class (unit trap, format drift, now
+  LaTeX escaping): a mechanical readout pointed at the right place but reading too
+  narrowly.
