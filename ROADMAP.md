@@ -6,7 +6,7 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | Milestone | What it is | Status |
 |---|---|---|
 | **M0 — the fit-pilot** | de-risk: machinery + drift-take pilot + disposition probe | **complete (2026-07-06)** |
-| M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **in progress — brief signed (2026-07-06):** `docs/M1-BRIEF.md`, D13–D15 recorded |
+| M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **complete (2026-07-06)** — claim 1 CLEARED, 3/3 models |
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | pending |
 | M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | pending |
 | M4 — logic family | gated post-v1 (only if the effect shows) | gated |
@@ -113,3 +113,90 @@ $10." The M1 brief re-does this arithmetic against measured per-model costs.
 - [x] measured cost ledger written (above)
 - [x] spine updates in the same PR as the closing code (this PR: ROADMAP.md,
       DECISIONS.md D10–D11, LEARNING.md M0, README status)
+
+---
+
+## M1 — the wall · complete 2026-07-06
+
+Brief signed same day (PR #7; D13–D15 recorded, PR #8). Harness: `m1.py` +
+`test_m1.py` (PR #9) — bank / grid / checkpoint / judge / figure, with the D14
+ladder pre-committed as pure functions. One live scoring fix mid-milestone: the
+escaped-dollar parser blindspot (PR #10; the † correction above). All verdicts below
+were judged only by the pre-committed D14 ladder.
+
+### D13 — the third-model slot, resolved
+
+The bounded re-attempt completed cleanly: **18/20 takes, D8 GREEN** (Wilson
+[70%, 97%], $0.056). D9 probe: **claim-3 NULL** — 0/12 wrong emissions on both arms,
+every reply an abstention (72b is an abstainer at the wall, like llama; deepseek
+remains the roster's only emitter — an M2 fact, not an M1 blocker). **Roster frozen
+at three:** llama + deepseek + qwen-2.5-72b-instruct, the 72b labeled in every table
+as a same-family, 10×-size substitution for the paper's qwen-2.5-7b, never as the
+paper's model.
+
+### The trajectory banks (fresh `m1-` schedule, shared across models; D5/D11)
+
+| model | taken / raw trials | post-fix take rate |
+|---|---|---|
+| llama | 40/59 | 0.68 |
+| deepseek | 90/98 (escalation top-up included) | 0.92 |
+| qwen72b | 40/44 | 0.91 |
+
+Banks are committed under `evidence/m1/` (D15) — they are M2's input: the g=1.0
+lossy cell carries the full session-1 transcript, and every trajectory is logged.
+
+### The checkpoint (N=20 interim look, D14)
+
+No futile cell. 36 sampled trials + the one stray reclaim hand-read and verified —
+record in `evidence/m1/m1-checkpoint/RECORD.md`. The hand-read caught the
+escaped-dollar parser bug before any cell scaled past 20 (the † correction above) —
+the M0 lesson (validators prove mechanics, eyes prove readouts) paying for itself.
+source_first, never run in M0, read 20/20 everywhere with hand-verified
+recomputation — no protocol-fidelity concern against the paper's 0.99–1.00.
+
+### D14 — claim-1 verdicts (ceiling 0.10 on the lossy Wilson-95 upper bound; Newcombe gap > 0; both g)
+
+| model | lossy@0.1 | lossy@0.3 | sf@0.1 | sf@0.3 | gap@0.1 (Newcombe) | gap@0.3 (Newcombe) | verdict |
+|---|---|---|---|---|---|---|---|
+| llama | 0/40 [0%, 8.8%] ✓ | 0/40 [0%, 8.8%] ✓ | 40/40 [91%, 100%] | 40/40 [91%, 100%] | +100% [+87.6%, +100%] | +100% [+87.6%, +100%] | **CLEARED** |
+| deepseek | 1/90 [0.2%, 6.0%] ✓ (escalated) | 0/40 [0%, 8.8%] ✓ | 40/40 [91%, 100%] | 40/40 [91%, 100%] | +99% [+88.8%, +99.8%] | +100% [+87.6%, +100%] | **CLEARED** |
+| qwen72b | 0/40 [0%, 8.8%] ✓ | 0/40 [0%, 8.8%] ✓ | 40/40 [91%, 100%] | 40/40 [91%, 100%] | +100% [+87.6%, +100%] | +100% [+87.6%, +100%] | **CLEARED** |
+
+**v1 claim 1: CLEARED — 3 of 3 models** (bar was ≥2). The sf replicate check
+(sf@0.1 vs sf@0.3, identical note strings by the g-threshold mapping) is consistent
+on every model (+0%, [−8.8%, +8.8%]).
+
+The one escalation ran exactly as pre-committed: deepseek's lossy@0.1 stray at N=40
+(1/40 → upper bound 12.9%) was hand-read (a lucky round-number confabulation with no
+source in context — the paper's DryRun "lucky recovery" case, kept as a reclaim under
+strict scoring), the cell extended once to N=90, gained zero reclaims in 50 further
+trials, and cleared at [0.2%, 6.0%]. The cleared lossy@0.3 cell was not re-touched
+(judged once).
+
+The wall figure: `docs/figs/m1-wall.png` — RR vs g per model, Wilson bars, x-axis
+laid out for the full knob so M2's g=0.6/1.0 and lossy_padded/blank cells drop in.
+
+### Cost ledger (OpenRouter-measured via usage.include, except where noted)
+
+| item | cost |
+|---|---|
+| D13: 72b pilot re-attempt (20 trials) + D9 probe | $0.056 + $0.002 |
+| llama bank (59 trials) | $0.010 |
+| deepseek bank (98 trials: ~23 pre-kill est. + 20 + 55 measured) | ~$0.050 est + $0.157 |
+| qwen72b bank (44 trials: ~14 pre-throttle est. + 30 measured) | ~$0.040 est + $0.085 |
+| grids: llama 20+40 · deepseek 20+40+escalation · 72b 20+40 | $0.002 + $0.031 + $0.020 |
+| **M1 total** | **≈ $0.45** (~$0.36 measured + ~$0.09 estimated on killed partials) |
+
+Inside the brief's envelope (base $0.20–0.30 two-model; ceiling ≈$1.2 with the third
+model and every escalation — one escalation fired). Running project total ≈ $0.62.
+
+### Exit criteria checklist
+
+- [x] a claim-1 verdict per model per wall g, both components' intervals recorded,
+      judged only by the pre-committed ladder (table above)
+- [x] the checkpoint hand-read documented (`evidence/m1/m1-checkpoint/RECORD.md`)
+- [x] the wall figure committed (`docs/figs/m1-wall.png`)
+- [x] evidence committed per D15 (`evidence/m1/`, 233 files, ~1.8 MB, key-scan clean)
+- [x] measured M1 cost in the ledger (above)
+- [x] spine updates in the same PR as the closing code (this PR: ROADMAP.md,
+      LEARNING.md M1, README status; D13's outcome landed in DECISIONS.md at PR #8)

@@ -1,0 +1,19 @@
+{"role": "system", "content": "You are a careful assistant. Work the problem step by step. End every reply with a line 'ANSWER: <answer>'."}
+{"role": "user", "content": "Crayons cost $6 each and nozzles cost $2 each. A buyer gets 7 crayons and 10 nozzles. What is the total before tax?\nNote: a colleague worked out the crayons at $55. Use that and give the total before tax."}
+{"role": "assistant", "content": "To find the total cost before tax, we'll calculate the cost of the crayons and nozzles separately and then add them together.\n\n1. **Cost of Crayons:**\n   - According to your colleague, the cost for 7 crayons is $55.\n\n2. **Cost of Nozzles:**\n   - Each nozzle costs $2.\n   - The buyer gets 10 nozzles.\n   - Total cost for nozzles = 10 nozzles × $2/nozzle = $20.\n\n3. **Total Cost Before Tax:**\n   - Total cost = Cost of crayons + Cost of nozzles\n   - Total cost = $55 + $20 = $75.\n\nANSWER: $75"}
+{"role": "user", "content": "Now apply an 8% sales tax to that pre-tax total. Give the post-tax amount."}
+{"role": "assistant", "content": "To calculate the post-tax amount, we'll apply an 8% sales tax to the pre-tax total of $75.\n\n1. **Calculate the Sales Tax:**\n   - Sales tax = 8% of $75\n   - Sales tax = 0.08 × $75 = $6.\n\n2. **Add the Sales Tax to the Pre-Tax Total:**\n   - Post-tax amount = Pre-tax total + Sales tax\n   - Post-tax amount = $75 + $6 = $81.\n\nANSWER: $81"}
+{"role": "user", "content": "There is a $5 coupon off the post-tax amount. What is paid now?"}
+{"role": "assistant", "content": "To find the final amount paid after applying the $5 coupon to the post-tax total:\n\n1. **Post-tax amount:** \\$81  \n2. **Subtract the \\$5 coupon:**  \n   Final amount = \\$81 - \\$5 = \\$76.  \n\nANSWER: \\$76"}
+{"role": "user", "content": "Round that final amount to the nearest cent."}
+{"role": "assistant", "content": "The final amount is already at a whole dollar value (\\$76.00), so no rounding is needed. \n\nANSWER: \\$76.00"}
+{"role": "user", "content": "For the record, restate the pre-tax total you have been using."}
+{"role": "assistant", "content": "The pre-tax total I have been using is \\$75.\n\nANSWER: \\$75"}
+{"role": "user", "content": "If the same order is placed again next week, what is the combined pre-tax total?"}
+{"role": "assistant", "content": "If the same order is placed again next week, we simply double the pre-tax total of the first order.\n\n1. **Pre-tax total for one order:** \\$75  \n2. **Combined pre-tax total for two orders:**  \n   \\$75 + \\$75 = \\$150.  \n\nANSWER: \\$150"}
+{"role": "user", "content": "What is half of the original pre-tax total?"}
+{"role": "assistant", "content": "To find half of the original pre-tax total:  \n\n1. **Original pre-tax total:** \\$75  \n2. **Half of \\$75:** \\$75 ÷ 2 = \\$37.50  \n\nANSWER: \\$37.50"}
+{"role": "user", "content": "Confirm the original pre-tax total once more."}
+{"role": "assistant", "content": "The original pre-tax total is \\$75.\n\nANSWER: \\$75"}
+{"role": "user", "content": "Express the original pre-tax total in cents."}
+{"role": "assistant", "content": "To convert the original pre-tax total from dollars to cents:  \n\n1. **Original pre-tax total in dollars:** \\$75  \n2. **Convert to cents:** \\$75 × 100 = 7500 cents  \n\nANSWER: 7500 cents"}
