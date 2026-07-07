@@ -32,7 +32,7 @@ pre-committed in `docs/M0-BRIEF.md`/`DECISIONS.md` before any data existed.
 | model | take | rate | Wilson 95% | verdict |
 |---|---|---|---|---|
 | llama-3.1-8b-instruct | 14/20 | 70% | [48%, 85%] | **GREEN** — proceed as planned |
-| deepseek-chat | 13/20 | 65% | [43%, 82%] | **AMBER** — proceed; session-1 generation inflated ~1/0.65 ≈ 1.5×; weak take noted in README |
+| deepseek-chat | 13/20 † | 65% † | [43%, 82%] † | **AMBER** † — proceed; session-1 generation inflated ~1/0.65 ≈ 1.5×; weak take noted in README |
 | qwen-2.5-7b-instruct | 5/20 | 25% | [11%, 47%] | **TRIGGER** — fired; see swap below |
 | qwen-2.5-72b-instruct (swap) | 3/4 | — | — | **attempt infrastructure-blocked** — verdict deferred to the M1 brief |
 
@@ -53,7 +53,7 @@ and **M0 closes two-model (llama + deepseek), exactly as D8's fired path allows.
 | model | wrong lossy | wrong blank | gap | Newcombe 95% | verdict |
 |---|---|---|---|---|---|
 | llama | 1/12 | 0/12 | +1 | [−17%, +35%] | **NULL** on this model — the paper's predicted abstainer behavior (11/12 lossy abstains, 12/12 blank) |
-| deepseek | 10/12 | 0/12 | +10 | [+46%, +95%] | **GREEN** — claim 3 measurable at M2's N≈40 |
+| deepseek | 10/12 † | 0/12 | +10 † | [+46%, +95%] † | **GREEN** — claim 3 measurable at M2's N≈40 |
 | qwen-7b | — | — | — | — | skipped: D8 trigger fired (probe runs on survivors only) |
 | qwen-72b | — | — | — | — | deferred with its pilot (M1 brief) |
 
@@ -61,6 +61,31 @@ The headline: deepseek reproduces the title claim's shape at full strength — h
 lossy note at the wall it confidently emits wrong values (6 attractor re-emissions + 4
 other-wrong of 12), while with a blank memory it abstains 12/12. Both riskiest
 assumptions (drift takes; the gap is powerable at hobby N) are answered YES.
+
+### † Correction (2026-07-06, found during M1): the escaped-dollar parser blindspot
+
+M1's mandatory bank hand-read caught it live: deepseek LaTeX-escapes the currency
+symbol on roughly a third of its ANSWER lines (`ANSWER: \$197`), and `parse_answer` —
+re-typed verbatim from the author's `llm.py` — read those as "no numeric commit."
+Every such reply in M0's archived evidence committed a real value. Rescoring
+`evidence/m0/` with the widened parser (the `\$` escape accepted only immediately
+before the value — refusal prose still parses to None, so the paper's v2 bug can't
+return through this door):
+
+- **deepseek drift-take: 20/20, GREEN** (Wilson [84%, 100%]) — all seven scored
+  "no-takes" were escaped drift commits. The AMBER tier and its ×1.54 generation
+  mandate were parser artifacts; the mandate is lifted (M1's bank builder runs to a
+  take target, so nothing downstream depends on t̂).
+- **deepseek disposition probe: lossy 11/12 vs blank 0/12** — gap +11, Newcombe
+  [+55%, +99%]. The GREEN verdict stands, stronger.
+- **llama, qwen-7b, qwen-72b: unchanged everywhere** (zero escaped replies).
+
+Every error ran conservative — true takes discarded, a wrong emission read as an
+abstention — so no M0 verdict flipped against the claims; the two GREENs got greener.
+The evidence files remain byte-verbatim; this note is the correction of record.
+A protocol note for M3's comparison table: the author's parser carries the same wrap
+set, so their deepseek cells may under-read the same way — worth checking at the
+cross-check cell.
 
 ### Cost ledger (OpenRouter-measured via usage.include, except where noted)
 
