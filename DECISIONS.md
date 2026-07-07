@@ -297,3 +297,73 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   M2's substrate in one move. Executed at sign-off: M0's surviving JSONLs archived to
   `evidence/m0/` (70 files, ~460 KB), `uv.lock` committed, the M0 session-log text
   committed, media gitignored.
+
+## D16 · Claim 2's cell plan: both wall g × all three models vs M1's archived cells
+
+- **Date / decider:** 2026-07-07 / Kyle (M2 brief sign-off; full options in
+  `docs/M2-BRIEF.md`)
+- **Options:** (A) six lossy_padded cells (3 models × g ∈ {0.1, 0.3}) at N=40 under
+  D7's containment ladder (judge at 40; not contained → extend once to ≈90; final),
+  judged against M1's archived lossy and source_first cells — judged once, zero
+  re-runs — with the composition mirroring D14: a model clears claim 2 only if BOTH
+  components (Newcombe on lossy_padded − lossy contained inside ±0.10; Newcombe on
+  source_first − lossy_padded excludes zero) hold at BOTH wall g; one-g-only is
+  PARTIAL; v1 clears on ≥2 of 3 models. (B) g=0.1 only — halves the padded spend but
+  leaves "did padding rescue at 0.3?" unanswered against claim 1's both-g standard.
+  (C) fresh lossy comparator arms alongside the padded cells — re-runs a judged
+  condition on the same bank trajectories (only provider noise can differ), putting
+  two numbers for one cell into the record.
+- **Decision: A — both wall g, all three models, archived comparators.**
+- **Why:** symmetric with the headline's composition (the control is not held to a
+  weaker standard than the claim it protects), zero duplicated cells, and the
+  composition is fixed before any data exists — the property that made D14 worth
+  having. Known contingency, priced in the brief: a padded escalation on llama or
+  qwen72b triggers a bank top-up first (≈$0.015 / ≈$0.16). No numeric futility
+  shortcut exists for padded cells — the containment boundary depends on the
+  comparator (4/90 fails against a 0/40 comparator at +10.9% but clears against
+  deepseek's 1/90 at +9.8%) — so the ladder is the whole schedule and the
+  checkpoint's power over these cells is the hand-read only.
+
+## D17 · Claim 3's design: a new blank arm vs the archived lossy comparator, counted blind
+
+- **Date / decider:** 2026-07-07 / Kyle (M2 brief sign-off; full options in
+  `docs/M2-BRIEF.md`)
+- **Options:** (A) blank cell at N=40 on deepseek, run over the same m1 bank in bank
+  order; emission comparator = M1's archived deepseek lossy@0.1 rows (n=90), whose
+  abstain-vs-emit split was deliberately left untallied when the rule was committed;
+  counting rule = `grader.emitted_wrong` (wrong emission = `emit_attractor` or
+  `emit_other_wrong`; abstain = no parsed ANSWER value or a hedge phrase, the
+  author's rule verbatim); gate = the Newcombe 95% interval on wrong-emission
+  (lossy − blank) excludes zero; both arms counted once, at judge time. (B) fresh
+  lossy emission arm + blank arm, both N=40 in the same run — same trajectories
+  anyway, duplicates a judged cell. (C) blank at N=20 — underpowers the
+  pre-registered N≈40 to save about a penny. Rider (a): extend llama/qwen72b's
+  claim-3 probe NULLs to N=40 (~$0.015, purely descriptive).
+- **Decision: A — blank N=40 vs the archived comparator, counted blind; rider (a)
+  NO** — the abstainers' probe NULLs stand as recorded verdicts, reported plainly
+  per KICKOFF.
+- **Why:** the pairing does the inferential work (same trajectories, same problems,
+  same correction — only the note differs) and the blind commitment does the
+  hygiene: the counting rule was fixed 2026-07-07 while the archived split was
+  genuinely unknown, so the pre-registration can't have been shaped by the data.
+  The design's one weakness — the two arms were sampled on different dates
+  (temperature 0.0, same pinned models and routes) — is named in the record and
+  reported with the result. No gate consumes a bigger abstainer null.
+
+## D18 · The knob fills: N=40 uniform, all three models
+
+- **Date / decider:** 2026-07-07 / Kyle (M2 brief sign-off; full options in
+  `docs/M2-BRIEF.md`)
+- **Options:** (A) lossy + source_first at g ∈ {0.6, 1.0} on all three models at
+  N=40 with the standard N=20 checkpoint — descriptive cells (they gate nothing),
+  Wilson bars on the committed figure, the sf@0.6 ≡ sf@1.0 replicate check riding
+  along free. (B) N=20 descriptive-lite — halves M2's biggest line item, but a
+  mid-range cell reads ±20+ points of mush and invites a mid-run extension. (C)
+  deepseek only — two per-model panels go half-empty.
+- **Decision: A — N=40 uniform, all three models.**
+- **Why:** uniform N keeps every point on the capstone figure at the same
+  evidential weight, and fixing the size now removes the mid-run "it looks
+  interesting, extend it" call — the flexible-N researcher degree of freedom the
+  project keeps closing off. If a knob cell lands mid-range (the wall's onset, the
+  most interesting descriptive outcome), N=40 already resolves it. The absolute
+  cost difference is dimes; the transcript cells dominate M2's spend either way.
