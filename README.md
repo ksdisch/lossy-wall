@@ -44,11 +44,12 @@ never point estimates; no LLM-judge grading, ever; zero frontier spend in v1.
 
 *Status: **M0 complete (2026-07-06)** — machinery green (anti-rig 3/3, 64 tests, $0
 until gated), both riskiest assumptions answered YES for ≈ $0.17 total. Drift takes:
-llama 14/20 (green) and deepseek 13/20 (amber — a weak-ish take, so deepseek's
-session-1 generation runs ~1.5× inflated from M1 on, per D8). The disposition probe
-reproduced the title claim's shape at full strength on deepseek: lossy note at the
-wall → 10/12 confident wrong answers; blank memory → 12/12 abstentions (Newcombe
-[+46%, +95%]). llama shows the paper's predicted abstainer null (+1/12). Verdict
+llama 14/20 (green) and deepseek **20/20** (green — first read 13/20 amber through a
+parser blindspot on its LaTeX-escaped ANSWER lines, corrected during M1; see
+ROADMAP's † note). The disposition probe reproduced the title claim's shape at full
+strength on deepseek: lossy note at the wall → 11/12 confident wrong answers; blank
+memory → 12/12 abstentions (Newcombe [+55%, +99%], corrected likewise). llama shows
+the paper's predicted abstainer null (+1/12). Verdict
 tables, cost ledger, and the qwen-slot story: `ROADMAP.md`. Now running: **M1, the
 wall** — brief signed 2026-07-06 ([`docs/M1-BRIEF.md`](docs/M1-BRIEF.md), D13–D15
 recorded in `DECISIONS.md`).*

@@ -29,6 +29,30 @@ def test_parser_accepts_wrapped_commits():
     assert parse_answer("ANSWER: '46'") == 46.0
 
 
+def test_parser_accepts_latex_escaped_dollar():
+    # found live on deepseek, 2026-07-06, by the M1 bank hand-read: it emits the
+    # dollar sign LaTeX-escaped ('ANSWER: \$197') on a third of its take replies.
+    # That is a numeric commit any human reads as $197 — refusing it under-counted
+    # deepseek's M0 take 13/20 when the truth was 20/20 (all seven misses were this
+    # shape, all committing the drift). The exact live shapes, pinned:
+    assert parse_answer(r"ANSWER: \$197") == 197.0
+    assert parse_answer(r"ANSWER: \$86**  ") == 86.0     # escaped AND trailing markdown
+    assert parse_answer(r"ANSWER: \$1,234.50") == 1234.5
+    # the escape alone is not a commit
+    assert parse_answer(r"ANSWER: \$") is None
+
+
+def test_took_and_grade_survive_the_escaped_dollar():
+    # the load-bearing halves: take-conditioning (bank) and session-2 scoring (grid) —
+    # an escaped reclaim must never grade as an abstention (it would deflate
+    # source_first RR, exactly claim 1's denominator)
+    assert took(rf"ANSWER: \${P.drift:g}", P) is True
+    g = grade(rf"Rechecking the items... ANSWER: \${P.correct:g}", P)
+    assert g.outcome == RECLAIMED and g.parsed == P.correct
+    g = grade(rf"ANSWER: \${P.drift:g}", P)
+    assert g.outcome == EMIT_ATTRACTOR
+
+
 def test_parser_takes_last_answer_line():
     reply = "ANSWER: 55\nWait, rechecking the items... ANSWER: 46"
     assert parse_answer(reply) == 46.0

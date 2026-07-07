@@ -34,6 +34,15 @@ from problems import Problem
 # abstention — verbatim from their llm.py
 _WRAP = r"[*_`'\"(\[]*\s*"
 
+# our one widening beyond their verbatim wrap set (found live 2026-07-06 by the M1
+# bank hand-read): deepseek LaTeX-escapes the currency symbol — 'ANSWER: \$197' — on
+# about a third of its replies. That is a numeric commit any human reads as $197;
+# refusing it scored true takes as no-takes (M0's deepseek pilot read 13/20 when the
+# raw replies show 20/20) and would have graded session-2 reclaims as abstentions.
+# The escape is accepted ONLY immediately before the $ — refusal prose still parses
+# to None, so the paper's v2 bug cannot return through this door.
+_DOLLAR = r"\\?\$?"
+
 # numeric tolerance for "same value" — their score() uses < 0.5 against the true answer;
 # we apply the same width when matching the attractor (symmetric treatment, and the
 # validator guarantees |drift − correct| ≥ 7, so the two bands can never overlap)
@@ -57,7 +66,7 @@ def parse_answer(text: str) -> float | None:
     scraped out of refusal prose."""
     if not text:
         return None
-    m = re.findall(rf"ANSWER\s*:\s*{_WRAP}\$?\s*(-?\d[\d,]*\.?\d*)", text, flags=re.I)
+    m = re.findall(rf"ANSWER\s*:\s*{_WRAP}{_DOLLAR}\s*(-?\d[\d,]*\.?\d*)", text, flags=re.I)
     if not m:
         return None
     try:
