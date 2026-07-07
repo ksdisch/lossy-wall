@@ -1,0 +1,61 @@
+M2 judge — D16's containment ladder (±10% on lossy_padded − lossy; separation excludes zero; both wall g) + D17's emission gate
+
+[llama]
+  lossy@0.1              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.3              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.6             38/40  Wilson [83.5%, 98.6%]
+  lossy@1               28/40  Wilson [54.6%, 81.9%]
+  lossy_padded@0.1       0/40  Wilson [0.0%, 8.8%]
+  lossy_padded@0.3       0/40  Wilson [0.0%, 8.8%]
+  source_first@0.1      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.3      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.6      27/40  Wilson [52.0%, 79.9%]
+  source_first@1        26/40  Wilson [49.5%, 77.9%]
+  claim 2 @ g=0.1: equivalence (padded - lossy) +0% [-8.8%, +8.8%] -> contained
+                separation (sf - padded) +100% [+87.6%, +100.0%] -> holds
+  claim 2 @ g=0.3: equivalence (padded - lossy) +0% [-8.8%, +8.8%] -> contained
+                separation (sf - padded) +100% [+87.6%, +100.0%] -> holds
+  claim-2 model verdict: cleared
+  sf replicate check (1.0 vs 0.6): -3% [-22.4%, +17.6%] — consistent
+
+[deepseek]
+  blank@0.1              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.1              1/90  Wilson [0.2%, 6.0%]
+  lossy@0.3              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.6             40/40  Wilson [91.2%, 100.0%]
+  lossy@1               40/40  Wilson [91.2%, 100.0%]
+  lossy_padded@0.1       1/90  Wilson [0.2%, 6.0%]
+  lossy_padded@0.3       0/40  Wilson [0.0%, 8.8%]
+  source_first@0.1      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.3      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.6      40/40  Wilson [91.2%, 100.0%]
+  source_first@1        40/40  Wilson [91.2%, 100.0%]
+  claim 2 @ g=0.1: equivalence (padded - lossy) +0% [-5.0%, +5.0%] -> contained
+                separation (sf - padded) +99% [+88.8%, +99.8%] -> holds
+  claim 2 @ g=0.3: equivalence (padded - lossy) +0% [-8.8%, +8.8%] -> contained
+                separation (sf - padded) +100% [+87.6%, +100.0%] -> holds
+  claim-2 model verdict: cleared
+  claim 3 lossy: wrong 52/90 (attractor 33, other 19, abstain 37, reclaimed 1)
+  claim 3 blank: wrong 0/40 (attractor 0, other 0, abstain 40, reclaimed 0)
+  claim 3 gap (lossy - blank): +58% [+44.2%, +67.5%] -> CLEARED
+  sf replicate check (1.0 vs 0.6): +0% [-8.8%, +8.8%] — consistent
+
+[qwen72b]
+  lossy@0.1              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.3              0/40  Wilson [0.0%, 8.8%]
+  lossy@0.6             40/40  Wilson [91.2%, 100.0%]
+  lossy@1               40/40  Wilson [91.2%, 100.0%]
+  lossy_padded@0.1       0/40  Wilson [0.0%, 8.8%]
+  lossy_padded@0.3       1/90  Wilson [0.2%, 6.0%]
+  source_first@0.1      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.3      40/40  Wilson [91.2%, 100.0%]
+  source_first@0.6      40/40  Wilson [91.2%, 100.0%]
+  source_first@1        40/40  Wilson [91.2%, 100.0%]
+  claim 2 @ g=0.1: equivalence (padded - lossy) +0% [-8.8%, +8.8%] -> contained
+                separation (sf - padded) +100% [+87.6%, +100.0%] -> holds
+  claim 2 @ g=0.3: equivalence (padded - lossy) +1% [-7.7%, +6.0%] -> contained
+                separation (sf - padded) +99% [+88.8%, +99.8%] -> holds
+  claim-2 model verdict: cleared
+  sf replicate check (1.0 vs 0.6): +0% [-8.8%, +8.8%] — consistent
+
+v1 claim-2 verdict: cleared

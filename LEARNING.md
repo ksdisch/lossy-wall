@@ -175,3 +175,110 @@ about $0.20 — and it bought claim 1 its "3 of 3" instead of "2 of 2".
   instance of the lineage's recurring failure class (unit trap, format drift, now
   LaTeX escaping): a mechanical readout pointed at the right place but reading too
   narrowly.
+
+---
+
+## M2 — the controls (2026-07-07)
+
+### The teaching note
+
+**What M2 measured, and what it found.** M1 showed the wall; a skeptic has two exits
+left. Exit one: "the source-first note is longer — maybe the model just needed more
+text." M2 closed it with the **budget-match control**: the same lossy note, padded
+with an explicitly content-free filler sentence until it's at least as long as the
+source-first note. If length were doing the work, padding would rescue reclaim. It
+rescued nothing — padded cells reclaimed 2 of 350 trials across three models (both
+strays hand-read lucky guesses), statistically indistinguishable from plain lossy
+inside the pre-committed ±10% band, while source-first beat the padded note by at
+least +87.6% everywhere. Same characters spent; only what they *say* differs. **Claim
+2 cleared 3 of 3 models.** Exit two: "fine, the note can't be corrected — but surely
+carrying *something* beats carrying nothing." Backwards, says the title claim, and
+now the measurement: over the *identical* session-1 trajectories, deepseek holding a
+**blank** note ("no figures were retained") declined 40/40 times; holding the lossy
+note it confidently emitted a wrong number 52/90 times (33 of them the exact stale
+value it had committed in session 1). Gap +58%, Newcombe floor +44.2%. **Claim 3
+cleared.** The lossy note isn't degraded memory — it's an error generator that a
+blank memory simply doesn't have.
+
+**Equivalence is a different kind of proof.** Claim 1 needed a *difference* (interval
+excludes zero). Claim 2's first component needed *sameness* — and you can't prove
+sameness by failing to find a difference; you prove it with a **containment gate**:
+the interval on (padded − lossy) must sit entirely inside a band (±δ = ±0.10, D7)
+that was fixed before any data existed. The band is what makes "they're the same"
+falsifiable: land outside it and the claim dies. Both kinds of gate ran side by side
+in every claim-2 cell — containment for "padding didn't help," excludes-zero for
+"the source still does."
+
+**The ladder earned its keep twice more — and the boundary arithmetic mattered.**
+Both wall-g padded conditions produced exactly one stray reclaim each (deepseek at
+g=0.1, qwen72b at g=0.3; both models *assuming* a value with no source in context
+and hitting the truth by luck — kept as reclaims, because strict scoring judges the
+committed value, not the process). Both cells escalated exactly as D16 pre-wrote:
+50 more trials each, zero further reclaims, contained at 1/90. qwen72b's escalation
+first forced the priced contingency — its bank grew from 40 to 90 taken trajectories
+($0.17, three throttle-safe batches) — proof that pre-pricing contingencies is what
+lets you execute them without flinching. And the reason D16 banned any fixed
+futility cutoff showed up in the real numbers: 1/40 escalates against a 0/40
+comparator (+12.9%) but the same count against deepseek's 1/90 comparator is a
+different boundary (+11.8%) — the gate is a *relation between two cells*, not a
+property of one.
+
+**The no-peek pledge, kept by a machine.** Claim 3's comparator rows had been on
+disk since M1 — but their abstain-vs-emit split was deliberately never counted while
+the counting rule was being written. This session made the pledge mechanical:
+`m2.judge` refuses to tally either arm until the blank cell reaches its final N
+(a unit test pins the refusal). When the count finally ran, it was the first time
+anyone — human or model — saw the 52/90. That's what pre-registration hygiene looks
+like when archived data is involved: fix the rule while the answer is still unknown,
+then make peeking impossible rather than merely forbidden.
+
+**One honest wrinkle, read with eyes.** llama's knob cells dipped below the ceiling
+(65–95% where the other models sat at 100%). The mandatory checkpoint's targeted
+read showed why: llama rambles into verification loops and hits the 600-token cap
+without ever writing an ANSWER line (scored abstain — several such replies contain
+the correct total, uncommitted), and sometimes re-commits the carried wrong total
+*after deriving the correct one* (scored emit_attractor — the brittle-memory failure
+mode showing up even with the source in hand). The readout is the author's,
+verbatim, applied evenly; the dip is llama being llama, reported as a caveat on the
+figure rather than smoothed away. Descriptive cells get honesty, not rescue.
+
+### New words
+
+- **Budget-match control** — a condition that equalizes a resource (here: note
+  length in characters) so any remaining effect must come from what differs (the
+  content). `lossy_padded` is the paper's budget-match for `source_first`.
+- **Equivalence margin (δ)** — the pre-declared band inside which two rates count as
+  "the same" (D7: ±0.10). Fixed before data so it can't be tuned to fit.
+- **Containment gate** — a gate an interval must sit entirely *inside* (proves
+  sameness), vs the excludes-zero gate it must sit entirely *outside zero* for
+  (proves difference). Claim 2 needed one of each.
+- **Comparator cell** — an already-judged cell a new cell is measured against,
+  reused as archived and never re-run (judged once), so each condition has exactly
+  one number in the record.
+- **Descriptive vs gated cells** — gated cells carry a pre-committed verdict rule;
+  descriptive cells are measured and plotted with intervals but decide nothing. The
+  knob fills are descriptive; the padded and blank cells are gated.
+- **Transcript cell** — the g=1.0 lossy cell, which carries the full session-1
+  conversation instead of a note (the author's special case, verbatim) — the
+  figure's "nothing was compressed" anchor.
+- **Wrong-emission rate** — the fraction of trials where the model confidently
+  commits a wrong value on its ANSWER line, as opposed to reclaiming or abstaining;
+  claim 3's currency.
+- **No-peek pre-commitment** — fixing a counting rule while the data it will count
+  is still untallied even though it already exists on disk; here, enforced in code
+  (the judge refuses to count early).
+
+### Recall questions
+
+1. Padding the lossy note to the source-first note's exact length changed nothing;
+   the source-first note at the same budget reclaimed essentially always. What
+   objection does that pair of facts kill, and why does killing it need *both*
+   gates (containment AND separation) rather than either alone?
+2. deepseek's blank arm abstained 40/40 while its lossy arm wrong-emitted 52/90 on
+   the same trajectories. Why does the project describe the lossy note as "worse
+   than nothing" rather than "less useful than the source"? What exactly does the
+   blank note remove that silences the errors?
+3. The claim-3 counting rule was committed on 2026-07-07 while the comparator's
+   split sat uncounted on disk from M1 — and `m2.judge` refuses to tally it before
+   the blank cell's final N. What could a skeptic allege if the split had been
+   peeked at first, and why is the *code-level* refusal stronger than a promise?
