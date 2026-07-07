@@ -238,7 +238,14 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   both outcomes are useful — a third family strengthens KICKOFF's "≥2 of 3", a clean
   close is honest. The success criteria are already satisfiable two-model, so this is
   upside, not need.
-- **Outcome:** recorded below in this entry once the re-attempt runs (same session).
+- **Outcome (2026-07-06, same session):** the re-attempt **completed cleanly** — no
+  throttling this time — at **18/20 takes, D8 GREEN** (Wilson [70%, 97%]), measured
+  $0.056. The D9 probe followed: **claim-3 NULL** — wrong emissions lossy 0/12 vs
+  blank 0/12, every reply an abstention (Newcombe [−24%, +24%]), $0.002. So 72b is an
+  abstainer at the wall like llama (deepseek remains the roster's only emitter), which
+  affects claim 3 (M2), not claim 1. **72b joins the M1 grid**; the roster — llama,
+  deepseek, qwen72b — is frozen in `m1.py`'s `ROSTER` constant (with a pinning test)
+  for the whole milestone.
 
 ## D14 · Claim-1's "consistent with ~0": ceiling 0.10 with a pre-committed N-ladder
 
