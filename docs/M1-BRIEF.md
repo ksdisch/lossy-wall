@@ -57,12 +57,13 @@ up.
   and were caught only by hand-reading real trajectories. M1's readout (RR = the grader's
   `reclaimed` outcome) therefore gets a **mandatory hand-read checkpoint** before any
   cell scales past N=20 — built into the gate schedule below.
-- **A fresh discovery from this handoff: the container ate the evidence.** This session
-  runs in a new machine, and `runs/` (M0's trial-by-trial JSONLs), `.env`, `uv.lock`,
-  and `docs/session-logs/` — all gitignored or never committed — did not survive.
-  M0's verdict *tables* are safe in `ROADMAP.md`, but the raw evidence behind them is,
-  as far as this machine can see, gone. That convention gets fixed before M1 spends
-  anything: D15.
+- **A near-miss from this handoff: the evidence lives on exactly one machine.** This
+  brief was drafted in a remote container with a fresh clone, where `runs/` (M0's
+  trial-by-trial JSONLs), `.env`, `uv.lock`, and `docs/session-logs/` — all gitignored
+  or never committed — were simply absent. Back on Kyle's machine they all survive,
+  so nothing is actually lost — but a replication whose raw evidence exists only on
+  one laptop is one disk failure from unauditable. That convention gets fixed before
+  M1 spends anything: D15.
 - **Not re-litigated here:** M0's verdicts, D1–D12, the v1 scope. Settled.
 
 ## The design: one bank, eight cells, one figure
@@ -211,9 +212,10 @@ gate is itself a *reportable* structure finding (the paper says 0.00; we'd be me
 
 ### D15 · Run evidence must survive the machine (+ two riders)
 
-M0's raw evidence is gone with the old container (summary tables survive in ROADMAP.md).
-The convention that allowed that — `runs/` gitignored, nothing archived — contradicts
-what this repo is for: a replication whose verdicts a stranger can audit.
+M0's raw evidence survives only on Kyle's machine (`runs/` is gitignored, nothing was
+archived); the remote session that drafted this brief couldn't see any of it. The
+convention that allows that contradicts what this repo is for: a replication whose
+verdicts a stranger can audit.
 
 - **A. Commit paid-run evidence per milestone (Recommended).** `runs/` stays gitignored
   as the working directory; a milestone's **closing PR copies its JSONLs into
@@ -223,7 +225,8 @@ what this repo is for: a replication whose verdicts a stranger can audit.
   reproducibility + M2's input in one move. *Trade-off:* repo weight grows a little
   each milestone.
 - **B. Keep gitignored; Kyle archives manually.** *Merit:* repo stays lean.
-  *Trade-off:* exactly the convention that just lost M0's evidence.
+  *Trade-off:* exactly the convention that just left M0's evidence stranded on a
+  single machine.
 - **C. External storage (release assets / gist).** *Merit:* lean repo, evidence kept.
   *Trade-off:* more moving parts than a ~1 MB problem deserves, and auditability
   shouldn't require a second location.
@@ -235,22 +238,22 @@ unverifiable after the fact. This is the cheapest possible fix.
 **Riders (yes/no each, recorded with D15):**
 - **(a) Commit `uv.lock` (recommended: yes).** Standard for applications (this repo is
   one, `package = false`): the lockfile pins the exact dependency versions runs used,
-  so "works here" means something. The old container's lockfile is lost; the first M1
-  code PR regenerates and commits it.
+  so "works here" means something. The lockfile from M0's runs sits untracked on
+  Kyle's machine; it gets committed as-is.
 - **(b) Keep `docs/session-logs/` text-committed; gitignore media (recommended: yes).**
   The spine says raw session logs go there — text logs should be committed like the
   rest of the docs (and would then survive containers). The ~4 MB M0 audio memo should
-  never enter git: add `docs/session-logs/*.mp3` (and kin) to `.gitignore`. The M0 text
-  log + mp3 were never committed and are presumed lost with the old container — if
-  Kyle still has copies, the text log gets committed, the mp3 stays local.
+  never enter git: add `docs/session-logs/*.mp3` (and kin) to `.gitignore`. Both the
+  M0 text log and the mp3 survive on Kyle's machine — the text log gets committed,
+  the mp3 stays local.
 
 ## M1 task list, free-before-paid, exit criteria
 
 Order matters: **nothing paid runs until every free check is green**, and the roster
 freezes before the first grid call.
 
-1. **Sign-off** on D13–D15 (this brief). Restore `.env` (the container swap lost it —
-   Kyle's key, never committed).
+1. **Sign-off** on D13–D15 (this brief). `.env` is present on Kyle's machine — paid
+   runs are unblocked (the key is never committed).
 2. **D13 resolution** (if A): the one bounded 72b pilot re-attempt + probe; record the
    outcome in DECISIONS.md either way; roster frozen.
 3. **Build `m1.py` + `test_m1.py`, TDD, $0:** bank builder (fresh `m1-` schedule shared
@@ -311,9 +314,9 @@ plus this sign-off.
 
 ## Open items carried from M0 (same sign-off, no new numbers)
 
-- If any copy of M0's `runs/` JSONLs or the session log (text or mp3) survives on
-  Kyle's machine or the old container, drop the JSONLs into `evidence/m0/` and commit
-  the text log per D15 — otherwise ROADMAP's tables remain M0's record, noted plainly.
+- M0's `runs/` JSONLs and the session log (text + mp3) all survive on Kyle's machine —
+  once D15 signs, the JSONLs get copied into `evidence/m0/` and the text log committed
+  (the mp3 stays local per rider b).
 - Kyle's answers to M0's three recall questions (optional, from the close of last
   session).
 
