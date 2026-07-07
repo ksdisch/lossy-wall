@@ -1,6 +1,7 @@
 # M2 Start-of-Stage Brief — the controls
 
-*Written 2026-07-07 · status: **awaiting sign-off** — D16–D18 proposed below; claim 2's
+*Written 2026-07-07 · status: **signed 2026-07-07** — D16-A, D17-A (rider a: no), and
+D18-A picked by Kyle and recorded in `DECISIONS.md`; claim 2's
 equivalence margin δ is NOT among them (it was committed as **D7** at the M0 sign-off,
 before the project's first paid call — restated below, not re-opened); no M2 code and no
 paid call until Kyle signs · scope source of truth: `docs/KICKOFF.md` (Milestone 2) ·
