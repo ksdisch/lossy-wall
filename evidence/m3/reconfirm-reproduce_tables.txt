@@ -1,0 +1,116 @@
+Traceback (most recent call last):
+  File "/Users/kyledisch/Projects/reclaim-eval/scripts/frontier_table_ci.py", line 165, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/kyledisch/Projects/reclaim-eval/scripts/frontier_table_ci.py", line 128, in main
+    data = {t: collect(t) for t in TASKS}
+               ^^^^^^^^^^
+  File "/Users/kyledisch/Projects/reclaim-eval/scripts/frontier_table_ci.py", line 117, in collect
+    "Llama": llama_cells(task),
+             ^^^^^^^^^^^^^^^^^
+  File "/Users/kyledisch/Projects/reclaim-eval/scripts/frontier_table_ci.py", line 95, in llama_cells
+    main = _read(RES / LLAMA_MAIN.format(task=task))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kyledisch/Projects/reclaim-eval/scripts/frontier_table_ci.py", line 67, in _read
+    with open(path, encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/kyledisch/Projects/reclaim-eval/data/results/realworld_meta-llama_llama-3.1-8b-instruct_arith_t0.7.jsonl'
+Reproducing paper headline numbers from committed results (no API).
+
+======================================================================
+VALIDATORS: correct-by-construction answers (n=96 problem set)
+======================================================================
+  [PASS] arith generator (24 problems, answers brute-forced)
+  [PASS] logic-ordering generator (12 problems, solver-checked)
+  [PASS] logic-assignment generator (12 problems, solver-checked)
+
+======================================================================
+tab:wall + tab:logic  (integrity sweep, llama n=96 / grok n=24)
+======================================================================
+% --- arith: tab:wall body (llama n=0, grok n=0) ---
+1.0 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ \\
+0.6 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ \\
+0.3 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ \\
+0.1 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ \\
+% --- logic: tab:logic body (llama n=0, grok n=0) ---
+1.0 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ \\
+0.6 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ \\
+0.3 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ \\
+0.1 & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ & $nan_{[nan,nan]}$ & $nan_{[nan,nan]}$ & $\mathbf{nan_{[nan,nan]}}$ \\
+
+======================================================================
+tab:frontier  (deployed + frontier replay, n=96)
+======================================================================
+
+======================================================================
+auto-vs-summary paired difference  (n=96, paired bootstrap)
+======================================================================
+
+=== arith ===
+   Llama  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+  Sonnet  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+    Opus  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+
+=== logic ===
+   Llama  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+  Sonnet  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+    Opus  auto=nan  summary=nan  auto-summary=+nan [+nan,+nan] (n=0)  auto-mem0=+nan  auto-vec=+nan
+
+======================================================================
+C6: source-first vs a confident wrong value (sycophancy)
+======================================================================
+  claude-sonnet-4-6: confidentwrong_*.jsonl missing (run bench_confidentwrong.py)
+  claude-opus-4-8: confidentwrong_*.jsonl missing (run bench_confidentwrong.py)
+
+======================================================================
+Adversarial battery: capability-gated robustness of the fix
+======================================================================
+                      attack |  llama-8b  Sonnet   Opus
+              sustained push |     --     --     -- 
+           fabricated source |     --     --     -- 
+
+======================================================================
+tab:blank  (lossy vs EMPTY memory at the wall, arithmetic)
+======================================================================
+  llama-3.1-8b: blank_*.jsonl missing (run bench_blank.py)
+  grok-4.3: blank_*.jsonl missing (run bench_blank.py)
+
+======================================================================
+Prompt-sensitivity of source-first-auto (arith, fixed set, per distiller)
+======================================================================
+  promptsweep_*.jsonl missing (run bench_promptsweep.py)
+
+======================================================================
+Endogenous (self-generated) error wall (llama, N=10 ledgers)
+======================================================================
+  endogenous_*.jsonl missing (run bench_endogenous.py)
+
+======================================================================
+Deployable locating (source-first-auto under noise, no oracle)
+======================================================================
+  locating_*.jsonl missing (run bench_locating.py)
+
+======================================================================
+Completeness tag on a weak (8B) reader
+======================================================================
+  completeness_llama.jsonl missing (run bench_completeness.py --model llama)
+
+======================================================================
+Reviewer baselines (source+conclusion, tuned retrieval)
+======================================================================
+  source+conclusion @ wall (llama/Sonnet/Opus):   --    --    --   (vs source-first 1.00)
+  tuned retrieval: naive=--  source-keyed=--  distilled source-first=--
+
+======================================================================
+Cascade chain (one error -> growing blast radius, uncorrectable)
+======================================================================
+  cascade_*.jsonl missing (run bench_cascade.py)
+
+======================================================================
+Prevalence audit (compact-source share, ordering robust / level not)
+======================================================================
+  prevalence_audit_*.jsonl missing (run bench_prevalence.py)
+
+======================================================================
+SOME CHECKS FAILED
+======================================================================

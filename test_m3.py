@@ -265,14 +265,25 @@ def test_rider_a_recount_shape_without_tallying_here():
         assert split["wrong"] + split["abstain"] + split["reclaimed"] == split["n"]
 
 
-# ── the paper constants, as their README/NOTE state them (extraction re-confirms) ────
+# ── the paper constants, pinned to the arXiv v2 extraction (evidence/m3/) ────────────
+# The brief drafted these from the repo README; the extraction against the paper found
+# a last-digit variance on three cells (paper 0.01 / 0.99 / 0.99 vs README 0.00 /
+# 0.96 / 1.00) and pinned the paper's stated temperature (0.7). The paper's committed
+# values win the paper column; the README variant stays as the footnoted variance.
 
-def test_paper_constants_match_their_published_findings():
-    w = m3.PAPER["wall_llama"]
-    assert w[("lossy", 0.3)] == 0.00 and w[("lossy", 0.1)] == 0.00
-    assert w[("lossy_padded", 0.3)] == 0.00 and w[("lossy_padded", 0.1)] == 0.00
-    assert w[("source_first", 0.3)] == 0.96 and w[("source_first", 0.1)] == 1.00
+def test_paper_constants_match_the_arxiv_v2_extraction():
+    w = m3.PAPER["wall_llama"]                    # (point, ci_lo, ci_hi), verbatim
+    assert w[("lossy", 0.3)] == (0.01, 0.00, 0.03)
+    assert w[("lossy", 0.1)] == (0.00, 0.00, 0.00)
+    assert w[("lossy_padded", 0.3)] == (0.00, 0.00, 0.00)
+    assert w[("lossy_padded", 0.1)] == (0.00, 0.00, 0.00)
+    assert w[("source_first", 0.3)] == (0.99, 0.97, 1.00)
+    assert w[("source_first", 0.1)] == (0.99, 0.97, 1.00)
+    assert w[("lossy", 1.0)] == (0.61, 0.52, 0.71)           # the knob rows ride along
     assert m3.PAPER["wall_n"] == 96
+    assert m3.PAPER["wall_temp"] == 0.7           # the paper's caption, verbatim; the
+    assert m3.OUR_TEMP == 0.0                     # tool default = our D10 stays matched
+    assert m3.PAPER["readme_wall_llama"][("source_first", 0.3)] == 0.96
     d = m3.PAPER["disposition_delta"]                        # post-v2 corrected values
     assert d["deepseek-chat"] == 0.83 and d["qwen-2.5-7b"] == 0.39
     assert d["llama-3.1-8b"] == 0.17 and d["frontier"] == 0.00
@@ -297,7 +308,9 @@ def test_comparison_table_labels_rows_and_footnotes(tmp_path):
         assert marker in text, marker
     assert "+58%" in text                                    # our judged deepseek gap
     assert "+0.83" in text                                   # their disposition delta
-    assert "0.96" in text                                    # the paper's sf@0.3
+    assert "0.99 B[0.97, 1.00]" in text                      # the paper's sf cells, brackets verbatim
+    assert "temperature 0.7" in text                         # the paper column's label
+    assert "records the variance" in text                    # the paper-vs-README footnote
     assert "[+44.2%, +67.5%]" in text                        # our judged claim-3 interval
     assert "contains their value" in text                    # the llama probe concordance
 

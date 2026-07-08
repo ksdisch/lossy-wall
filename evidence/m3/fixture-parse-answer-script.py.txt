@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+"""OUR-FIXTURE-parse-answer.py — lossy-wall M3's free fixture check on reclaim-eval's
+answer parser (docs/M3-BRIEF.md, free deliverable 3). NOT part of reclaim-eval.
+
+Runs in THIS clone with THIS venv (lossy-wall's D1 wall: the author's code never runs
+inside our repo). Feeds `reclaim.llm.parse_answer` the escaped-dollar reply strings
+archived verbatim in lossy-wall's evidence (deepseek's LaTeX habit: `ANSWER: \\$197`)
+plus plain controls, and prints what their parser reads beside what ours read.
+
+Expected mechanism (source-confirmed in src/reclaim/llm.py): `_WRAP` tolerates
+markdown/quote wrappers and a literal `$`, but has no backslash — so `ANSWER: \\$197`
+parses to None, i.e. reads as an abstention. Harmless where the metric is
+reclaimed-vs-not (their v2 note documents that logic); it bites where a failure is
+decomposed into abstain-vs-emit (their disposition/blank tables).
+
+Run:  .venv/bin/python OUR-FIXTURE-parse-answer.py
+"""
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "src"))
+from reclaim.llm import parse_answer  # noqa: E402  (their parser, their venv)
+
+data = json.loads((ROOT / "OUR-FIXTURE-fixtures.json").read_text(encoding="utf-8"))
+
+print(__doc__)
+print(f"{'label':<28} {'their parse_answer':>18} {'our archived parse':>18}")
+print("-" * 68)
+their_commits = 0
+for x in data["fixtures"]:
+    theirs = parse_answer(x["reply"])
+    if theirs is not None:
+        their_commits += 1
+    note = " (m0-era row: archived pre-fix as None; every escaped line committed a" \
+           " real value per the correction of record)" if x["our_parsed"] is None else ""
+    print(f"{x['label']:<28} {theirs!r:>18} {x['our_parsed']!r:>18}{note}")
+print()
+control_ok = 0
+for x in data["controls"]:
+    theirs = parse_answer(x["reply"])
+    agree = theirs == x["our_parsed"]
+    control_ok += agree
+    print(f"{x['label']:<28} {theirs!r:>18} {x['our_parsed']!r:>18} "
+          f"{'agree' if agree else 'DIFFER'}")
+n = len(data["fixtures"])
+print()
+print(f"SUMMARY: their parse_answer read {their_commits}/{n} archived escaped "
+      f"ANSWER lines as commits (every one carries a real committed value; ours reads "
+      f"all {n}); plain controls agree {control_ok}/{len(data['controls'])}")

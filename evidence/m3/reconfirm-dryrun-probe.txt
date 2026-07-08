@@ -1,0 +1,21 @@
+<frozen runpy>:128: RuntimeWarning: 'reclaim.probe' found in sys.modules after import of package 'reclaim', but prior to execution of 'reclaim.probe'; this may result in unpredictable behaviour
+
+reclaim :: memory-correctability probe   (integrity=0.10, directed correction)
+model: DryRunLLM (deterministic, free, no API key)
+
+  policy            RR  regime                 silent?
+  ----------------------------------------------------
+  source_first    0.94  correctable                 no
+  lossy           0.00  uncorrectable_silent       YES
+  lossy_padded    0.03  uncorrectable_silent       YES
+  blank           0.09  uncorrectable_loud          no
+
+  source_first   PASS (RR=0.94): source survives, the memory stays correctable.
+  lossy          SILENT FAILURE (RR=0.00): a wrong value is carried with no source to recompute from, worse than an empty memory.
+  lossy_padded   SILENT FAILURE (RR=0.03): a wrong value is carried with no source to recompute from, worse than an empty memory.
+  blank          UNCORRECTABLE, LOUD (RR=0.09): no source, but it abstains rather than assert a value.
+
+  The static regime/silent verdict reads the note alone, no model, at write time.
+  RR is the behavioral confirm. On a real model the silent row also shows the
+  emit-vs-abstain split (lossy emits a confident wrong value where blank abstains).
+
