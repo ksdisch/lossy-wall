@@ -1,0 +1,17 @@
+their checkpoint recount — 2304 rows, 32 problems, seeds [0, 1, 2], 288 units (complete)
+
+  directed arm:
+  integrity            LOSSY        LOSSY_PAD       SOURCE_1st
+        1.0      62/96  0.65      86/96  0.90      61/96  0.64
+        0.6      84/96  0.88      88/96  0.92      68/96  0.71
+        0.3       1/96  0.01       0/96  0.00      96/96  1.00
+        0.1       0/96  0.00       0/96  0.00      96/96  1.00
+
+  generic arm (reference only — gates nothing, D2):
+  integrity            LOSSY        LOSSY_PAD       SOURCE_1st
+        1.0      29/96  0.30      89/96  0.93      86/96  0.90
+        0.6      89/96  0.93      91/96  0.95      86/96  0.90
+        0.3       0/96  0.00       0/96  0.00      96/96  1.00
+        0.1       0/96  0.00       0/96  0.00      96/96  1.00
+
+  (compare the rates against their console table — they must match at 2 decimals; the counts are the recount of record)

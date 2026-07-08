@@ -282,3 +282,90 @@ figure rather than smoothed away. Descriptive cells get honesty, not rescue.
    split sat uncounted on disk from M1 — and `m2.judge` refuses to tally it before
    the blank cell's final N. What could a skeptic allege if the split had been
    peeked at first, and why is the *code-level* refusal stronger than a promise?
+
+## M3 — cross-check + capstone (2026-07-08)
+
+### The teaching note
+
+**What M3 measured, and what it found.** M0–M2 measured everything; M3 asked one last
+question about *us*: did our from-the-paper rebuild actually implement the paper's
+protocol, or did three CLEARED claims come from a harness that quietly drifted into
+measuring something easier? You can't answer that by re-running our own code — any bug
+would just reproduce itself. So M3 ran the one experiment we never ran: the **author's
+own released harness**, unmodified, in its own venv, on the paper's own cell economy
+(32 fixed problems × 3 seeds = n=96/cell, llama, all three policies, all four
+integrities — 4,896 calls, $0.055), and compared its cells against our archived ones
+with the same Newcombe machinery every other gate used. The pre-committed criterion:
+six overlap cells at wall g; **AGREE** iff every interval on (their rate − ours)
+contains zero. All six did — lossy 0/96 and 1/96 against our 0/40s, source_first
+96/96 against our 40/40s. Two codebases, written by different people from the same
+paper, one number apart across 576 gated trials. That's what "the protocol description
+is complete enough to reproduce from" looks like when it's true — and it was the
+project's riskiest assumption from day one.
+
+**A replication is not a re-run.** Running their code again would have tested *their
+code*. Building from the paper and then meeting their code at one cell tests *the
+paper* — whether its words are sufficient instructions. That's why D1 made the
+cross-check a single oracle cell rather than the whole experiment: the oracle's job is
+calibration, not measurement. And "oracle" never meant infallible — the same milestone
+mechanically proved their parser mis-reads escaped `ANSWER: \$197` lines as
+abstentions (0/8 archived deepseek commits parsed; ours reads 8/8; plain controls
+agree 4/4), reconfirmed their table-replay script fails on its own shipped artifact,
+and caught the paper and their README disagreeing in the last digit on three wall
+cells. Trust the protocol, verify the readouts — in both directions.
+
+**The degeneracy lesson, now shown rather than told.** The paper reports bootstrap
+intervals; our gates ran Wilson. D4 promised the side-by-side, and the appendix
+delivered it: 39 rows, zero disagreements on any gate — the method choice never drove
+a verdict. But look at any 0/40 cell: the bootstrap interval is [0.000, 0.000].
+Resampling can only redraw what it saw, and 40 zeros redraw as 40 zeros, five thousand
+times — maximal confidence exactly where the evidence is thinnest. Wilson says
+[0%, 8.8%]: "consistent with zero, not proved zero." That gap between the two answers
+IS the argument for D4, sitting in a committed table instead of a footnote.
+
+**Estimates err; pre-commitment absorbs it.** The run cost half the envelope's floor
+($0.055 vs $0.08–0.15) but took ~7.6h against a 2.5–4.5h guess — the provider was
+slow, not the plan wrong. Because the run was staged (smoke → checkpoint → resume),
+checkpointed per unit, and running in the background, a 3× wall-clock miss cost
+nothing but patience. The M3 checkpoint did its only jobs: the recount matched their
+console exactly, nine sampled rows told one coherent story against the dumped
+truth/drift values, and the per-unit cost confirmed the resume's price before it was
+paid.
+
+### New words
+
+- **Oracle run** — the one paid execution of the author's own harness, used as an
+  external reference to check our independent build against; "oracle" as in *trusted
+  reference point*, not *infallible* — its two known defects are part of the report.
+- **Replication vs re-run** — a re-run executes the author's code and tests the code;
+  a replication rebuilds from the paper's description and tests the *description*.
+  The cross-check cell is where the two meet.
+- **Paper economy** — the paper's own trial bookkeeping (32 fixed problems × 3 seeds,
+  session 1 rebuilt per policy) as opposed to our D5 economy (fresh problem per
+  trial, one trajectory shared across policies). Both valid; the table labels both.
+- **Agreement criterion** — the pre-committed rule for "two builds got the same
+  result": every gated overlap cell's Newcombe interval on (theirs − ours) contains
+  zero. Chosen before the run existed, tolerant of noise (even 8/96 vs 0/40 passes),
+  sharp on structure (a 12-point source-first drop fires).
+- **Protocol-fidelity line** — the cross-check's verdict, reported *beside* the claim
+  verdicts rather than compounded into them (D20): "what we measured" and "whether
+  two builds agree" are different facts and stay separately falsifiable.
+- **Degenerate interval** — an interval that collapses to a point because resampling
+  can't produce variation (0/40 → [0.000, 0.000]); the bootstrap's failure mode at
+  extreme cells and the reason Wilson decides gates.
+- **Resume-safe checkpointing** — their runner's append-per-unit discipline: a crash
+  or throttle loses at most one unit, and a re-invocation pays only for what's
+  missing. What made "smoke then resume" a free staging structure.
+
+### Recall questions
+
+1. The cross-check ran the author's harness, not ours, on the overlap cells. Why
+   would re-running *our* harness have proven nothing about protocol fidelity — and
+   what specific risk from the kickoff does the AGREE verdict retire?
+2. Every one of our 0/40 lossy cells wears Wilson [0%, 8.8%] but bootstrap
+   [0.0%, 0.0%]. Explain to a skeptic why the narrower interval is the *less*
+   trustworthy one there, and which decision (D-number) that argument justifies.
+3. The fixture check proved their parser reads `ANSWER: \$197` as an abstention, yet
+   the comparison table says this "may under-read escaped commits" only *shrinks*
+   their deepseek lossy−blank gap. Walk the direction: why can that bug only make
+   their Δ+0.83 a floor rather than an artifact?

@@ -8,7 +8,7 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | **M0 — the fit-pilot** | de-risk: machinery + drift-take pilot + disposition probe | **complete (2026-07-06)** |
 | M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **complete (2026-07-06)** — claim 1 CLEARED, 3/3 models |
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | **complete (2026-07-07)** — claim 2 CLEARED 3/3, claim 3 CLEARED (deepseek) |
-| M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | pending |
+| M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | **complete (2026-07-08)** — cross-check **AGREE** (6/6 intervals) |
 | M4 — logic family | gated post-v1 (only if the effect shows) | gated |
 | M5 — boundary arm | gated post-v1 | gated |
 
@@ -301,3 +301,174 @@ full top-up contingency firing (hard ceiling was ≈$0.75). Running project tota
 - [x] measured M2 cost in the ledger (above)
 - [x] spine updates in the same PR as the close-out (this PR: ROADMAP.md,
       DECISIONS.md D16–D18 outcomes, LEARNING.md M2, README status)
+
+## M3 — cross-check + capstone · complete 2026-07-08
+
+Brief signed 2026-07-07 (PRs #15/#16; D19–D22 recorded). Free builds: `bootstrap.py`
+(PR #17, D21's appendix) and `m3.py` (PR #18, the judge/table/capstone machinery), both
+TDD with the agreement boundary arithmetic pinned at the brief's published values before
+any data existed. Free oracle-side checks (PR #19): the parser fixture, both M0-finding
+reconfirmations, their problems dumped as data, and the arXiv v2 extraction
+(`evidence/m3/paper-extraction.md`).
+
+### The oracle run (D19-A — their code, their defaults, the paper economy)
+
+`run_pilot.py --real --fix --task arith` on llama-3.1-8b-instruct from their clone,
+their venv, nothing modified: 32 problems × 3 seeds × 3 policies = 288 units × 17 calls
+= **4,896 calls, n=96 per (policy, g, arm) cell**, temperature 0.0 (their tool default =
+our D10 — sampling-matched to our archived cells by construction). Staged exactly as
+pre-committed: seed-1 smoke (96 units, $0.018, 12,390s) → **the M3 checkpoint** →
+`--seeds 3` resume (192 units, $0.037, 14,782s). Wall-clock ~7.6h serial on a slow
+provider day (measured pace 120–200s/unit vs the brief's 28–56s estimate; cost
+unaffected — the estimate's error was wall-clock only).
+
+**The checkpoint record (powers: recount + eyes + cost, nothing judged):** our recount
+of their checkpoint rows matched their console table **cell-for-cell at 2 decimals,
+both arms** (`evidence/m3/m3-checkpoint-recount-seed1.txt`); the spot-check read 9
+sampled rows (3 per policy) against the problems' known truth/drift — **9/9 internally
+consistent**, including one sampled generic-arm padded row that emitted the planted
+drift value and was correctly flagged wrong by their scorer; per-unit cost $0.0002
+(under the estimate).
+
+### The cross-check verdict (D20's pre-committed criterion)
+
+Newcombe 95% on (their rate − our archived rate), all six gated overlap cells
+(`evidence/m3/m3-agreement-judge.txt`):
+
+| cell | theirs (n=96) | ours (archived) | d [95% CI] | reading |
+|---|---|---|---|---|
+| lossy@0.1 | 0/96 | 0/40 | +0.000 [−0.088, +0.038] | consistent |
+| lossy@0.3 | 1/96 | 0/40 | +0.010 [−0.078, +0.057] | consistent |
+| lossy_padded@0.1 | 0/96 | 0/40 | +0.000 [−0.088, +0.038] | consistent |
+| lossy_padded@0.3 | 0/96 | 0/40 | +0.000 [−0.088, +0.038] | consistent |
+| source_first@0.1 | 96/96 | 40/40 | +0.000 [−0.038, +0.088] | consistent |
+| source_first@0.3 | 96/96 | 40/40 | +0.000 [−0.038, +0.088] | consistent |
+
+**Verdict: AGREE — all six intervals contain zero.** No audit fires. Their one stray
+(lossy@0.3, 1/96) is the same lucky-recovery class our deepseek escalation documented
+in M1. Their internal wall structure, descriptive: sf−lossy +100% [+94.6%, +100%] at
+g=0.1, +99% [+92.9%, +99.8%] at g=0.3 — the paper's structure through their own
+harness, beside ours through ours.
+
+### The comparison table (D20 — full form; README carries the short form)
+
+
+| cell | tier | paper-committed | their-harness-run | ours |
+|---|---|---|---|---|
+| lossy@1 | descriptive | 0.61 B[0.52, 0.71] (n=96) | 62/96 = 0.65 W[0.55, 0.73] B[0.54, 0.74] | 28/40 = 0.70 W[0.55, 0.82] |
+| lossy_padded@1 | descriptive | 0.85 B[0.78, 0.92] (n=96) | 86/96 = 0.90 W[0.82, 0.94] B[0.83, 0.96] | — |
+| source_first@1 | descriptive | 0.61 B[0.52, 0.71] (n=96) | 61/96 = 0.64 W[0.54, 0.72] B[0.54, 0.73] | 26/40 = 0.65 W[0.50, 0.78] |
+| lossy@0.6 | descriptive | 0.82 B[0.74, 0.90] (n=96) | 84/96 = 0.88 W[0.79, 0.93] B[0.80, 0.94] | 38/40 = 0.95 W[0.83, 0.99] |
+| lossy_padded@0.6 | descriptive | 0.85 B[0.78, 0.92] (n=96) | 88/96 = 0.92 W[0.84, 0.96] B[0.85, 0.97] | — |
+| source_first@0.6 | descriptive | 0.70 B[0.60, 0.78] (n=96) | 68/96 = 0.71 W[0.61, 0.79] B[0.61, 0.80] | 27/40 = 0.68 W[0.52, 0.80] |
+| lossy@0.3 | gated | 0.01 B[0.00, 0.03] (n=96) | 1/96 = 0.01 W[0.00, 0.06] B[0.00, 0.03] | 0/40 = 0.00 W[0.00, 0.09] |
+| lossy_padded@0.3 | gated | 0.00 B[0.00, 0.00] (n=96) | 0/96 = 0.00 W[0.00, 0.04] B[0.00, 0.00] | 0/40 = 0.00 W[0.00, 0.09] |
+| source_first@0.3 | gated | 0.99 B[0.97, 1.00] (n=96) | 96/96 = 1.00 W[0.96, 1.00] B[1.00, 1.00] | 40/40 = 1.00 W[0.91, 1.00] |
+| lossy@0.1 | gated | 0.00 B[0.00, 0.00] (n=96) | 0/96 = 0.00 W[0.00, 0.04] B[0.00, 0.00] | 0/40 = 0.00 W[0.00, 0.09] |
+| lossy_padded@0.1 | gated | 0.00 B[0.00, 0.00] (n=96) | 0/96 = 0.00 W[0.00, 0.04] B[0.00, 0.00] | 0/40 = 0.00 W[0.00, 0.09] |
+| source_first@0.1 | gated | 0.99 B[0.97, 1.00] (n=96) | 96/96 = 1.00 W[0.96, 1.00] B[1.00, 1.00] | 40/40 = 1.00 W[0.91, 1.00] |
+
+column labels (method / n / temperature / problem economy / arm):
+- **paper-committed** — the arXiv v2 Table 5 values with the paper's own bootstrap brackets (B, verbatim; evidence/m3/paper-extraction.md), n=96 (32 fixed problems × 3 seeds), temperature 0.7 (the paper's caption, verbatim — NOT the released tool's 0.0 default); their problem economy (session 1 rebuilt per policy); directed arm.
+- **their-harness-run** — our recount of their fix_*.jsonl rows; Wilson (W) and their own boot_ci (B) both computed from the same rows; their tool defaults (temperature 0 = our D10), their problem economy, directed arm.
+- **ours** — archived judged-once cells (evidence/), Wilson, n=40–90, temperature 0, fresh problem per trial (D5), directed arm.
+
+### Claim 3 beside their disposition table (labels carried per row)
+
+- **deepseek** — ours: wrong-emission gap +58% [+44.2%, +67.5%] (lossy 52/90 vs blank 0/40, fresh problems, temp 0, arms sampled on different dates as pre-registered) · theirs: Δ+0.83 (n=96, their problems, their sweep config).
+- **llama** — ours: probe NULL 1/12 vs 0/12 (+8% [-17%, +35%], n=12/arm, underpowered by pre-commitment — D17 rider a declined) · theirs: Δ+0.17 — our probe interval already contains their value.
+- **qwen** — theirs: qwen-2.5-7b Δ+0.39 — **no comparable cell**: our slot ran qwen-2.5-72b-instruct, a same-family 10×-size substitute (D13's standing label), never presented as the paper's model. Our 72b probe: 0/12 vs 0/12 (abstainer NULL).
+
+### D20 rider-a recount (archived lossy@0.1 wrong-emission splits, counted once at table time, gating nothing)
+
+- **llama** lossy@0.1 wrong-emission 2/40 = 0.05 W[0.01, 0.17] (attractor 2, other 0, abstain 38, reclaimed 0) · their tab:blank llama lossy-emit 0.17
+- **qwen72b** lossy@0.1 wrong-emission 1/40 = 0.03 W[0.00, 0.13] (attractor 0, other 1, abstain 39, reclaimed 0)
+
+footnotes — the protocol findings:
+1. their `reproduce_tables.py` exits nonzero on the public repo (it ships an empty data/results/ directory) — the "every table reproduces from committed results" claim fails on the artifact as shipped (M0 finding, reconfirmed in M3).
+2. their `parse_answer` wrap set has no backslash escape, so `ANSWER: \$197` reads as an abstention — their deepseek/qwen cells may under-read escaped commits as abstentions. An under-read on the lossy arm can only SHRINK a lossy−blank emission gap, so their deepseek Δ+0.83 would be a floor, not an artifact, if it bit at all. their parse_answer read 0/8 archived escaped ANSWER lines as commits (every one carries a real committed value; ours reads all 8); plain controls agree 4/4.
+3. whether it moved their published numbers is unknowable from their committed artifacts (no raw replies in their rows).
+4. the paper v2 and their repo README's Findings table disagree in the last digit on three wall cells (paper lossy@0.3 0.01, sf 0.99/0.99 vs README 0.00, 0.96/1.00) — both are the author's numbers; this table carries the paper's committed values and records the variance here.
+
+### D21 — the bootstrap robustness appendix
+
+`uv run bootstrap.py appendix` over the archived record: **39 rows (every gated cell
+rate and gap in claims 1–3), zero gate disagreements** — the interval-method choice
+never drove a verdict (`evidence/m3/bootstrap-appendix.txt`). The 0/n degeneracy showed
+exactly as the brief named it in advance: every all-zero cell's bootstrap collapses to
+[0.000, 0.000] beside Wilson's honest [0, 8.8%] — false certainty at the extremes, the
+reason D4 made Wilson the decider. Their `boot_ci` was re-typed verbatim (B=5,000,
+seed 0, percentile) with reference-stream tests pinning the exact draws.
+
+### D22 — the capstone
+
+`docs/figs/capstone.png` — one self-contained figure: the knob curves per model
+(padded points and deepseek's blank point at the wall), claim 3's emission bars
+(52/90 vs 0/40), and the cross-check panel (ours · their-run · paper-committed on the
+six llama wall cells, visibly on top of each other). Built entirely from archived rows
+plus the oracle run, $0 new spend. `m1-wall.png` / `m2-knob.png` / `m2-emission.png`
+stay untouched as milestone records.
+
+### Cost ledger (their runner's token-measured cost at OpenRouter list prices)
+
+| item | cost |
+|---|---|
+| oracle probe (1 call, slug + per-call cost) | <$0.001 |
+| seed-1 smoke (96 units, 1,632 calls, 823,911 tok) | $0.018 |
+| `--seeds 3` resume (192 units, 3,264 calls, 1,670,087 tok) | $0.037 |
+| free items (fixture, dumps, extraction, judge, table, capstone, appendix) | $0 |
+| **M3 total** | **≈ $0.056 measured** |
+
+Far inside the brief's base envelope ($0.10–0.15; hard ceiling $0.35 — no contingency
+fired). **Running project total ≈ $0.97** of KICKOFF's "likely under $10." The binding
+constraint was, as predicted, wall-clock: ~7.6h of serial background hum on a slow
+provider day.
+
+### Exit criteria checklist
+
+- [x] a cross-check verdict recorded with all six cells' intervals, judged only by the
+      pre-committed criterion (AGREE — table above; `evidence/m3/m3-agreement-judge.txt`)
+- [x] the comparison table committed with every column labeled and both protocol
+      findings footnoted (above)
+- [x] `bootstrap.py` green with the appendix committed; zero Wilson-vs-bootstrap
+      disagreements to flag (`evidence/m3/bootstrap-appendix.txt`)
+- [x] the capstone figure committed (`docs/figs/capstone.png`)
+- [x] the README story rewritten under the pre-committed D20 mapping
+- [x] the M3 checkpoint documented (recount + spot-check + cost, above)
+- [x] evidence committed per D15 (`evidence/m3/`, 19 files incl. their 2,304-row
+      checkpoint JSONL, key-scan clean)
+- [x] measured M3 cost in the ledger (above)
+- [x] spine updates in the same PR as the closing code (this PR: ROADMAP.md,
+      DECISIONS.md D19–D22 outcomes, LEARNING.md M3, README verdict story)
+
+### The post-v1 fork (decision brief — Kyle picks; nothing here is decided)
+
+v1 is complete: every pre-registered claim judged, the cross-check AGREE, one legible
+deliverable shipped. KICKOFF gated two extensions on "the effect shows" — it showed —
+so the gate CONDITION is met and the decision is now live:
+
+- **A. Close v1 and run `/seed-hunt` (Recommended).** *Merits:* v1's deliverable — one
+  legible, defensible replication with a capstone — is done; the lineage's learning
+  compounds fastest on a fresh paper (forge-gap → decay-pin → lossy-wall each taught a
+  new methodology layer); the remaining extensions deepen breadth on a result that is
+  already decisive 3-for-3. *Trade-off:* the logic family's softer wall (paper: 0.25
+  vs 0.67 at the wall, not 0.00 vs 1.00) stays unmeasured here — the one place a
+  partial/null was ever plausible.
+- **B. Open M4 (the logic family).** *Merits:* the paper's second task family, where
+  the wall is soft — the most likely place to find a PARTIAL verdict and therefore the
+  most falsification-shaped extension; the harness needs only a new problems generator
+  + templates (their `problems.py` logic set as protocol reference). *Trade-off:* a
+  second full grid's spend and evenings on a project whose headline is already earned;
+  the softer wall needs bigger N for the same CI discipline (mid-range rates are
+  noisier than 0% and 100%).
+- **C. Open M5 (the source-size boundary arm).** *Merits:* measures WHERE the wall
+  sits (how much source must survive), a mechanism question v1 never touched.
+  *Trade-off:* a new axis (source-fraction sweep) means new pre-commitments from
+  scratch; the paper's own boundary section is thinner, so the comparison anchor is
+  weaker.
+
+*Why A:* the project's stated job (KICKOFF) was reproduce-and-measure with the honest
+framing, not exhaustive coverage; that job is finished and the verdict table is the
+artifact. M4/M5 stay gated-open in KICKOFF's terms — a future session can pick B or C
+without re-arguing scope — but the recommended move is to bank v1 and point the
+selection bar at the next paper.

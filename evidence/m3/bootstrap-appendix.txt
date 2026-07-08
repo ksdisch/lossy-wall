@@ -1,0 +1,48 @@
+D21 robustness appendix — Wilson/Newcombe (decided the gates) beside the
+author's percentile bootstrap (B=5,000, seed 0, re-typed with attribution).
+Wilson decides (D4): on any DISAGREE row the Wilson column is the verdict;
+a bootstrap interval of [0.000, 0.000] is the 0/n degeneracy, not certainty.
+
+  claim model     number                               counts      Wilson/Newcombe 95%            bootstrap 95% gate           flag    
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      1 llama     lossy@0.1                              0/40         [+0.000, +0.088]         [+0.000, +0.000] ceiling        agree   
+      1 llama     source_first@0.1                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 llama     gap sf−lossy @0.1                40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      2 llama     lossy_padded@0.1                       0/40         [+0.000, +0.088]         [+0.000, +0.000] —                      
+      2 llama     equivalence padded−lossy @0.1     0/40−0/40   +0.00 [-0.088, +0.088]   +0.00 [+0.000, +0.000] contained      agree   
+      2 llama     separation sf−padded @0.1        40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      1 llama     lossy@0.3                              0/40         [+0.000, +0.088]         [+0.000, +0.000] ceiling        agree   
+      1 llama     source_first@0.3                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 llama     gap sf−lossy @0.3                40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      2 llama     lossy_padded@0.3                       0/40         [+0.000, +0.088]         [+0.000, +0.000] —                      
+      2 llama     equivalence padded−lossy @0.3     0/40−0/40   +0.00 [-0.088, +0.088]   +0.00 [+0.000, +0.000] contained      agree   
+      2 llama     separation sf−padded @0.3        40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      1 deepseek  lossy@0.1                              1/90         [+0.002, +0.060]         [+0.000, +0.033] ceiling        agree   
+      1 deepseek  source_first@0.1                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 deepseek  gap sf−lossy @0.1                40/40−1/90   +0.99 [+0.888, +0.998]   +0.99 [+0.967, +1.000] excludes_zero  agree   
+      2 deepseek  lossy_padded@0.1                       1/90         [+0.002, +0.060]         [+0.000, +0.033] —                      
+      2 deepseek  equivalence padded−lossy @0.1     1/90−1/90   +0.00 [-0.050, +0.050]   +0.00 [-0.033, +0.033] contained      agree   
+      2 deepseek  separation sf−padded @0.1        40/40−1/90   +0.99 [+0.888, +0.998]   +0.99 [+0.967, +1.000] excludes_zero  agree   
+      1 deepseek  lossy@0.3                              0/40         [+0.000, +0.088]         [+0.000, +0.000] ceiling        agree   
+      1 deepseek  source_first@0.3                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 deepseek  gap sf−lossy @0.3                40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      2 deepseek  lossy_padded@0.3                       0/40         [+0.000, +0.088]         [+0.000, +0.000] —                      
+      2 deepseek  equivalence padded−lossy @0.3     0/40−0/40   +0.00 [-0.088, +0.088]   +0.00 [+0.000, +0.000] contained      agree   
+      2 deepseek  separation sf−padded @0.3        40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      1 qwen72b   lossy@0.1                              0/40         [+0.000, +0.088]         [+0.000, +0.000] ceiling        agree   
+      1 qwen72b   source_first@0.1                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 qwen72b   gap sf−lossy @0.1                40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      2 qwen72b   lossy_padded@0.1                       0/40         [+0.000, +0.088]         [+0.000, +0.000] —                      
+      2 qwen72b   equivalence padded−lossy @0.1     0/40−0/40   +0.00 [-0.088, +0.088]   +0.00 [+0.000, +0.000] contained      agree   
+      2 qwen72b   separation sf−padded @0.1        40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      1 qwen72b   lossy@0.3                              0/40         [+0.000, +0.088]         [+0.000, +0.000] ceiling        agree   
+      1 qwen72b   source_first@0.3                      40/40         [+0.912, +1.000]         [+1.000, +1.000] —                      
+      1 qwen72b   gap sf−lossy @0.3                40/40−0/40   +1.00 [+0.876, +1.000]   +1.00 [+1.000, +1.000] excludes_zero  agree   
+      2 qwen72b   lossy_padded@0.3                       1/90         [+0.002, +0.060]         [+0.000, +0.033] —                      
+      2 qwen72b   equivalence padded−lossy @0.3     1/90−0/40   +0.01 [-0.077, +0.060]   +0.01 [+0.000, +0.033] contained      agree   
+      2 qwen72b   separation sf−padded @0.3        40/40−1/90   +0.99 [+0.888, +0.998]   +0.99 [+0.967, +1.000] excludes_zero  agree   
+      3 deepseek  wrong-emission lossy@0.1              52/90         [+0.475, +0.675]         [+0.478, +0.678] —                      
+      3 deepseek  wrong-emission blank                   0/40         [+0.000, +0.088]         [+0.000, +0.000] —                      
+      3 deepseek  emission gap lossy−blank         52/90−0/40   +0.58 [+0.442, +0.675]   +0.58 [+0.478, +0.678] excludes_zero  agree   
+
+  rows: 39   gate disagreements: 0

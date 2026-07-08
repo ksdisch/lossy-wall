@@ -1,0 +1,12 @@
+the cross-check agreement criterion (pre-committed in docs/M3-BRIEF.md):
+
+  lossy@0.1            theirs   0/96  ours   0/40  d=+0.000 [-0.088, +0.038] consistent
+  lossy@0.3            theirs   1/96  ours   0/40  d=+0.010 [-0.078, +0.057] consistent
+  lossy_padded@0.1     theirs   0/96  ours   0/40  d=+0.000 [-0.088, +0.038] consistent
+  lossy_padded@0.3     theirs   0/96  ours   0/40  d=+0.000 [-0.088, +0.038] consistent
+  source_first@0.1     theirs  96/96  ours  40/40  d=+0.000 [-0.038, +0.088] consistent
+  source_first@0.3     theirs  96/96  ours  40/40  d=+0.000 [-0.038, +0.088] consistent
+
+  verdict: AGREE — all six intervals contain zero
+  descriptive: their sf−lossy @ g=0.1: +100% [+94.6%, +100.0%]
+  descriptive: their sf−lossy @ g=0.3: +99% [+92.9%, +99.8%]
