@@ -544,6 +544,42 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   firing its D8 trigger). Cheap (~$0.02–0.05), decisive, and it front-loads the claim-3
   powerability question so D23-C becomes data-backed. B risks funding a full grid on a model
   that never took the plant — the failure M0 exists to prevent.
+- **Outcome (2026-07-08, M4 pilot — ran, bug caught, roster settled two-model):** the pilot's
+  first pass fired a **false 0/20 TRIGGER on llama** — the mandatory-checkpoint hand-read (the M0
+  scoring lesson) traced it to a readout bug, not behaviour: `TAKE_PROBE_LOGIC` had been set equal
+  to `FOLLOWUPS_LOGIC[6]` (the author's conversational restatement turn) and so never carried
+  D11's format-explicit contract the arithmetic `TAKE_PROBE` has. llama answered the probe with a
+  bare token ("Tom"); the strict author-verbatim `ANSWER:` parser returned None; 9 genuine
+  drift-commits read `took=false`. The same take-probe path drives `run_bank`, so it would have
+  silently failed to fill llama's bank too. **Fix** (branch `fix/m4-logic-take-probe-format`):
+  `TAKE_PROBE_LOGIC` made format-explicit ("…State it as 'ANSWER: <word>'."), decoupled from
+  `FOLLOWUPS_LOGIC[6]` (the session-1 follow-up stays verbatim), pinned tests updated — no parser
+  change, strict-everywhere held. The `DriftFake` always emits a clean `ANSWER:` line, which is
+  exactly why 222 green tests missed it (D11's standing caveat: fakes validate mechanics, not
+  real-model format behaviour). **Final tiers under the corrected probe:** qwen72b **15/20 GREEN**
+  (wall recov 11 / abst 4), deepseek **10/20 AMBER** (recov 7 / inherit 1 / abst 2), llama **9/20
+  TRIGGER** (abst 9 — a pure abstainer at the wall). Cost: pilot $0.061 + llama re-pilot $0.002 =
+  **$0.063 measured**.
+- **Fidelity audit (D24/D8, run before banking):** our session-1 recipe confirmed faithful to the
+  author's `experiment.py` — `plant` matches verbatim (`experiment.py:40-41`), `build_trajectory`
+  mirrors their plant→follow-up-loop over `FOLLOWUPS_BY_KIND[kind]`, problems/follow-ups re-typed
+  verbatim (D6). Decisive: deepseek and qwen took on the *same 20 problems*, so the recipe
+  demonstrably induces takes — **llama's trigger is genuine model behaviour**, not our bug.
+- **Roster (D13 frozen — trigger sits out, no swap):** llama **sits out M4's grid**; M4 proceeds
+  **two-model, deepseek + qwen72b**, meeting KICKOFF's ≥2-of-3 bar (as v1's D12 two-model close
+  did). deepseek runs under the **amber protocol** (recipe audit done; bank generation inflated by
+  1/t̂ ≈ 2×; weak take noted in the README). Disposition read: **deepseek is the lone emitter
+  candidate** (the only inherit in the trio at the wall); qwen recovers-or-abstains; llama
+  pure-abstains — so a formal claim-3 (scope C) would ride on deepseek alone, its pilot inherit
+  signal thin (1/10). Banking caveat: deepseek's take is **structure-dependent** (took all 10
+  ordering puzzles, refused all 10 assignment ones — the assignment drift contradicts an explicit
+  stated constraint), so its bank will skew toward ordering problems.
+- **Anchor-out resolution (2026-07-08 / Kyle — resolves a D25 contingency left unspecified):**
+  with llama (our only model with a published logic number) out, **scope B (the llama·logic
+  cross-check) is moot**, and D25's REPRODUCED clause "on the anchored model (llama) our soft-wall
+  shape matches the paper" is **not evaluable**. Kyle's call: the **≥2-model gap governs** the
+  verdict; the anchor-shape clause is **reported as "not evaluable — anchor sat out,"** not a
+  failure — v1's arithmetic cross-check (D20, AGREE) already validated our build independently.
 
 ## D25 · The soft-wall gates + verdict mapping: gap-gates claim 1, separation-gates claim 2
 

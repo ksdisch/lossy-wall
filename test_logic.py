@@ -247,10 +247,13 @@ def test_build_trajectory_commits_via_logic_followups():
 
 
 def test_take_probe_is_kind_aware_and_never_carried():
-    # D11 adapted: the logic probe is the author's own final restatement turn,
-    # measurement-only — the carried trajectory must not grow
-    assert TAKE_PROBE_LOGIC == "What single word should I write down as the answer?"
-    assert TAKE_PROBE_LOGIC == FOLLOWUPS_LOGIC[6]
+    # D11 adapted: the logic probe is the author's restatement question made
+    # format-explicit (a bare-token reply slips the strict parser), measurement-only —
+    # the carried trajectory must not grow
+    assert TAKE_PROBE_LOGIC == ("What single word should I write down as the answer? "
+                                "State it as 'ANSWER: <word>'.")
+    assert TAKE_PROBE_LOGIC.startswith(FOLLOWUPS_LOGIC[6])   # author's question kept as the stem
+    assert "'ANSWER: <word>'" in TAKE_PROBE_LOGIC            # + our format demand (cf. TAKE_PROBE)
     llm = _ScriptedLLM()
     traj = build_trajectory(llm, ROLES)
     n = len(traj)

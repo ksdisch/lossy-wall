@@ -104,9 +104,13 @@ def last_answer(trajectory: list[dict]) -> str:
 TAKE_PROBE = ("For the record, state the pre-tax total you have been using, as "
               "'ANSWER: <answer>'.")
 
-# the logic take probe (D11 adapted for M4): the author's own final restatement turn
-# (FOLLOWUPS_LOGIC[6]), graded by the closed-set single-token match (grader.took_logic)
-TAKE_PROBE_LOGIC = "What single word should I write down as the answer?"
+# the logic take probe (D11 adapted for M4): the author's restatement question
+# (FOLLOWUPS_LOGIC[6]) made FORMAT-EXPLICIT. Without the "as 'ANSWER: <word>'" demand a
+# model answering literally with a bare token ("Tom") slips the strict ANSWER: parser and
+# its real drift-take reads as took=false — the M4 pilot caught llama doing exactly this
+# (10/20 bare-token drift commits scored 0). Graded by grader.took_logic, strict as ever.
+TAKE_PROBE_LOGIC = ("What single word should I write down as the answer? "
+                    "State it as 'ANSWER: <word>'.")
 
 
 def take_probe(llm, trajectory: list[dict], problem: Problem | None = None) -> str:
