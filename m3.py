@@ -69,26 +69,40 @@ DEFAULT_TRUTHS = Path("evidence/m3/their-problems-arith.json")
 FIXTURE_OUT = Path("evidence/m3/fixture-parse-answer.txt")
 CAPSTONE_PATH = Path("docs/figs/capstone.png")
 
-# The paper's committed numbers, re-typed from the author's artifacts with citations —
-# the free extraction task confirms each against the arXiv v2 HTML before the table
-# ships (and adds the paper's bootstrap CI brackets + stated sampling config there).
+# The paper's committed numbers, extracted from the arXiv v2 HTML with the author's
+# artifacts as cross-references — verbatim quotes, sources, and the artifact-vs-paper
+# variance are recorded in evidence/m3/paper-extraction.md.
 PAPER = {
-    # README "Findings" table, row "llama-3.1-8b · arithmetic", directed arm, shown as
-    # g=0.3 / g=0.1; n=96 per their scripts/integrity_table_ci.py (32 problems × 3 seeds)
-    "wall_llama": {("lossy", 0.3): 0.00, ("lossy", 0.1): 0.00,
-                   ("lossy_padded", 0.3): 0.00, ("lossy_padded", 0.1): 0.00,
-                   ("source_first", 0.3): 0.96, ("source_first", 0.1): 1.00},
+    # arXiv v2 Table 5 (tab:wall), llama-3.1-8b · arithmetic · directed RR, as
+    # (point, ci_lo, ci_hi) with the paper's own bootstrap brackets, all four g;
+    # caption verbatim: "llama n=96; grok n=24; temperature 0.7"
+    "wall_llama": {("lossy", 1.0): (0.61, 0.52, 0.71),
+                   ("lossy_padded", 1.0): (0.85, 0.78, 0.92),
+                   ("source_first", 1.0): (0.61, 0.52, 0.71),
+                   ("lossy", 0.6): (0.82, 0.74, 0.90),
+                   ("lossy_padded", 0.6): (0.85, 0.78, 0.92),
+                   ("source_first", 0.6): (0.70, 0.60, 0.78),
+                   ("lossy", 0.3): (0.01, 0.00, 0.03),
+                   ("lossy_padded", 0.3): (0.00, 0.00, 0.00),
+                   ("source_first", 0.3): (0.99, 0.97, 1.00),
+                   ("lossy", 0.1): (0.00, 0.00, 0.00),
+                   ("lossy_padded", 0.1): (0.00, 0.00, 0.00),
+                   ("source_first", 0.1): (0.99, 0.97, 1.00)},
     "wall_n": 96,
+    "wall_temp": 0.7,   # the paper's stated sampling for tab:wall (caption + methods);
+                        # their released tool's default is 0.0 = our D10, so the oracle
+                        # run and our cells are sampling-matched; the paper column is not
+    # their repo README's "Findings" wall table prints slightly different values on
+    # three cells (footnoted in the comparison table; both are the author's numbers)
+    "readme_wall_llama": {("lossy", 0.3): 0.00, ("lossy", 0.1): 0.00,
+                          ("lossy_padded", 0.3): 0.00, ("lossy_padded", 0.1): 0.00,
+                          ("source_first", 0.3): 0.96, ("source_first", 0.1): 1.00},
     # NOTE_parser_fix.md, post-v2 corrected disposition deltas (n=96/cell, g=0.1,
     # directed); "frontier" = the four OpenAI/Anthropic abstainers, all 0.00
     "disposition_delta": {"deepseek-chat": 0.83, "qwen-2.5-7b": 0.39,
                           "llama-3.1-8b": 0.17, "frontier": 0.00},
-    # NOTE_parser_fix.md, tab:blank corrected lossy-emit value for llama
+    # NOTE_parser_fix.md + paper tab:blank, corrected lossy-emit value for llama
     "blank_lossy_emit_llama": 0.17,
-    # their README header: "Core sweep: 8 problems x 3 seeds, temperature 0.7" — their
-    # run_pilot tool default is 0.0; the extraction task pins what the PAPER states for
-    # tab:wall, and the table's temperature column carries the label either way
-    "sweep_temp_readme": 0.7,
 }
 
 # Our M0 disposition-probe records (judged verdicts; ROADMAP.md D9/D13 tables):
@@ -270,7 +284,8 @@ def comparison_table(theirs: dict[tuple[str, float], list[int]],
                 continue
             tier = "gated" if g in GATED_G else "descriptive"
             paper = PAPER["wall_llama"].get((policy, g))
-            p_txt = f"{paper:.2f} (n={PAPER['wall_n']})" if paper is not None else "—"
+            p_txt = (f"{paper[0]:.2f} B[{paper[1]:.2f}, {paper[2]:.2f}] "
+                     f"(n={PAPER['wall_n']})" if paper is not None else "—")
             xs = theirs[(policy, g)]
             _, blo, bhi = boot_ci(xs, n=b)
             t_txt = (f"{_cell_text(sum(xs), len(xs))} B[{blo:.2f}, {bhi:.2f}]")
@@ -280,11 +295,11 @@ def comparison_table(theirs: dict[tuple[str, float], list[int]],
     out += [
         "",
         "column labels (method / n / temperature / problem economy / arm):",
-        "- **paper-committed** — their bootstrap CI (B=5,000; brackets from the arXiv "
-        f"v2 extraction), n={PAPER['wall_n']} (32 fixed problems × 3 seeds), "
-        f"temperature: their README header says the core sweep ran "
-        f"{PAPER['sweep_temp_readme']:g} (the extraction pins what the paper states "
-        "for tab:wall); their problem economy (session 1 rebuilt per policy); "
+        "- **paper-committed** — the arXiv v2 Table 5 values with the paper's own "
+        f"bootstrap brackets (B, verbatim; evidence/m3/paper-extraction.md), "
+        f"n={PAPER['wall_n']} (32 fixed problems × 3 seeds), temperature "
+        f"{PAPER['wall_temp']:g} (the paper's caption, verbatim — NOT the released "
+        "tool's 0.0 default); their problem economy (session 1 rebuilt per policy); "
         "directed arm.",
         f"- **their-harness-run** — our recount of their fix_*.jsonl rows; Wilson (W) "
         f"and their own boot_ci (B) both computed from the same rows; their tool "
@@ -353,6 +368,10 @@ def comparison_table(theirs: dict[tuple[str, float], list[int]],
         f"artifact, if it bit at all. {fixture_line or 'fixture check: pending'}.",
         "3. whether it moved their published numbers is unknowable from their "
         "committed artifacts (no raw replies in their rows).",
+        "4. the paper v2 and their repo README's Findings table disagree in the last "
+        "digit on three wall cells (paper lossy@0.3 0.01, sf 0.99/0.99 vs README "
+        "0.00, 0.96/1.00) — both are the author's numbers; this table carries the "
+        "paper's committed values and records the variance here.",
     ]
     return "\n".join(out)
 
@@ -444,9 +463,12 @@ def make_capstone(ours_by_model: dict[str, dict[tuple[str, float], tuple[int, in
             if name == "paper":
                 v = PAPER["wall_llama"].get((policy, g))
                 if v is not None:
-                    ax.plot(j + dx, v, marker="*", color=color, markersize=10,
-                            linestyle="none",
-                            label=name if j == 0 else None)
+                    pt, plo, phi = v
+                    ax.errorbar(j + dx, pt, yerr=[[pt - plo], [phi - pt]],
+                                color=color, marker="*", markersize=10, capsize=3,
+                                linestyle="none",
+                                label=f"paper (temp {PAPER['wall_temp']:g})"
+                                if j == 0 else None)
                 continue
             if kn is None:
                 continue

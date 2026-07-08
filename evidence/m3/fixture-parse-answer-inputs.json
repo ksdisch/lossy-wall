@@ -1,0 +1,78 @@
+{
+ "fixtures": [
+  {
+   "label": "m0-probe gen0-16",
+   "reply": "To correct the subtotal, I'll re-examine the calculation for the markers from the earlier session:\n\n- **Markers**: 4 packs at $3 each  \n  \\( 4 \\times \\$3 = \\$12 \\)\n\nNow, adding the other items:\n- **Pencils**: 5 packs at \\$2 each  \n  \\( 5 \\times \\$2 = \\$10 \\)\n- **Paper**: 2 packs at \\$10 each  \n  \\( 2 \\times \\$10 = \\$20 \\)\n- **Folders**: 6 at \\$2 each  \n  \\( 6 \\times \\$2 = \\$12 \\)\n\n**Total before tax**:  \n\\( \\$12 + \\$10 + \\$20 + \\$12 = \\$54 \\)\n\nThus, the corrected total before tax is:  \n\nANSWER: \\$54",
+   "our_parsed": null,
+   "source_file": "evidence/m0/probe-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-08",
+   "reply": "To provide the correct total before tax, I need to verify the given values:\n\n- Tags were incorrectly concluded at \\$141 (let's assume the correct subtotal is \\$150 based on typical rounding or item adjustments).\n- Earlier total before tax was \\$309 (this might include other items or corrections).\n\nAssuming the correct tags subtotal is \\$150 and another item's subtotal is \\$159 (to match the earlier total of \\$309), the total before tax remains \\$309. \n\nIf the tags subtotal was corrected to \\$150, and no other changes apply, the total before tax would be adjusted accordingly. However, without further context, here's the plausible correction:\n\nANSWER: \\$309",
+   "our_parsed": 309.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-14",
+   "reply": "To correct the earlier conclusion, let's reevaluate the amounts:\n\n- If the plates were actually \\$49, and the total before tax was \\$59, then the difference (\\$59 - \\$49 = \\$10) would represent the cost of additional items.  \n\nHowever, if the plates' subtotal was incorrect and needs to be adjusted, but no other information is provided, we cannot determine the correct total without further details.  \n\nGiven the current information, assuming the plates are \\$49 and the total before tax is \\$59, the answer remains:\n\nANSWER: \\$59",
+   "our_parsed": 59.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-03",
+   "reply": "Let's recheck the calculations step by step:\n\n1. **Straps**:  \n   - Price per strap = \\$13  \n   - Number of straps bought = 5  \n   - Subtotal for straps = \\$13 \u00d7 5 = \\$65  \n\n2. **Batteries**:  \n   - Price per battery = \\$3  \n   - Number of batteries bought = 11  \n   - Subtotal for batteries = \\$3 \u00d7 11 = \\$33  \n\n3. **Total before tax**:  \n   Total = Subtotal for straps + Subtotal for batteries  \n   Total = \\$65 + \\$33 = \\$98  \n\nANSWER: \\$98",
+   "our_parsed": 98.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-18",
+   "reply": "Let's recalculate the total before tax step by step:\n\n1. Filters:  \n   - Price per filter = \\$15  \n   - Quantity bought = 6  \n   - Subtotal for filters = \\$15 \u00d7 6 = **\\$90**  \n\n2. Tags:  \n   - Price per tag = \\$15  \n   - Quantity bought = 4  \n   - Subtotal for tags = \\$15 \u00d7 4 = **\\$60**  \n\n3. **Total before tax**:  \n   \\$90 (filters) + \\$60 (tags) = **\\$150**  \n\nThus, the corrected total before tax is:\n\nANSWER: \\$150",
+   "our_parsed": 150.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-05",
+   "reply": "Let's recheck the calculations step by step:\n\n1. **Cables:**  \n   Price per cable = \\$10  \n   Number of cables bought = 5  \n   Subtotal for cables = \\$10 \u00d7 5 = \\$50  \n\n2. **Clips:**  \n   Price per clip = \\$4  \n   Number of clips bought = 4  \n   Subtotal for clips = \\$4 \u00d7 4 = \\$16  \n\n3. **Total before tax:**  \n   Total = Subtotal for cables + Subtotal for clips  \n   Total = \\$50 + \\$16 = \\$66  \n\nANSWER: \\$66",
+   "our_parsed": 66.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-10",
+   "reply": "Let's recalculate the total before tax step by step.\n\n1. **Candles:**\n   - Price per candle: \\$11\n   - Number of candles bought: 11\n   - Subtotal for candles: \\( 11 \\times 11 = \\$121 \\)\n\n2. **Magnets:**\n   - Price per magnet: \\$5\n   - Number of magnets bought: 12\n   - Subtotal for magnets: \\( 5 \\times 12 = \\$60 \\)\n\n3. **Total before tax:**\n   - Total = Subtotal for candles + Subtotal for magnets\n   - Total = \\$121 + \\$60 = \\$181\n\nANSWER: \\$181",
+   "our_parsed": 181.0,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  },
+  {
+   "label": "m1-grid m1g0-33",
+   "reply": "Let me re-examine the calculation step-by-step:\n\nOriginal problem details (from memory):\n- 4 binders at \\$3.99 each: \\$3.99 \u00d7 4 = \\$15.96\n- 4 notebooks at \\$1.99 each: \\$1.99 \u00d7 4 = \\$7.96\n- Set of markers: Previously thought \\$4.99, but likely a mistake\n\nRechecking markers:\nStandard price for a set of markers is often higher (e.g., \\$12.49 or \\$17.99). Let's assume \\$17.99 as a realistic price.\n\nRevised calculation:\n- Binders: \\$15.96  \n- Notebooks: \\$7.96  \n- Markers: \\$17.99  \nTotal before tax: \\$15.96 + \\$7.96 + \\$17.99 = \\$41.91\n\nANSWER: \\$41.91",
+   "our_parsed": 41.91,
+   "source_file": "evidence/m1/m1-grid-deepseek/results.jsonl"
+  }
+ ],
+ "controls": [
+  {
+   "label": "control plain-dollar",
+   "reply": "Rechecking the totals.\nANSWER: $197",
+   "our_parsed": 197.0,
+   "source_file": "synthetic control"
+  },
+  {
+   "label": "control bare-number",
+   "reply": "Rechecking.\nANSWER: 197",
+   "our_parsed": 197.0,
+   "source_file": "synthetic control"
+  },
+  {
+   "label": "control markdown-wrap",
+   "reply": "Done.\nANSWER: **167**",
+   "our_parsed": 167.0,
+   "source_file": "synthetic control"
+  },
+  {
+   "label": "control refusal-prose",
+   "reply": "I can't recompute this, though the earlier figure was 55.",
+   "our_parsed": null,
+   "source_file": "synthetic control (the v2-fix case: must stay None under BOTH parsers)"
+  }
+ ]
+}

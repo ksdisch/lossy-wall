@@ -1,0 +1,194 @@
+{
+ "notebooks": {
+  "correct": 46.0,
+  "drift": 55.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "tiles": {
+  "correct": 92.0,
+  "drift": 80.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "fruit": {
+  "correct": 39.0,
+  "drift": 45.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "tickets": {
+  "correct": 76.0,
+  "drift": 84.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "paint": {
+  "correct": 81.0,
+  "drift": 95.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "coffee": {
+  "correct": 66.0,
+  "drift": 84.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "lumber": {
+  "correct": 102.0,
+  "drift": 113.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "flowers": {
+  "correct": 69.0,
+  "drift": 64.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a0": {
+  "correct": 28.0,
+  "drift": 41.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a1": {
+  "correct": 123.0,
+  "drift": 136.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a2": {
+  "correct": 153.0,
+  "drift": 164.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a3": {
+  "correct": 148.0,
+  "drift": 155.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a4": {
+  "correct": 110.0,
+  "drift": 121.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a5": {
+  "correct": 108.0,
+  "drift": 119.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a6": {
+  "correct": 158.0,
+  "drift": 167.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a7": {
+  "correct": 234.0,
+  "drift": 221.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a8": {
+  "correct": 126.0,
+  "drift": 119.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a9": {
+  "correct": 132.0,
+  "drift": 141.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a10": {
+  "correct": 169.0,
+  "drift": 162.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a11": {
+  "correct": 157.0,
+  "drift": 168.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a12": {
+  "correct": 312.0,
+  "drift": 303.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a13": {
+  "correct": 54.0,
+  "drift": 63.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a14": {
+  "correct": 180.0,
+  "drift": 193.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a15": {
+  "correct": 159.0,
+  "drift": 168.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a16": {
+  "correct": 139.0,
+  "drift": 148.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a17": {
+  "correct": 174.0,
+  "drift": 181.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a18": {
+  "correct": 257.0,
+  "drift": 266.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a19": {
+  "correct": 145.0,
+  "drift": 154.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a20": {
+  "correct": 208.0,
+  "drift": 195.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a21": {
+  "correct": 125.0,
+  "drift": 138.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a22": {
+  "correct": 131.0,
+  "drift": 142.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ },
+ "gen_a23": {
+  "correct": 39.0,
+  "drift": 48.0,
+  "ask": "the total before tax",
+  "kind": "number"
+ }
+}

@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+"""OUR-DUMP-problems.py — lossy-wall M3's free problems dump (docs/M3-BRIEF.md). NOT
+part of reclaim-eval. Runs in THIS clone with THIS venv (D1's wall) and prints the
+arithmetic problems' known truth/drift values as JSON — the DATA lossy-wall's
+spot-check reads (their code is never imported over there).
+
+Run:  .venv/bin/python OUR-DUMP-problems.py > <lossy-wall>/evidence/m3/their-problems-arith.json
+"""
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "src"))
+from reclaim.problems import TASKS  # noqa: E402
+
+out = {p.pid: {"correct": float(p.correct), "drift": float(p.drift),
+               "ask": p.ask, "kind": p.kind}
+       for p in TASKS["arith"]}
+print(json.dumps(out, indent=1))
+print(f"# {len(out)} arithmetic problems", file=sys.stderr)

@@ -1,0 +1,33 @@
+OUR-FIXTURE-parse-answer.py — lossy-wall M3's free fixture check on reclaim-eval's
+answer parser (docs/M3-BRIEF.md, free deliverable 3). NOT part of reclaim-eval.
+
+Runs in THIS clone with THIS venv (lossy-wall's D1 wall: the author's code never runs
+inside our repo). Feeds `reclaim.llm.parse_answer` the escaped-dollar reply strings
+archived verbatim in lossy-wall's evidence (deepseek's LaTeX habit: `ANSWER: \$197`)
+plus plain controls, and prints what their parser reads beside what ours read.
+
+Expected mechanism (source-confirmed in src/reclaim/llm.py): `_WRAP` tolerates
+markdown/quote wrappers and a literal `$`, but has no backslash — so `ANSWER: \$197`
+parses to None, i.e. reads as an abstention. Harmless where the metric is
+reclaimed-vs-not (their v2 note documents that logic); it bites where a failure is
+decomposed into abstain-vs-emit (their disposition/blank tables).
+
+Run:  .venv/bin/python OUR-FIXTURE-parse-answer.py
+
+label                        their parse_answer our archived parse
+--------------------------------------------------------------------
+m0-probe gen0-16                           None               None (m0-era row: archived pre-fix as None; every escaped line committed a real value per the correction of record)
+m1-grid m1g0-08                            None              309.0
+m1-grid m1g0-14                            None               59.0
+m1-grid m1g0-03                            None               98.0
+m1-grid m1g0-18                            None              150.0
+m1-grid m1g0-05                            None               66.0
+m1-grid m1g0-10                            None              181.0
+m1-grid m1g0-33                            None              41.91
+
+control plain-dollar                      197.0              197.0 agree
+control bare-number                       197.0              197.0 agree
+control markdown-wrap                     167.0              167.0 agree
+control refusal-prose                      None               None agree
+
+SUMMARY: their parse_answer read 0/8 archived escaped ANSWER lines as commits (every one carries a real committed value; ours reads all 8); plain controls agree 4/4
