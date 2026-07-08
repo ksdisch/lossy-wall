@@ -415,6 +415,15 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   0.7 rider would put a second oracle number on the same condition to buy the
   point-matching v1 never claims. Known trade-off, priced: their runner is serial and
   stays unmodified — ~2.5–4.5 h background wall-clock, resume-safe.
+- **Outcome (2026-07-08, M3 close):** ran exactly as staged. Probe (<$0.001) → seed-1
+  smoke (96 units, 1,632 calls, $0.018, 12,390s) → **the checkpoint held**: our
+  recount matched their console cell-for-cell at 2 decimals both arms, the spot-check
+  read 9/9 sampled rows internally consistent against the dumped truth/drift values,
+  per-unit cost $0.0002 → `--seeds 3` resume (192 units, 3,264 calls, $0.037,
+  14,782s). Full economy delivered: 288 units, 4,896 calls, n=96/cell, **$0.055
+  measured** (envelope $0.08–0.15; ceiling untouched). The one estimate that missed
+  was wall-clock: ~7.6h serial vs the 2.5–4.5h guess (slow provider day, 120–200s/unit
+  measured) — cost unaffected, resume-safety never needed.
 
 ## D20 · The cross-check is a protocol-fidelity line, not a re-judging
 
@@ -441,6 +450,17 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   protocol agree — and keeping them separate is what lets both be reported honestly.
   A DISCREPANT cross-check still lands in the README headline sentence with its audit
   finding, not in a footnote; it just cannot rewrite judged records.
+- **Outcome (2026-07-08, M3 close):** **AGREE — all six intervals contain zero**
+  (lossy@0.1 0/96 vs 0/40 [−8.8%, +3.8%]; lossy@0.3 1/96 vs 0/40 [−7.8%, +5.7%];
+  padded 0/96 vs 0/40 both g; sf 96/96 vs 40/40 both g [−3.8%, +8.8%]). No audit
+  fired. The fidelity line sits in the README headline beside the claim verdicts,
+  which stand as judged. Rider (a) counted at table time: llama lossy@0.1
+  wrong-emission 2/40 = 0.05 W[0.01, 0.17] — its interval contains their tab:blank
+  0.17 — and qwen72b 1/40 = 0.03. The extraction also surfaced two labeling facts the
+  table carries: the paper's tab:wall ran at temperature 0.7 (tool default 0.0 = our
+  D10, so the oracle run stayed sampling-matched), and the paper v2 vs their README
+  disagree in the last digit on three wall cells (footnoted; the paper's values win
+  the paper column).
 
 ## D21 · bootstrap.py: the author's method verbatim, over every gated cell and gap
 
@@ -461,6 +481,12 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   bootstrap interval collapses to [0.000, 0.000] — false certainty at the extremes)
   was named in the brief before any output existed; the appendix shows it as a taught
   result, which is itself the argument for D4.
+- **Outcome (2026-07-08, M3 close):** appendix committed
+  (`evidence/m3/bootstrap-appendix.txt`): 39 rows — exactly the gated cells and gaps
+  of claims 1–3 — **zero Wilson-vs-bootstrap gate disagreements**, so the method
+  choice never drove a verdict. The degeneracy showed on every all-zero cell as
+  predicted. `boot_ci` re-typed verbatim with reference-stream tests pinning the
+  exact RNG draws (test_bootstrap.py).
 
 ## D22 · The capstone: one composite figure
 
@@ -476,3 +502,7 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
 - **Why:** v1's deliverable is one legible artifact; a capstone that needs three
   files and a paragraph of arrangement isn't one. The milestone figures
   (`m1-wall.png`, `m2-knob.png`, `m2-emission.png`) stay frozen as committed records.
+- **Outcome (2026-07-08, M3 close):** `docs/figs/capstone.png` committed — knob
+  curves per model with padded/blank points, the 52/90-vs-0/40 emission bars, and the
+  cross-check panel with ours/their-run/paper visibly coincident on all six wall
+  cells. $0; milestone figures untouched.

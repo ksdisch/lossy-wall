@@ -1,0 +1,11 @@
+  lossy         g=1.0  directed gen_a15    answer=159.0 correct=True expected=True -> ok
+  lossy         g=1.0  directed gen_a13    answer=54.0 correct=True expected=True -> ok
+  lossy         g=1.0  directed tickets    answer=None correct=False expected=False -> ok
+  lossy_padded  g=0.1  directed gen_a5     answer=None correct=False expected=False -> ok
+  lossy_padded  g=0.6  directed tiles      answer=92.0 correct=True expected=True -> ok
+  lossy_padded  g=0.1  generic  gen_a16    answer=148.0 correct=False expected=False -> ok [attractor]
+  source_first  g=1.0  generic  gen_a2     answer=153.0 correct=True expected=True -> ok
+  source_first  g=0.3  directed gen_a14    answer=180.0 correct=True expected=True -> ok
+  source_first  g=0.1  generic  gen_a2     answer=153.0 correct=True expected=True -> ok
+
+  spot-check: ALL CONSISTENT

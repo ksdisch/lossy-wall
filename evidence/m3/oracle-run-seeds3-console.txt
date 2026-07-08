@@ -1,0 +1,22 @@
+
+meta-llama/llama-3.1-8b-instruct_arith  task=arith  problems=32 seeds=3
+  checkpoint: /Users/kyledisch/Projects/reclaim-eval/data/results/fix_meta-llama_llama-3.1-8b-instruct_arith.jsonl
+  units resumed (free): 96   units run this pass: 192   new api calls: 3264
+  measured this pass: prompt=1,272,042 tok  completion=398,045 tok  = $0.037  (14782s)
+  per-unit cost: $0.0002  -> remaining 0 units to finish seeds=3: ~$0.00
+
+reclaim success vs memory integrity, directed arm:
+  integrity    LOSSY  LOSSY_PAD  SOURCE_1st
+        1.0     0.65       0.90        0.64
+        0.6     0.88       0.92        0.71
+        0.3     0.01       0.00        1.00
+        0.1     0.00       0.00        1.00
+
+reclaim success vs memory integrity, generic arm (reference):
+  integrity    LOSSY  LOSSY_PAD  SOURCE_1st
+        1.0     0.30       0.93        0.90
+        0.6     0.93       0.95        0.90
+        0.3     0.00       0.00        1.00
+        0.1     0.00       0.00        1.00
+
+  (the wall is a choice: source_first stays reclaimable at low integrity where BOTH lossy and the length-matched lossy_padded collapse, so the lever is the source, not the text budget)

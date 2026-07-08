@@ -42,6 +42,34 @@ and the **cross-check cell**: our independently built harness vs the author's re
 agreement or disagreement reported either way. Non-goals, always: direction + structure,
 never point estimates; no LLM-judge grading, ever; zero frontier spend in v1.
 
+## The verdict (v1 complete, 2026-07-08)
+
+**All three pre-registered claims REPRODUCED at their pre-registered bars, and the
+independent-build cross-check came back AGREE — the author's own harness, run
+unmodified on the paper's own cell economy, lands within noise of our archived cells
+on all six gated overlap cells.** Verdict words applied mechanically from the mapping
+committed in `docs/M3-BRIEF.md` *before* the cross-check ran (D20):
+
+| claim | verdict | the judged record |
+|---|---|---|
+| 1 — the wall | **REPRODUCED** (3/3 models; bar ≥2) | lossy reclaim ≤ 1/290 with every Wilson-95 ceiling under 0.10; source_first 240/240; every gap floor ≥ +87.6% |
+| 2 — content, not length | **REPRODUCED** (3/3 models; bar ≥2) | every padded cell inside ±10% of plain lossy; sf − padded ≥ +87.6% everywhere |
+| 3 — worse than empty (the title claim) | **REPRODUCED** (deepseek; bar ≥1 disposed model) | wrong-emission 52/90 lossy vs **0/40** blank, gap +58% [+44.2%, +67.5%]; the abstainers' predicted nulls reported plainly (llama +1/12, qwen72b 0/12) |
+| cross-check (protocol fidelity) | **AGREE** (6/6 intervals contain zero) | their n=96 cells vs our archived cells: lossy 0/96 & 1/96 vs 0/40s; sf 96/96 vs 40/40s — two independent builds, one number apart across 576 gated trials |
+
+![capstone](docs/figs/capstone.png)
+
+The short-form comparison (full table with every label + footnote: `ROADMAP.md` M3):
+at the wall, **paper-committed** (n=96, temp 0.7, bootstrap CI) · **their harness run
+by us** (n=96, temp 0.0, Wilson + their boot_ci) · **ours** (n=40, temp 0.0, Wilson)
+read lossy **0.00/0.01 · 0.00 · 0.00**, padded **0.00 · 0.00 · 0.00**, source_first
+**0.99 · 1.00 · 1.00** — direction and structure identical in all three columns.
+Protocol findings carried with the table: their `reproduce_tables.py` fails on its own
+shipped artifact (empty `data/results/`); their parser mis-reads escaped
+`ANSWER: \$…` commits as abstentions (proven mechanically: 0/8 archived deepseek
+commits parsed; can only make their deepseek Δ+0.83 a floor); the paper v2 and their
+README disagree in the last digit on three wall cells (both cited).
+
 *Status: **M0 complete (2026-07-06)** — machinery green (anti-rig 3/3, 64 tests, $0
 until gated), both riskiest assumptions answered YES for ≈ $0.17 total. Drift takes:
 llama 14/20 (green) and deepseek **20/20** (green — first read 13/20 amber through a
@@ -75,13 +103,27 @@ explicit declines) — gap +58%, Newcombe [+44.2%, +67.5%]. The knob fills compl
 the committed figure ([`docs/figs/m2-knob.png`](docs/figs/m2-knob.png),
 [`docs/figs/m2-emission.png`](docs/figs/m2-emission.png)); llama's high-g dip is
 real model behaviour, documented in the checkpoint record. M2 spend $0.29 measured;
-project ≈ $0.91. Next: **M3 — the cross-check cell + capstone** (needs its
-start-of-stage brief).*
+project ≈ $0.91.*
+
+*Status: **M3 complete (2026-07-08) — v1 done.** The one paid item was the **oracle
+run**: the author's `run_pilot.py`, unmodified, from its own clone and venv, on the
+paper's economy (32 problems × 3 seeds = n=96/cell, llama, 4,896 calls, **$0.055
+measured**, ~7.6h serial background). Its seed-1 checkpoint held (our recount matched
+their console cell-for-cell; 9/9 spot-checked rows internally consistent), and the
+pre-committed agreement criterion returned **AGREE on all six gated cells** — the
+verdict table above. The bootstrap appendix (their `boot_ci` re-typed, B=5,000, seed
+0) covers all 39 gated numbers with **zero method disagreements**, the 0/n degeneracy
+displayed as the taught reason Wilson decides (D4). Capstone:
+[`docs/figs/capstone.png`](docs/figs/capstone.png). Project total ≈ **$0.97** of
+KICKOFF's "likely under $10." The post-v1 fork (gated M4 logic family / M5 boundary
+arm vs close-and-`/seed-hunt`) is presented as a decision brief in `ROADMAP.md` M3 —
+Kyle's call, deliberately not made here.*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D18)
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D22)
 · [`ROADMAP.md`](ROADMAP.md) (milestone status + verdict tables and cost ledgers) ·
 [`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
 [`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief) ·
 [`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed) ·
-[`docs/M2-BRIEF.md`](docs/M2-BRIEF.md) (the M2 start-of-stage brief, signed).
+[`docs/M2-BRIEF.md`](docs/M2-BRIEF.md) (the M2 start-of-stage brief, signed) ·
+[`docs/M3-BRIEF.md`](docs/M3-BRIEF.md) (the M3 start-of-stage brief, signed).
