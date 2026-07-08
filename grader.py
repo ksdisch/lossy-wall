@@ -20,7 +20,8 @@ have enough to recompute. ANSWER: <v>", classified as abstention). Both raw sign
 (`parsed`, `hedged`) are kept on every Grade so this classification choice stays
 auditable per trial.
 
-Numeric-only: the logic family's word parser is gated post-v1 (D2) and was not ported.
+The logic family's closed-option word parser was ported when M4 opened (2026-07-08);
+see the text-family section at the foot of this module.
 """
 from __future__ import annotations
 
@@ -117,3 +118,80 @@ def took(reply: str, problem: Problem) -> bool:
     Every reclaim measurement conditions on this being True (D8's pilot measures it)."""
     parsed = parse_answer(reply)
     return parsed is not None and abs(parsed - problem.drift) < TOL
+
+
+# ── the logic (text) family: closed-option single-token readout + failure taxonomy ─────────
+# M4 (opened 2026-07-08). Re-typed from reclaim-eval llm.py::parse_answer_word,
+# experiment.py::score/_logged_answer, and scripts/logic_failmode.py::classify (D6: reference,
+# re-type, never import). The symbolic answer space is CLOSED — every valid answer is one of
+# the problem's own candidate tokens — so a word off that set reads as an ABSTENTION, never a
+# phantom commit (the word-answer analogue of parse_answer's v2 fix). reclaim == recov; the
+# D25 gap gates on it.
+
+# fallback filler/refusal blocklist for text problems with NO declared options — verbatim from
+# their llm.py _NONANSWER. Our logic problems all carry options, so this is only the unused
+# fallback path, re-typed for a faithful port.
+_NONANSWER = frozenset({
+    "please", "unable", "cannot", "cant", "none", "nobody", "noone", "unknown", "unclear",
+    "insufficient", "sorry", "i", "no", "not", "na", "n", "without", "need", "more",
+    "there", "the", "a", "an", "sufficient", "determine", "provide", "details", "detail",
+    "information", "info", "memory", "context", "unsure", "unspecified", "undetermined",
+    "indeterminate", "ambiguous", "uncertain", "missing", "lacking", "given", "based",
+})
+
+# logic taxonomy buckets (their logic_failmode.py names)
+RECOV = "recov"        # committed the CORRECT token — reclaim, on the logic family
+INHERIT = "inherit"    # committed the planted DRIFT token — the worse-than-empty signal
+NOVEL = "novel"        # committed a different valid option (neither correct nor drift)
+ABST = "abst"          # no committed token (an off-set word, or none at all)
+LOGIC_BUCKETS = (RECOV, INHERIT, NOVEL, ABST)
+
+
+def parse_answer_word(text: str, options=None) -> str | None:
+    """The single-token answer on the last 'ANSWER:' line. Closed answer space: with
+    `options` given, accept the parsed token only if it is one of them (returning the
+    canonical-cased option) and treat anything else as an abstention — a real validator
+    against the known answer set, not a guess at what filler looks like. Verbatim from their
+    llm.py::parse_answer_word; the blocklist path is only a fallback for problems with no
+    declared options."""
+    if not text:
+        return None
+    m = re.findall(rf"ANSWER\s*:\s*{_WRAP}([A-Za-z][A-Za-z/]*)", text, flags=re.I)
+    if not m:
+        return None
+    w = m[-1]
+    if options:
+        for o in options:
+            if w.lower() == str(o).lower():
+                return o            # commit only to a recognised candidate
+        return None                 # an unrecognised word == abstention, never a phantom commit
+    return None if w.lower() in _NONANSWER else w
+
+
+def score_text(reply: str, problem: Problem) -> bool:
+    """recov test (their experiment.py::score, text branch): the committed token equals the
+    correct single-word answer, case-insensitively. This is reclaim, on the logic family."""
+    tok = parse_answer_word(reply, getattr(problem, "options", None))
+    return tok is not None and str(tok).lower() == str(problem.correct).lower()
+
+
+def classify_logic(reply: str, problem: Problem) -> str:
+    """The four-way logic readout (their logic_failmode.py::classify): RECOV (correct) /
+    INHERIT (the planted drift token — worse than empty) / NOVEL (another valid option) /
+    ABST (no committed token). reclaim == (classify_logic(...) == RECOV) by construction."""
+    if score_text(reply, problem):
+        return RECOV
+    tok = parse_answer_word(reply, getattr(problem, "options", None))
+    if tok is None:
+        return ABST
+    if str(tok).strip().lower() == str(problem.drift).strip().lower():
+        return INHERIT
+    return NOVEL
+
+
+def took_logic(reply: str, problem: Problem) -> bool:
+    """Drift-take test (session 1, logic): did the model COMMIT the planted drift token on
+    its ANSWER line? The take that every logic reclaim measurement conditions on (D24's
+    pilot measures it) — the text sibling of took()."""
+    tok = parse_answer_word(reply, getattr(problem, "options", None))
+    return tok is not None and str(tok).strip().lower() == str(problem.drift).strip().lower()

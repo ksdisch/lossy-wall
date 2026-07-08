@@ -4,7 +4,8 @@ Adapted from the author's reclaim-eval `src/reclaim/problems.py` + `problems_gen
 read as a protocol reference (D1: reference/oracle only, never imported). All templates —
 question wording, planted-premise wording, locus wording, the source ("facts") strings,
 the follow-up turns, the goods pool, and the generation grammar — are re-typed VERBATIM
-per D6. Arithmetic family only: the logic family is gated post-v1 (D2) and was not ported.
+per D6. Both families are re-typed here: the arithmetic ledgers (v1) and — since M4
+opened 2026-07-08 — the logic puzzles (CANONICAL_LOGIC / FOLLOWUPS_LOGIC).
 
 Anatomy of a problem (the experiment's raw material):
   - `question`  — a two-item purchase with a clean pre-tax total (the ground truth).
@@ -36,10 +37,13 @@ class Problem:
     question: str          # the base question
     wrong_premise: str     # the planted-wrong fact injected to induce drift
     locus: str             # what is wrong, named for the directed correction (no value)
-    correct: float         # the true pre-tax total
-    drift: float           # the total you get if you use the wrong premise
-    facts: str             # the recomputable source: prices and quantities, verbatim
+    correct: float | str   # arithmetic: the true pre-tax total; logic: the correct word
+    drift: float | str     # the value/token you get if you use the wrong premise
+    facts: str             # the recomputable source: prices/quantities, or the clue set
     ask: str = "the total before tax"   # what the correction asks the model to give
+    kind: str = "number"   # "number" (numeric tolerance) or "text" (closed-option word match)
+    options: tuple = ()    # text tasks: the CLOSED set of valid answer tokens (this
+                           # problem's own entities), validated against, not guessed at
 
 
 # ── the 8 canonical problems, verbatim (reclaim-eval problems.py PROBLEMS + FACTS) ──
@@ -175,3 +179,102 @@ def validate(p: Problem) -> bool:
     assert "$" in p.facts and " and " in p.facts, f"{p.pid}: malformed source"
     assert len(p.facts) >= 18, f"{p.pid}: source shorter than the presence marker"
     return True
+
+
+# ── the logic family: constraint-deduction puzzles (M4; gated post-v1, opened 2026-07-08).
+#    Re-typed VERBATIM from reclaim-eval problems.py PROBLEMS_LOGIC + FACTS_LOGIC (D6). Same
+#    shape as the arithmetic family — a planted-wrong clue drifts a single-token answer that a
+#    clean SOURCE of clues fully determines — but the recomputation is LOGICAL, not numeric
+#    (their docstring: "the harder case for source_first: the source is a set of relations, not
+#    a formula"). Each answer is one word from a CLOSED option set, so scoring stays judge-free.
+#    FACTS_LOGIC (the recomputable clue set) is folded into each Problem's `facts`, as with the
+#    arithmetic family. ────────────────────────────────────────────────────────────────────────
+CANONICAL_LOGIC: tuple[Problem, ...] = (
+    Problem("roles",
+            "Three coworkers, Ana, Ben, and Cleo, each hold exactly one role: manager, "
+            "designer, or auditor. Ben is not the manager. Cleo is the auditor. Who is "
+            "the manager?",
+            "a colleague noted that Ben is the manager", "Ben's role",
+            correct="Ana", drift="Ben",
+            facts="Ben is not the manager, and Cleo is the auditor (one each of manager, "
+                  "designer, auditor among Ana, Ben, Cleo)",
+            ask="the manager", kind="text", options=("Ana", "Ben", "Cleo")),
+    Problem("seating",
+            "Four friends sit in a row in positions 1 to 4, left to right: Dee, Eve, "
+            "Fia, Gus. Dee is at position 1. Eve is immediately to the right of Dee. Gus "
+            "is at position 4. Who is at position 3?",
+            "a colleague says Eve is at position 3", "Eve's position",
+            correct="Fia", drift="Eve",
+            facts="Dee is at position 1, Eve is immediately right of Dee, and Gus is at "
+                  "position 4 (positions 1 to 4 for Dee, Eve, Fia, Gus)",
+            ask="the person in position 3", kind="text",
+            options=("Dee", "Eve", "Fia", "Gus")),
+    Problem("race",
+            "Five runners finished a race: Hal, Ira, Jo, Kit, and Lee. Hal finished "
+            "ahead of Ira. Ira finished ahead of Jo. Jo finished ahead of Kit. Kit "
+            "finished ahead of Lee. Who finished last?",
+            "a colleague says Kit finished behind Lee", "the Kit and Lee ordering",
+            correct="Lee", drift="Kit",
+            facts="Hal ahead of Ira, Ira ahead of Jo, Jo ahead of Kit, and Kit ahead of Lee",
+            ask="the runner who finished last", kind="text",
+            options=("Hal", "Ira", "Jo", "Kit", "Lee")),
+    Problem("ages",
+            "Three siblings are Mae, Ned, and Ola. Mae is older than Ned. Ola is younger "
+            "than Ned. Who is the youngest?",
+            "a colleague says Ned is younger than Ola", "the Ned and Ola age order",
+            correct="Ola", drift="Ned",
+            facts="Mae is older than Ned, and Ola is younger than Ned",
+            ask="the youngest sibling", kind="text", options=("Mae", "Ned", "Ola")),
+    Problem("pets",
+            "Pam, Quincy, and Rosa each own exactly one pet: a cat, a dog, or a fish. "
+            "Pam owns the dog. Quincy does not own the fish. Who owns the cat?",
+            "a colleague says Quincy owns the fish", "Quincy's pet",
+            correct="Quincy", drift="Rosa",
+            facts="Pam owns the dog, and Quincy does not own the fish (cat, dog, fish, one "
+                  "each among Pam, Quincy, Rosa)",
+            ask="the cat's owner", kind="text", options=("Pam", "Quincy", "Rosa")),
+    Problem("days",
+            "Three meetings are each on a different day, Monday, Tuesday, or Wednesday: "
+            "the budget meeting, the design meeting, and the review meeting. The budget "
+            "meeting is on Monday. The design meeting is not on Wednesday. Which day is "
+            "the review meeting?",
+            "a colleague says the design meeting is on Wednesday", "the design meeting's day",
+            correct="Wednesday", drift="Tuesday",
+            facts="the budget meeting is on Monday, and the design meeting is not on "
+                  "Wednesday (budget, design, review on Monday, Tuesday, Wednesday)",
+            ask="the review meeting's day", kind="text",
+            options=("Monday", "Tuesday", "Wednesday")),
+    Problem("height",
+            "Four players are ranked by height: Sam, Tom, Uma, and Val. Sam is taller "
+            "than Tom. Tom is taller than Uma. Uma is taller than Val. Who is the second "
+            "tallest?",
+            "a colleague says Uma is taller than Tom", "the Tom and Uma height order",
+            correct="Tom", drift="Uma",
+            facts="Sam taller than Tom, Tom taller than Uma, and Uma taller than Val",
+            ask="the second-tallest player", kind="text",
+            options=("Sam", "Tom", "Uma", "Val")),
+    Problem("houses",
+            "Three houses in a row are painted red, blue, and green, one colour each. "
+            "The first house is red. The blue house is not the middle one. What colour "
+            "is the third house?",
+            "a colleague says the blue house is the middle one", "the blue house's position",
+            correct="blue", drift="green",
+            facts="the first house is red, and the blue house is not the middle one (red, "
+                  "blue, green, one each)",
+            ask="the third house's colour", kind="text", options=("red", "blue", "green")),
+)
+
+
+# ── the 8 logic commitment follow-ups, verbatim (reclaim-eval problems.py FOLLOWUPS_LOGIC) ──
+# They re-affirm the stated answer WITHOUT re-solving, so they deepen commitment to the
+# committed (possibly drifted) token without re-deriving it from the clues. Depth 8, as arith.
+FOLLOWUPS_LOGIC: tuple[str, ...] = (
+    "Restate your final answer in one word.",
+    "How confident are you in that answer? One short sentence.",
+    "If someone asked you in passing, what would you say the answer is?",
+    "For the record, repeat the answer you settled on.",
+    "Summarise your conclusion in a short sentence.",
+    "Confirm that answer once more.",
+    "What single word should I write down as the answer?",
+    "State the answer again, just to be sure.",
+)
