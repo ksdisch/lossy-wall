@@ -54,9 +54,12 @@ SRC_MARKER = 18
 
 
 def _concl(problem: Problem) -> str:
-    """The carried conclusion as their templates format it: the DRIFT total (the wrong
-    value the model committed to in session 1), as money."""
-    return f"${problem.drift:g}"
+    """The carried conclusion as their templates format it, by answer kind (their
+    kind-aware _concl, verbatim): the DRIFT value the model committed to in session 1 —
+    as money for a number task, the bare token for a text task."""
+    if problem.kind == "number":
+        return f"${problem.drift:g}"
+    return f"{problem.drift}"
 
 
 def memory_note(problem: Problem, integrity: float, policy: str = "lossy") -> str:
@@ -104,5 +107,10 @@ def source_present(note: str, problem: Problem) -> bool:
 def conclusion_present(note: str, problem: Problem) -> bool:
     """Is the stale committed value carried in the note? (Their classify_note test:
     the formatted conclusion string, lowercased substring.) Source gone + conclusion
-    carried is the silent-failure regime the title claim lives on."""
+    carried is the silent-failure regime the title claim lives on.
+
+    Text-task caveat: a bare drift TOKEN (a name like "Ben") can also appear inside the
+    clue set itself, so on logic this test can read True on a note that carries only the
+    source. It stays a number-task instrument; on logic the worse-than-empty read comes
+    from the reply-side taxonomy (grader.classify_logic INHERIT), never from this."""
     return _concl(problem).lower() in (note or "").lower()

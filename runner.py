@@ -33,7 +33,7 @@ pilots (built with m0.py).
 from __future__ import annotations
 
 from notes import memory_note, source_present
-from problems import FOLLOWUPS, Problem
+from problems import FOLLOWUPS, FOLLOWUPS_BY_KIND, Problem
 
 # their SYSTEM prompt, verbatim (experiment.py)
 SYSTEM = ("You are a careful assistant. Work the problem step by step. End every "
@@ -72,13 +72,16 @@ def reclaim_cross(problem: Problem, arm: str = "directed") -> str:
 def build_trajectory(llm, problem: Problem, depth: int = DEPTH) -> list[dict]:
     """Session 1: plant drift, then commit over `depth` follow-up turns. Returns the
     full message list (ending on the model's last answer). The drift-take test reads
-    the LAST assistant message: did it commit the planted wrong total?"""
-    if not 0 <= depth <= len(FOLLOWUPS):
-        raise ValueError(f"depth must be 0..{len(FOLLOWUPS)}, got {depth}")
+    the LAST assistant message: did it commit the planted wrong value? The task family
+    picks its commitment turns (their FOLLOWUPS_BY_KIND idiom): arithmetic follow-ups
+    for a number problem, the re-affirm-without-re-solving turns for a text one."""
+    followups = FOLLOWUPS_BY_KIND[problem.kind]
+    if not 0 <= depth <= len(followups):
+        raise ValueError(f"depth must be 0..{len(followups)}, got {depth}")
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": plant(problem)}]
     messages.append({"role": "assistant", "content": llm.chat(messages)})
-    for fu in FOLLOWUPS[:depth]:
+    for fu in followups[:depth]:
         messages = messages + [{"role": "user", "content": fu}]
         messages.append({"role": "assistant", "content": llm.chat(messages)})
     return messages
@@ -101,13 +104,20 @@ def last_answer(trajectory: list[dict]) -> str:
 TAKE_PROBE = ("For the record, state the pre-tax total you have been using, as "
               "'ANSWER: <answer>'.")
 
+# the logic take probe (D11 adapted for M4): the author's own final restatement turn
+# (FOLLOWUPS_LOGIC[6]), graded by the closed-set single-token match (grader.took_logic)
+TAKE_PROBE_LOGIC = "What single word should I write down as the answer?"
 
-def take_probe(llm, trajectory: list[dict]) -> str:
+
+def take_probe(llm, trajectory: list[dict], problem: Problem | None = None) -> str:
     """One extra call: put the take-probe question to the (unmodified) session-1
     state and return the reply for grading. Measurement-only — the probe turn is
     NEVER carried, so session 2 inherits the depth-8 state exactly as their
-    states[max(DEPTHS)] defines it."""
-    return llm.chat(trajectory + [{"role": "user", "content": TAKE_PROBE}])
+    states[max(DEPTHS)] defines it. Pass the problem to pick the text-task probe;
+    the no-problem call stays the arithmetic default (m0/m1 call it that way)."""
+    probe = (TAKE_PROBE_LOGIC if problem is not None and problem.kind == "text"
+             else TAKE_PROBE)
+    return llm.chat(trajectory + [{"role": "user", "content": probe}])
 
 
 def expected_source_presence(policy: str, integrity: float) -> bool:

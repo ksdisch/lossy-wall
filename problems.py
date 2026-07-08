@@ -278,3 +278,8 @@ FOLLOWUPS_LOGIC: tuple[str, ...] = (
     "What single word should I write down as the answer?",
     "State the answer again, just to be sure.",
 )
+
+# the task family picks its commitment turns, verbatim (reclaim-eval problems.py
+# FOLLOWUPS_BY_KIND; their experiment.py build_trajectory indexes it by problem.kind)
+FOLLOWUPS_BY_KIND: dict[str, tuple[str, ...]] = {"number": FOLLOWUPS,
+                                                 "text": FOLLOWUPS_LOGIC}
