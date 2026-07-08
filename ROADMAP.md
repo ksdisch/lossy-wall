@@ -9,8 +9,8 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **complete (2026-07-06)** — claim 1 CLEARED, 3/3 models |
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | **complete (2026-07-07)** — claim 2 CLEARED 3/3, claim 3 CLEARED (deepseek) |
 | M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | **complete (2026-07-08)** — cross-check **AGREE** (6/6 intervals) |
-| M4 — logic family | gated post-v1 (only if the effect shows) | gated |
-| M5 — boundary arm | gated post-v1 | gated |
+| **M4 — logic family** | soft wall / task-generality; gap-gated + taxonomy, N=60 | **in progress** — brief signed 2026-07-08 (D23-A core) |
+| M5 — boundary arm | gated post-v1 (gated-open, not denied) | gated |
 
 ---
 
@@ -472,3 +472,11 @@ framing, not exhaustive coverage; that job is finished and the verdict table is 
 artifact. M4/M5 stay gated-open in KICKOFF's terms — a future session can pick B or C
 without re-arguing scope — but the recommended move is to bank v1 and point the
 selection bar at the next paper.
+
+**Outcome (2026-07-08):** Kyle picked **B — open M4, the logic family**. Start-of-stage
+brief written and signed the same day (`docs/M4-BRIEF.md`, PR #22): **D23-A** core scope,
+**D24-A** logic drift-take pilot, **D25-A** soft-wall gates (gap-gates claim 1,
+separation-gates claim 2, recov/inherit/novel/abst taxonomy, verdict mapping pre-committed),
+**D26-A** N=60 flat; riders (a) arXiv logic extraction and (b) taxonomy readout both yes. M5
+stays gated-open, not denied. M4 progress tracked in the table above; the milestone's close-out
+section will land here at M4 close.

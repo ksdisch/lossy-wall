@@ -506,3 +506,87 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   curves per model with padded/blank points, the 52/90-vs-0/40 emission bars, and the
   cross-check panel with ours/their-run/paper visibly coincident on all six wall
   cells. $0; milestone figures untouched.
+
+## D23 · M4 scope: the core soft-wall test (lean-first); cross-check + claim-3 layerable
+
+- **Date / decider:** 2026-07-08 / Kyle (post-v1 fork + M4 brief sign-off; full options
+  in `docs/M4-BRIEF.md`)
+- **Fork context:** v1 closed (claims 1–3 REPRODUCED, cross-check AGREE, ≈$0.97); KICKOFF
+  gated M4/M5 on "the effect shows" — it did — so the gate condition was met. At the fork
+  Kyle picked **B (open M4, the logic family)** over A (close + /seed-hunt) and C (open M5);
+  M5 stays gated-open.
+- **Options (M4 scope):** (A) core — lossy / lossy_padded / source_first × g ∈ {0.1, 0.3} ×
+  the frozen trio, read through the recov/inherit/novel/abst taxonomy, gated by D25, gated in
+  turn by the D24 logic drift-take pilot; claim 3 descriptive via the inherit fraction;
+  (B) core + one llama·logic cross-check cell through the author's harness (extends D1 to the
+  new family, on the only anchored model); (C) B + a formally gated claim-3 blank/emission
+  arm on a D24-confirmed logic emitter.
+- **Decision: A — the core.** B and C left as clearly-priced arms, layerable later (incl.
+  mid-milestone).
+- **Why:** the guardrail is lean-first — no extra arm before the headline gap reads honestly
+  — and M4's headline is the fix-generalizes gap plus the soft-floor characterization. The
+  cross-check and formal claim-3 are real arms to layer once the core reads clean, exactly as
+  M1→M2→M3 layered. A keeps M4 the thinnest falsification slice; both extensions stay
+  sign-off-able add-ons.
+
+## D24 · The logic drift-take pilot: run it per model before any grid (tiered like D8)
+
+- **Date / decider:** 2026-07-08 / Kyle (M4 brief sign-off)
+- **Options:** (A) a ~20-trial logic drift-take pilot per model, tiered as D8 (≥14/20 green;
+  10–13 amber → recipe audit + 1/t̂ inflation; <10 trigger → the model sits out M4's grid,
+  M4 proceeds on the takers and says so), with a disposition/taxonomy read alongside that
+  doubles as the claim-3-on-logic powerability probe; no grid on a model until drift takes;
+  (B) assume the arithmetic take transfers, skip the pilot.
+- **Decision: A — run the pilot.**
+- **Why:** the project's #1 riskiest assumption (drift must take) is unproven on logic, and
+  logic is the likeliest place in the study for take to behave differently — a model can solve
+  the puzzle in one step and refuse the planted clue (qwen-7b did exactly this on arithmetic,
+  firing its D8 trigger). Cheap (~$0.02–0.05), decisive, and it front-loads the claim-3
+  powerability question so D23-C becomes data-backed. B risks funding a full grid on a model
+  that never took the plant — the failure M0 exists to prevent.
+
+## D25 · The soft-wall gates + verdict mapping: gap-gates claim 1, separation-gates claim 2
+
+- **Date / decider:** 2026-07-08 / Kyle (M4 brief sign-off; computed bounds in
+  `docs/M4-BRIEF.md`)
+- **Context:** the wall is soft on logic (paper llama lossy 0.25/0.12 vs sf 0.67), so the
+  arithmetic gates don't transfer — claim 1's lossy ceiling (≤0.10) is false-by-the-paper,
+  and claim 2's equivalence (padded − lossy inside ±0.10) is **unpowerable at hobby N** on a
+  mid-range rate (Newcombe [−0.19, +0.19] at N=40; ~N≥150/arm to close it).
+- **Options:** (A) gate claim 1 on the **gap** (Newcombe sf − lossy excludes zero, both g)
+  and REPORT the soft floor; gate claim 2 on **separation** (sf − padded excludes zero) and
+  report the padded ≈ lossy overlap descriptively with the unpowerable-δ caveat; claim 3
+  descriptive via the taxonomy (gated only under scope C); the recov/inherit/novel/abst
+  taxonomy the standard readout, the ~1/k chance floor stated per cell; REPRODUCED / PARTIAL /
+  NULL / DISCREPANT mapping pre-committed. (B) keep a lossy ceiling loosened to ≤0.30 + the
+  gap — an arbitrary band with no paper basis. (C) gate on point-matching the paper — an
+  explicit KICKOFF non-goal.
+- **Decision: A — gap + separation + descriptive floor, mapping pre-committed before any
+  data.**
+- **Why:** the finding M4 reproduces IS "the fix generalizes AND the wall is soft on logic,"
+  so the gate must test the fix (the gap, the half of claim 1 that transfers) and REPORT the
+  softness, never demand a hard floor the paper itself disproves. Reuses v1's exact Newcombe
+  instrument, adds no new smallness constant, and turns the one awkward statistic (mid-range
+  equivalence) into a pre-registered, honestly-reported limitation instead of a bent gate.
+  Verdict mapping: **REPRODUCED** = gap excludes zero both g on ≥2 models AND llama's
+  soft-wall shape matches the paper within noise; **PARTIAL** = holds on some (model, g) but
+  not the bar, or the shape diverges; **NULL** = no gap (fix doesn't generalize); **DISCREPANT**
+  = scope B/C cross-check divergence → D20's protocol audit.
+
+## D26 · N=60 flat for the soft wall, no escalation ladder (+ two riders, both yes)
+
+- **Date / decider:** 2026-07-08 / Kyle (M4 brief sign-off)
+- **Options:** (A) N=60 per cell, flat, with the N=20 hand-read checkpoint (bug-catch the new
+  single-token readout first; futility a light note), judged once at 60; (B) N=40 (v1's
+  economy); (C) N=90 flat (paper economy).
+- **Decision: A — N=60 flat.**
+- **Why:** the gap gates at N=40 already (computed), so N is bought for the DESCRIPTIVE soft
+  floor: lossy 0.25 reads ±13 pt at 40, ±11 pt at 60, ±9 pt at 90 — diminishing returns past
+  60. N=60 gives decisive gap power and a floor tight enough to characterize "how soft"
+  without paying the paper's N=96 on every cell. No escalation ladder: nothing gates on the
+  noisy floor, so fixing N (not laddering it) keeps the same anti-degree-of-freedom discipline
+  v1 held.
+- **Riders (recorded here, both YES):** (a) a verbatim arXiv v2 logic-table extraction, free,
+  before judging (→ `evidence/m4/paper-extraction-logic.md`, `m4.PAPER` logic constants pinned
+  by a test, README-vs-paper variance footnoted — mirrors M3); (b) adopt the recov / inherit /
+  novel / abst taxonomy (re-typed from `logic_failmode.py`, D6) as the standard logic readout.
