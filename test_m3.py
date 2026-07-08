@@ -69,6 +69,10 @@ def test_capstone_is_a_new_file_and_the_milestone_figures_stay_frozen():
 
 # ── their checkpoint reader and the recount ──────────────────────────────────────────
 
+TRUTHS = {"a1": {"correct": 197.0, "drift": 176.0},
+          "a2": {"correct": 55.0, "drift": 76.0}}
+
+
 def _oracle_row(pid, g, arm, policy, answer, correct, seed=0):
     return {"pid": pid, "integrity": g, "arm": arm, "policy": policy,
             "answer": answer, "correct": correct, "seed": seed,
@@ -78,18 +82,21 @@ def _oracle_row(pid, g, arm, policy, answer, correct, seed=0):
 def _oracle_file(tmp_path, pids=("a1", "a2"), seeds=(0,)) -> Path:
     """A tiny complete checkpoint: every (seed, pid, policy) unit contributes all four
     integrities × both arms, source_first correct everywhere, lossy/padded correct
-    only above the wall — the shape their runner writes."""
+    only above the wall — the shape their runner writes. A correct row carries the
+    pid's OWN truth value (TRUTHS), so the file is internally consistent by
+    construction and the spot-check's happy path is real."""
     path = tmp_path / "fix_test_arith.jsonl"
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n")                                        # blank lines tolerated
         for s in seeds:
             for pid in pids:
+                truth = TRUTHS.get(pid, {}).get("correct", 197.0)
                 for policy in WALL_POLICIES:
                     for g in (1.0, 0.6, 0.3, 0.1):
                         for arm in ("generic", "directed"):
                             ok = policy == "source_first" or g >= 0.6
                             f.write(json.dumps(_oracle_row(
-                                pid, g, arm, policy, 197.0 if ok else None, ok,
+                                pid, g, arm, policy, truth if ok else None, ok,
                                 seed=s)) + "\n")
         f.write("\n")
     return path
@@ -209,10 +216,6 @@ def test_our_cells_pins_the_judged_llama_record():
 
 
 # ── the spot-check: their score rule re-typed, applied to their logged pairs ─────────
-
-TRUTHS = {"a1": {"correct": 197.0, "drift": 176.0},
-          "a2": {"correct": 55.0, "drift": 76.0}}
-
 
 def test_spot_check_consistent_rows_pass(tmp_path):
     rows = read_fix_rows(_oracle_file(tmp_path))
