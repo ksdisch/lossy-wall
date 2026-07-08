@@ -435,7 +435,7 @@ provider day.
 - [x] the capstone figure committed (`docs/figs/capstone.png`)
 - [x] the README story rewritten under the pre-committed D20 mapping
 - [x] the M3 checkpoint documented (recount + spot-check + cost, above)
-- [x] evidence committed per D15 (`evidence/m3/`, 19 files incl. their 2,304-row
+- [x] evidence committed per D15 (`evidence/m3/`, 18 files incl. their 2,304-row
       checkpoint JSONL, key-scan clean)
 - [x] measured M3 cost in the ledger (above)
 - [x] spine updates in the same PR as the closing code (this PR: ROADMAP.md,
