@@ -41,6 +41,15 @@ covers that hole now.
 
 Seeded and deterministic given (problem, seed): the validator suite's outcomes are
 reproducible, never flaky.
+
+Task-blind by construction (proved by test_antirig's M4 logic section, which reuses
+this class unchanged): the source test is the facts marker, the replies are
+"ANSWER: {drift}" / "ANSWER: {val}" (a money value or a bare token, whichever the
+problem carries), and the arm detection is the locus prefix — none of it is
+arithmetic-specific. On logic, note one asymmetry pinned in the tests: the hedged
+no-source reply still commits a token, which the logic taxonomy reads as INHERIT
+(the author's classify has no hedge override), while the arithmetic grade() reads
+the same reply as ABSTAIN.
 """
 from __future__ import annotations
 
