@@ -1,9 +1,9 @@
 # M5 Start-of-Stage Brief — the source-size boundary arm (where the fix fails)
 
-*Written 2026-07-09 · status: **signed 2026-07-09 (D27-A); D28 REOPENED same day to the
-paper's design (D28-B) — see the addendum below** · outcomes in `DECISIONS.md` (D27–D30),
-status in `ROADMAP.md` M5 · scope source of truth: `docs/KICKOFF.md` (Milestone 5, gated) ·
-format follows `docs/M4-BRIEF.md`.*
+*Written 2026-07-09 · status: **signed & CLOSED — M5 REPRODUCED (2026-07-09)**; D27-A signed,
+D28 REOPENED same day to the paper's design (D28-B, see the addendum below), judged at N=20 · outcomes
+in `DECISIONS.md` (D27–D30), verdict + cost ledger in `ROADMAP.md` M5 · scope source of truth:
+`docs/KICKOFF.md` (Milestone 5, gated) · format follows `docs/M4-BRIEF.md`.*
 
 > **Addendum (2026-07-09) — D28 reopened to the paper's design (D28-B).** Kyle signed this
 > brief as written (D28-A: fix K=6, sweep the budget). Then rider a — the paper-boundary

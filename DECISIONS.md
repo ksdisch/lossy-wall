@@ -672,6 +672,13 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   a long multi-item recompute doesn't hit the 600-token cap and fake a cliff via abstains — the
   M2 llama confound, the reason C is rejected), and arithmetic's OPEN-number answer has no
   closed-set guess floor (no taxonomy needed, unlike M4). One frozen-roster model, no swaps.
+- **Outcome (2026-07-09, M5 close):** the bet paid off — deepseek delivered the project's
+  cleanest reproduction (source_first 139/140 with full source, 0/108 with partial). The
+  terse-answerer choice mattered: the hand-read shows deepseek fully computes every subtotal it
+  has and commits a clean ANSWER line, so a starved cell fails by genuine mis-sum, never by
+  token-cap abstain (no C-style confound). One boundary-of-the-boundary: **drift-take collapsed
+  at N=24** (4/48 took) — deepseek re-derives rather than accept a planted error in a 24-item
+  receipt — so N=24 dropped out as unmeasurable, reported as a finding.
 
 ## D28 · M5 sweep axis: signed A (fix N, sweep budget), REOPENED to B (the paper's design)
 
@@ -697,7 +704,12 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   record: the A recommendation was made on an incomplete reading of the anchor; the extraction
   (rider a's whole purpose) corrected it before any spend. The free-build foundation (K-item
   generator, budget-capped note, graded gate, the all-clauses fake) transferred to B unchanged.
-- **Outcome: D28-B** — the paper's design. Pending the paid run.
+- **Outcome: D28-B, and vindicated (2026-07-09, M5 close).** The paper's design REPRODUCED the
+  paper's structure decisively: the crossover **tracks the budget** (B=300 → N=4, B=600 → N=12),
+  bracketing the paper's own anchors (N≈5, N≈14) almost exactly; the full-vs-partial mechanism
+  split (139/140 vs 0/108) confirms "an exact sum needs every item." The signed-A design (fix N,
+  sweep budget) *could not* have shown the budget-tracking claim — a single problem size has no
+  second crossover to move. The rider-a extraction that forced the reopen earned its place.
 
 ## D29 · M5 boundary gate + verdict mapping: existence + direction (thin→concrete anchor)
 
@@ -724,6 +736,15 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   report the location. Reuses v1's Newcombe/Wilson instruments; adds only the one ceiling
   constant. The silent mis-sum (source_first EMITs the drift past the cliff, worse-than-empty) is
   reported via the grader's existing attractor/abstain split.
+- **Outcome (2026-07-09, M5 close — REPRODUCED):** every gate cleared. Per budget: ceiling intact
+  (source_first 20/20 at the smallest N), the drop +100% [+48.4%, +100%] excludes zero, monotone;
+  **crossover tracks the budget: True** (4 < 12); the **mechanism** full 139/140 vs partial 0/108,
+  Δ+99% [+94.6%, +99.9%]. The **silent mis-sum** confirmed on real deepseek: past the cliff
+  source_first commits a confident wrong total (`emit_other_wrong` — it sums the *partial* source,
+  e.g. 5 of 8 items), never an abstention; lossy_padded (budget-matched) sits at 0/20 — the cliff
+  is source *content*, not note length. **Confound-clean** (the checkpoint hand-read: genuine
+  recompute-failure, not token-cap or a parser artifact — no scoring bug on the new note builder /
+  graded gate). No DISCREPANT (no oracle overlap cell). Verdict tables: `ROADMAP.md` M5.
 
 ## D30 · M5 N-grid, budgets, trials + riders (both yes)
 
@@ -742,4 +763,15 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   overturned the "thin anchor" assumption and drove D28's reopen; (b) the mechanism-provenance
   note, same file — the budget-truncation mechanism is faithful to the author's `SizeFake`
   (reclaim iff every clause present, else emit the drift = silent mis-sum), re-typed not imported.
-- **Outcome:** pending the paid run (banks are the first paid step, gated on Kyle's explicit go).
+- **Outcome (2026-07-09, M5 close) — AMENDED to judge at N=20.** Banks ran to 20 taken per size,
+  grid to N=20 → the mandatory checkpoint hand-read (clean: no scoring bug; the silent mis-sum is
+  a genuine partial-sum). At the checkpoint the effect was already **decisive** — 0/20 and 20/20
+  cells give tight Wilson bounds and every D29 gate cleared with margin. Unlike M4's mid-range
+  logic floor (which bought N=60 for descriptive precision), these are 0/1 rates, so extending to
+  the signed N=40 would ~double the banking spend for CIs that change no verdict. **Kyle's call at
+  the checkpoint: judge at N=20** (the binding constraint — the statistics — was already
+  satisfied; recorded honestly as an amendment to the signed N=40). N=24 dropped out (take
+  collapse, D27 outcome). Riders both delivered: (a) the extraction drove the D28 reopen;
+  (b) `SourceSizeFake` is the author's `SizeFake` re-typed. **Cost: banks $0.634 + grid $0.092 =
+  $0.726 measured** (over the brief's $0.4–0.6 estimate — 7 banks, long multi-item prompts, and
+  low-take large-N receipts; the miss noted). Running project total ≈ $2.13.

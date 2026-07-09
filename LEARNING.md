@@ -423,3 +423,65 @@ number (a perfect 0, a perfect even/odd split, a negative gap) is always worth a
 3. The take-probe bug made llama read 0/20 when it truly took 9/20, and 222 tests stayed green.
    Name the property of the deterministic fake that made those tests structurally blind to it, and
    the one project rule that turned the bug from silent-in-the-grid into caught-at-the-checkpoint.
+
+---
+
+## M5 — the source-size boundary arm: where the fix fails, and a plan that got reversed
+
+M5 was the falsification stage — hunting for where the `source_first` *fix* breaks. Its unstated
+precondition is that the recomputable source **fits the memory budget**. Hold the note's character
+budget fixed and grow the receipt: past the point where the note can't hold every line item, an
+exact sum is impossible from what survived, and `source_first` **cliffs** from ~1.00 reclaim to 0.
+The headline is subtler than "big problems are hard" — run two budgets and the cliff *moves*:
+crossover at N=4 for budget 300, N=12 for budget 600. Because the crossover tracks the **budget**,
+not the problem size, the failure is a *memory* failure, not a reasoning one — and our two
+crossovers landed almost exactly on the paper's own anchors (N≈5, N≈14). **REPRODUCED.**
+
+Two process lessons compounded. First, **the anchor check can overturn the plan.** The brief argued
+the paper's boundary section was thin and recommended a design (fix N, sweep the budget) to dodge a
+confound. The first free step — reading the author's released code — found a full size-sweep bench
+with concrete numbers whose design was the *opposite* axis (grow N at two budgets), and that
+two-budget design *answers* the very confound the brief was avoiding (if the cliff tracked problem
+size it wouldn't move with the budget). We surfaced it, reversed the signed decision (D28-A → D28-B),
+and reproduced the paper's actual result. The rule that saved it: the extraction rider runs *before*
+judging, exactly so a wrong assumption dies before any spend. Second, **the checkpoint decides how
+much to spend.** The effect was so stark (0/20 and 20/20) that N=20 already cleared every gate with
+tight CIs — so we judged at 20 and skipped the signed N=40, saving ~$0.6. The binding constraint is
+the statistics, and when they're already resolved, more N is just money (contrast M4, where a
+mid-range 0.25 floor genuinely needed N=60).
+
+The silent-failure finding is the keeper: past the cliff, `source_first` did not say "I can't." It
+confidently summed the *five of eight* items it could still see and committed a wrong total — worse
+than an empty memory, which at least abstains. The hand-read proved that was a genuine partial-sum,
+not a scoring artifact.
+
+### New words
+
+- **Source-to-budget ratio** — the real variable behind the cliff: not source size in the abstract,
+  but how much of the recomputable source survives the note's character budget. The fix works while
+  every item fits and fails once one is dropped.
+- **Crossover** — the largest source size N at which `source_first` still reclaims above 50%; the
+  boundary of the fix. It **tracks the budget** (moves right as the budget grows) — the proof the
+  failure is a memory-budget effect, not problem difficulty.
+- **Silent mis-sum** — the failure *mode* past the boundary: the model confidently sums the partial
+  source to a wrong total instead of abstaining (`emit_other_wrong` — neither the truth nor the
+  planted drift, but the sum of the items that survived). Worse than an empty memory.
+- **Boundary of the boundary (take-collapse)** — at very large N (24 items) the *drift-take
+  precondition itself* fails: deepseek re-derives the correct total rather than accept a planted
+  error, so those cells can't even be built. The experiment's precondition has its own size limit.
+- **Rider-driven reopen** — a pre-committed free check (here the paper-boundary extraction) that
+  overturns a *signed* design decision before any paid run; the honest counterpart to
+  pre-registration is being willing to reverse on evidence the pre-registration didn't have.
+
+### Recall questions
+
+1. Our crossover was N=4 at budget 300 and N=12 at budget 600. Explain why the crossover *moving*
+   with the budget is the evidence that the cliff is a memory-budget failure and not "the model just
+   can't add 12 numbers." What would the two curves look like if it were the latter?
+2. Past the cliff, `source_first` scored `emit_other_wrong` — not `abstain`, and not `emit_attractor`
+   (the exact planted value). What is the model actually computing to land on a wrong total that is
+   *neither* the truth *nor* the drift, and why is that specific outcome the signature of the silent
+   mis-sum?
+3. The signed decision D28-A was reversed to D28-B by the first step of the free build. Which rider
+   did it, what did it find in the author's clone, and why is "reproduce the *published* finding" the
+   reason the reversal was correct discipline rather than scope-creep or plan-drift?
