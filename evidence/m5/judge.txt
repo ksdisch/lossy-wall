@@ -1,0 +1,36 @@
+M5 judge — D29: gate the CLIFF's existence + direction per budget (ceiling, drop excludes zero, monotone), the crossover TRACKS the budget, and the full-vs-partial mechanism split; report crossover + floor. No DISCREPANT.
+
+[deepseek]  verdict: REPRODUCED
+  N12@B300@lossy_padded        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 12, 'emit_attractor': 2, 'emit_other_wrong': 6}
+  N12@B300@source_first        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 20}
+  N12@B600@lossy_padded        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 16, 'emit_attractor': 3, 'emit_other_wrong': 1}
+  N12@B600@source_first       19/20  Wilson [76.4%, 99.1%] outcomes {'reclaimed': 19, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 1}
+  N16@B300@lossy_padded        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 14, 'emit_attractor': 1, 'emit_other_wrong': 5}
+  N16@B300@source_first        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 20}
+  N16@B600@lossy_padded        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 12, 'emit_attractor': 2, 'emit_other_wrong': 6}
+  N16@B600@source_first        0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 20}
+  N24@B300@lossy_padded        0/4   Wilson [0.0%, 49.0%] outcomes {'reclaimed': 0, 'abstain': 1, 'emit_attractor': 1, 'emit_other_wrong': 2}
+  N24@B300@source_first        0/4   Wilson [0.0%, 49.0%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 4}
+  N24@B600@lossy_padded        0/4   Wilson [0.0%, 49.0%] outcomes {'reclaimed': 0, 'abstain': 3, 'emit_attractor': 1, 'emit_other_wrong': 0}
+  N24@B600@source_first        0/4   Wilson [0.0%, 49.0%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 4}
+  N2@B300@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 11, 'emit_attractor': 3, 'emit_other_wrong': 6}
+  N2@B300@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  N2@B600@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 12, 'emit_attractor': 5, 'emit_other_wrong': 3}
+  N2@B600@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  N4@B300@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 5, 'emit_attractor': 5, 'emit_other_wrong': 10}
+  N4@B300@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  N4@B600@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 10, 'emit_attractor': 3, 'emit_other_wrong': 7}
+  N4@B600@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  N6@B300@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 12, 'emit_attractor': 3, 'emit_other_wrong': 5}
+  N6@B300@source_first         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 20}
+  N6@B600@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 15, 'emit_attractor': 1, 'emit_other_wrong': 4}
+  N6@B600@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  N8@B300@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 10, 'emit_attractor': 2, 'emit_other_wrong': 8}
+  N8@B300@source_first         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 20}
+  N8@B600@lossy_padded         0/20  Wilson [0.0%, 16.1%] outcomes {'reclaimed': 0, 'abstain': 17, 'emit_attractor': 1, 'emit_other_wrong': 2}
+  N8@B600@source_first        20/20  Wilson [83.9%, 100.0%] outcomes {'reclaimed': 20, 'abstain': 0, 'emit_attractor': 0, 'emit_other_wrong': 0}
+  B=300: ceiling=True  drop(RR@minN−RR@maxN)=+100% [+48.4%,+100.0%] EXCLUDES 0  monotone=True  crossover N=4
+  B=600: ceiling=True  drop(RR@minN−RR@maxN)=+100% [+48.4%,+100.0%] EXCLUDES 0  monotone=True  crossover N=12
+  crossover tracks the budget: True
+  mechanism (full k=N vs partial k<N): full 139/140 vs partial 0/108 → Δ+99% [+94.6%,+99.9%] EXCLUDES 0
+

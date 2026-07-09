@@ -131,14 +131,32 @@ take-probe format bug was caught and fixed, PR #28), that is one clean model of 
 ≥2-model bar needs → **PARTIAL on both claims**. Two first-class findings ride along: deepseek's
 worse-than-empty, and the directed-correction × ordering-logic interaction. Figure:
 [`docs/figs/m4-logic-wall.png`](docs/figs/m4-logic-wall.png). M4 spend $0.433 measured; project
-≈ $1.40. (M5, the source-size boundary arm, stays gated-open.)*
+≈ $1.40.*
+
+*Status: **M5 complete (2026-07-09) — the source-size boundary arm, REPRODUCED** (second post-v1
+extension; the falsification stage). Tested where the source_first *fix* fails: hold the note's
+character budget fixed and grow the receipt, and past the point where the note can't keep every
+line item, `source_first` **cliffs** to 0 — and the cliff **tracks the budget, not problem size**
+(crossover N=4 at budget 300, N=12 at 600, bracketing the paper's own N≈5 / N≈14). The mechanism is
+exact — full source reclaims 139/140, partial source 0/108 ("an exact sum needs every item"). Past
+the cliff the fix does not abstain; it **silently mis-sums the partial source** to a confident wrong
+total (worse-than-empty), confirmed on real deepseek at the mandatory hand-read. A boundary-of-the-
+boundary rode along: drift-take collapses at 24 items (deepseek re-derives rather than accept the
+plant), so that size drops out. This was the milestone whose signed design got **reversed before any
+spend** — the paper-boundary extraction (a free pre-commit) found the author's released bench uses
+grow-N-at-two-budgets, not the fixed-N sweep the brief proposed, so D28 was reopened A→B to
+reproduce the paper's actual result. Judged at N=20 (the 0/1 effect resolved decisively; the signed
+N=40 would have been low-value spend). Figure: [`docs/figs/m5-boundary.png`](docs/figs/m5-boundary.png).
+M5 spend $0.726 measured; project ≈ $2.13, far inside KICKOFF's "under $10."*
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D26)
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D30)
 · [`ROADMAP.md`](ROADMAP.md) (milestone status + verdict tables and cost ledgers) ·
 [`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
 [`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief) ·
 [`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed) ·
 [`docs/M2-BRIEF.md`](docs/M2-BRIEF.md) (the M2 start-of-stage brief, signed) ·
 [`docs/M3-BRIEF.md`](docs/M3-BRIEF.md) (the M3 start-of-stage brief, signed) ·
-[`docs/M4-BRIEF.md`](docs/M4-BRIEF.md) (the M4 start-of-stage brief, signed & closed — PARTIAL).
+[`docs/M4-BRIEF.md`](docs/M4-BRIEF.md) (the M4 start-of-stage brief, signed & closed — PARTIAL) ·
+[`docs/M5-BRIEF.md`](docs/M5-BRIEF.md) (the M5 start-of-stage brief, signed & closed — REPRODUCED;
+D28 reopened A→B on the paper extraction).
