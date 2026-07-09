@@ -55,7 +55,7 @@ from __future__ import annotations
 
 import random
 
-from notes import SRC_MARKER
+from notes import SRC_MARKER, item_clauses
 from problems import Problem
 
 LUCKY = 0.05          # no-source "lucky recovery" rate, theirs
@@ -100,3 +100,25 @@ class DriftFake:
             return f"Rechecking... ANSWER: {val}"
         # normal/drift turn: commit to the wrong answer
         return f"Using what was given, ANSWER: {drift}"
+
+
+class SourceSizeFake(DriftFake):
+    """The M5 anti-rig fake — the author's `bench_sizesweep.SizeFake`, re-typed (D6:
+    reference, never imported). A K-item total can only be recomputed from the WHOLE
+    source, so this fake commits the CORRECT total iff EVERY line-item clause is present in
+    context, and otherwise commits the DRIFT (inherited wrong) total. That models the
+    paper's two findings at once: (1) source_first reclaims only when the budget kept all N
+    items — a budget-starved note (k<N) fails exactly like a source-free one, the cliff;
+    and (2) past the boundary source_first does not abstain, it SILENTLY MIS-SUMS the
+    partial source to the stale value (EMIT_ATTRACTOR, worse-than-empty). It is deterministic
+    (a validator, like theirs) and un-gameable: a note that keeps a few items can't
+    pattern-match its way to the answer. Session 1 lacks the facts-clause format (the
+    question phrases prices differently), so drift takes there as it must."""
+
+    def chat(self, messages) -> str:
+        self.calls += 1
+        clauses = [c.lower() for c in item_clauses(self.problem.facts)]
+        ctx = " ".join((m.get("content") or "").lower() for m in messages)
+        full = bool(clauses) and all(c in ctx for c in clauses)
+        val = self.problem.correct if full else self.problem.drift
+        return f"ANSWER: {val:g}"

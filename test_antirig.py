@@ -21,12 +21,14 @@ from __future__ import annotations
 import random
 from collections import Counter
 
-from fake import DriftFake
+from fake import DriftFake, SourceSizeFake
 from grader import (ABST, ABSTAIN, INHERIT, NOVEL, RECLAIMED, RECOV, classify_logic,
                     grade, took, took_logic)
-from problems import CANONICAL, CANONICAL_LOGIC, generate
+from grader import EMIT_ATTRACTOR
+from problems import CANONICAL, CANONICAL_LOGIC, generate, generate_sized
 from problems_gen import logic_pool
-from runner import build_trajectory, last_answer, run_session2
+from notes import build_sized_note, memory_note_sized
+from runner import build_trajectory, last_answer, run_session2, run_session2_budget
 from stats import excludes_zero, newcombe_diff
 
 WALL_G = 0.1
@@ -214,3 +216,65 @@ def test_logic_fake_wall_reads_inherit_never_abst():
     assert counts[ABST] == 0 and counts[NOVEL] == 0
     assert counts[INHERIT] >= 30                 # the drift token, committed
     assert counts[RECOV] <= 6                    # the 5% lucky path, generously bounded
+
+
+# ── the source-size family (M5, D28-B): the graded gate can't be gamed by partial source
+# SourceSizeFake IS the author's bench_sizesweep.SizeFake, re-typed: it reclaims only when
+# EVERY line-item clause is present (an exact sum needs all N), and past the cliff it emits
+# the DRIFT (silent mis-sum), not an abstention. So a budget-STARVED source_first note (some
+# items shed) fails to reclaim exactly like a source-free one, and does so worse-than-empty.
+# The three checks: drift takes; full source reclaims while starved/partial source does not;
+# and the past-cliff failure is a confident mis-sum. Deterministic (a validator). No paid M5
+# call runs until this section is green (M5 brief, free-before-paid).
+
+def _m5_battery(n: int = 8, k_items: int = 8):
+    """A fresh battery of N-item receipts (seeded → deterministic)."""
+    rng = random.Random(2025)
+    return [generate_sized(rng, f"m5t-{i}", k_items=k_items) for i in range(n)]
+
+
+def _sf_rr(battery, budget: int, policy: str = "source_first") -> tuple[int, int]:
+    """Reclaim count over the battery at a fixed character budget."""
+    k = n = 0
+    for p in battery:
+        reply, _note, _kept = run_session2_budget(SourceSizeFake(p), p, budget, policy)
+        k += grade(reply, p).outcome == RECLAIMED
+        n += 1
+    return k, n
+
+
+def test_m5_check1_drift_takes():
+    for p in _m5_battery():
+        traj = build_trajectory(SourceSizeFake(p), p)
+        assert took(last_answer(traj), p), f"{p.pid}: no drift take"
+
+
+def test_m5_check2_full_source_reclaims_starved_does_not():
+    # a budget that holds the whole 8-item source reclaims; a tiny budget (partial source)
+    # and the budget-matched lossy_padded floor do NOT — the cliff, mechanized
+    battery = _m5_battery(k_items=8)
+    k_full, n = _sf_rr(battery, 100000, "source_first")     # every item fits
+    assert k_full == n, f"full source did not reclaim: {k_full}/{n}"
+    k_starved, _ = _sf_rr(battery, 150, "source_first")     # only a couple items fit
+    assert k_starved == 0, f"partial source reclaimed: {k_starved}/{n}"
+    k_pad, _ = _sf_rr(battery, 600, "lossy_padded")         # budget-matched, no source
+    assert k_pad == 0
+
+
+def test_m5_check3_silent_missum_past_the_cliff():
+    # past its boundary source_first does not abstain — it confidently sums the PARTIAL
+    # source to the stale value (EMIT_ATTRACTOR), the paper's worse-than-empty finding
+    battery = _m5_battery(k_items=8)
+    for p in battery:
+        reply, _n, k = run_session2_budget(SourceSizeFake(p), p, 150, "source_first")
+        assert k < 8
+        assert grade(reply, p).outcome == EMIT_ATTRACTOR, \
+            f"{p.pid}: starved source_first should silently mis-sum, got {grade(reply, p).outcome}"
+
+
+def test_m5_check3_contrast_cliff_separates():
+    battery = _m5_battery(k_items=8)
+    k_full, n = _sf_rr(battery, 100000, "source_first")
+    k_starved, _ = _sf_rr(battery, 150, "source_first")
+    d, lo, hi = newcombe_diff(k_starved, n, k_full, n)
+    assert excludes_zero(lo, hi) and d > 0.5

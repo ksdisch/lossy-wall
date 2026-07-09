@@ -32,7 +32,8 @@ pilots (built with m0.py).
 """
 from __future__ import annotations
 
-from notes import memory_note, source_present
+from notes import (build_sized_note, item_clauses, memory_note, retained_fraction,
+                   source_present)
 from problems import FOLLOWUPS, FOLLOWUPS_BY_KIND, Problem
 
 # their SYSTEM prompt, verbatim (experiment.py)
@@ -174,3 +175,36 @@ def run_session2(llm, problem: Problem, policy: str, integrity: float,
     msgs = session2_base(problem, policy, integrity, transcript)
     msgs = msgs + [{"role": "user", "content": reclaim_cross(problem, arm)}]
     return llm.chat(msgs)
+
+
+# ── M5 (source-size boundary arm, D28-B): the budget×N session-2 frame + graded gate ──
+
+def verify_size_gate(note: str, problem: Problem, policy: str, k_kept: int) -> None:
+    """The GRADED per-trial source gate (M5). Raises SourceGateError unless the note's
+    measured retained-source fraction matches what its cell built — a source_first note
+    that fit `k_kept` of N line items must demonstrably carry exactly those, a
+    lossy_padded note zero. Every trial, before any token is spent."""
+    n_items = len(item_clauses(problem.facts))
+    expected = (k_kept / n_items) if policy == "source_first" else 0.0
+    actual = retained_fraction(note, problem)
+    if abs(actual - expected) > 1e-9:
+        raise SourceGateError(
+            f"{problem.pid}: {policy} k_kept={k_kept} note has retained_fraction="
+            f"{actual:.4f}, cell requires {expected:.4f} — refusing to run this trial")
+
+
+def run_session2_budget(llm, problem: Problem, budget: int, policy: str,
+                        arm: str = "directed") -> tuple[str, str, int]:
+    """One M5 reclaim attempt at a fixed character budget (D28-B): build the budget-fit
+    note (source_first keeps the k whole items that fit; lossy_padded is budget-matched),
+    verify the graded gate, ask [system, note, directed correction]. Returns
+    (reply, note, k) — k (items kept) is logged so the judge can split full-source (k=N)
+    from partial (k<N), the paper's mechanism variable. The note is a write-time transform
+    of the trajectory's problem, so one N-bank feeds both budgets and both policies (D5
+    pairing)."""
+    note, k = build_sized_note(problem, budget, policy)
+    verify_size_gate(note, problem, policy, k)
+    msgs = [{"role": "system", "content": SYSTEM},
+            {"role": "user", "content": note},
+            {"role": "user", "content": reclaim_cross(problem, arm)}]
+    return llm.chat(msgs), note, k
