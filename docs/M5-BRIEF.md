@@ -1,8 +1,25 @@
 # M5 Start-of-Stage Brief — the source-size boundary arm (where the fix fails)
 
-*Written 2026-07-09 · status: **awaiting sign-off** — D27–D30 proposed below; no M5 code
-and no paid call until Kyle signs · scope source of truth: `docs/KICKOFF.md` (Milestone 5,
-gated) · format follows `docs/M4-BRIEF.md`.*
+*Written 2026-07-09 · status: **signed 2026-07-09 (D27-A); D28 REOPENED same day to the
+paper's design (D28-B) — see the addendum below** · outcomes in `DECISIONS.md` (D27–D30),
+status in `ROADMAP.md` M5 · scope source of truth: `docs/KICKOFF.md` (Milestone 5, gated) ·
+format follows `docs/M4-BRIEF.md`.*
+
+> **Addendum (2026-07-09) — D28 reopened to the paper's design (D28-B).** Kyle signed this
+> brief as written (D28-A: fix K=6, sweep the budget). Then rider a — the paper-boundary
+> extraction, run in the free build — **overturned this brief's core "thin anchor"
+> assumption.** The author's clone ships a full source-size sweep (`bench_sizesweep.py`,
+> `analyze_sizesweep.py`, `sizesweep.py`) with a **concrete** anchor (**crossover N≈5 @
+> B=300, N≈14 @ B=600**), and its design is **D28-B**: fix the character budget, grow the
+> source size N, at **two** budgets, `source_first` vs `lossy_padded` — the two budgets are
+> how the paper disentangles budget-starvation from problem difficulty (the confound D28-A
+> was chosen to avoid). Surfaced to Kyle; he chose to **adopt the paper's design**. So the
+> live M5 design is D28-B, and D29's gate gains the paper's structure (per-budget cliff +
+> **crossover tracks the budget** + full-vs-partial mechanism split) while keeping its
+> existence+direction stance. The sections below that assume D28-A (the fixed-K budget sweep,
+> the single cliff curve) are **superseded on the axis only**; the model (D27-A), the gate
+> philosophy (D29), the checkpoint discipline, and the honest framing all stand. Full record:
+> `evidence/m5/paper-extraction-boundary.md`, `DECISIONS.md` D28.
 
 ## What M5 is, in plain terms
 

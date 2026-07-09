@@ -656,3 +656,90 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   the new readout) turned up no scoring bug, but its hand-read is what diagnosed the confound
   before the N=60 spend. Grid cost $0.084 measured (N=20 $0.028 + extend-to-60 $0.056); full
   ledger in ROADMAP M4.
+
+## D27 · M5 model + family + arm set: deepseek · arithmetic · the paper's two arms
+
+- **Date / decider:** 2026-07-09 / Kyle (M5 brief sign-off; full options in `docs/M5-BRIEF.md`)
+- **Fork context:** KICKOFF gated M5 (the source-size boundary arm) on "the effect shows" — v1
+  REPRODUCED, M4 PARTIAL, so the gate condition held. M5 is the falsification stage: where does
+  the source_first fix FAIL as the recomputable source outgrows the note budget?
+- **Options:** (A) deepseek · arithmetic · lean core; (B) A + a lossy_padded length-control;
+  (C) llama · arithmetic.
+- **Decision: A — deepseek · arithmetic**, with the arm set settled by D28's reopen (the paper's
+  arms are source_first vs **lossy_padded** budget-matched, so B's control is folded into the
+  core, not a layer).
+- **Why:** deepseek reclaimed source_first 40/40 in v1 (maximal headroom to fall), is terse (so
+  a long multi-item recompute doesn't hit the 600-token cap and fake a cliff via abstains — the
+  M2 llama confound, the reason C is rejected), and arithmetic's OPEN-number answer has no
+  closed-set guess floor (no taxonomy needed, unlike M4). One frozen-roster model, no swaps.
+
+## D28 · M5 sweep axis: signed A (fix N, sweep budget), REOPENED to B (the paper's design)
+
+- **Date / decider:** 2026-07-09 / Kyle (M5 brief sign-off, then a same-day reopen on the
+  rider-a extraction; full options in `docs/M5-BRIEF.md` + its addendum)
+- **Options:** (A) fix the receipt at K=6, sweep the note budget, report source_first reclaim vs
+  retained-source fraction s — one problem size, one bank, chosen to dodge a problem-difficulty
+  confound; (B) fix the budget, grow the source size N, at TWO budgets — the literal
+  "source-size sweep," flagged in the brief as confounded; (C) vary a source-retained fraction
+  directly.
+- **Decision: signed A at sign-off; REOPENED and changed to B the same day.** The rider-a
+  paper-boundary extraction (executed in the free build) found the anchor is **not thin**: the
+  author's clone ships a full source-size sweep — `bench_sizesweep.py` / `analyze_sizesweep.py`
+  / `sizesweep.py` — whose design **is B** (fix budget B∈{300,600}, grow N; source_first vs
+  lossy_padded), with concrete anchors (**crossover N≈5 at B=300, N≈14 at B=600**) and a
+  mechanism analysis (full k=N vs partial k<N). The two-budget design is exactly how the paper
+  disentangles budget-starvation from problem difficulty — the confound A was chosen to avoid,
+  answered better by B's own structure. Surfaced to Kyle; **he chose to adopt the paper's design
+  (B)**. Recorded in `evidence/m5/paper-extraction-boundary.md`.
+- **Why:** the project's job is to reproduce the *published* finding, and the paper commits a
+  concrete design + anchor for this exact arm; A cannot reproduce its central claim ("the cliff
+  tracks the budget, not problem size" — that needs ≥2 budgets on the N axis). Honest note of
+  record: the A recommendation was made on an incomplete reading of the anchor; the extraction
+  (rider a's whole purpose) corrected it before any spend. The free-build foundation (K-item
+  generator, budget-capped note, graded gate, the all-clauses fake) transferred to B unchanged.
+- **Outcome: D28-B** — the paper's design. Pending the paid run.
+
+## D29 · M5 boundary gate + verdict mapping: existence + direction (thin→concrete anchor)
+
+- **Date / decider:** 2026-07-09 / Kyle (M5 brief sign-off; refined by D28's reopen to carry the
+  paper's crossover + mechanism structure)
+- **Context:** the anchor turned out concrete (D28), so the gate keeps its existence+direction
+  form AND adds the paper's structural checks. No oracle overlap cell exists here, so there is
+  **no DISCREPANT verdict** in M5.
+- **Options:** (A) gate the cliff's existence + direction, report the location; (B) gate the fix
+  fully collapsing to the lossy floor; (C) point-match the paper's crossover.
+- **Decision: A**, sharpened by the concrete anchor. Pre-committed as pure functions in `m5.py`
+  (pinned by `test_m5.py`): per budget the **ceiling** (source_first at the smallest N clears the
+  Wilson-95 lower bound 0.80), the **drop** (Newcombe on RR@min-N − RR@max-N excludes zero), and
+  **monotone** within noise; across budgets the **crossover tracks the budget** (crossover N
+  larger at the larger B — the paper's central claim); pooled the **mechanism split** (full
+  source k=N ≫ partial k<N, Newcombe excludes zero); and **confound-clean** from the N=20
+  checkpoint. Mapping: **REPRODUCED** = all of these + confound-clean; **NULL** = no drop at
+  either budget and source_first robust at max N (fix survives growth — reportable, not a
+  failure); **PARTIAL** = otherwise. The crossover, the lossy_padded floor, and the silent
+  mis-sum outcome split are **reported, never gated** (B too strong for a partial cliff; C is the
+  KICKOFF point-match non-goal — direction only).
+- **Why:** the finding is "the fix is bounded and the boundary is the source-to-budget ratio," so
+  the gate must test existence + direction + the budget-tracking structure the paper proves, and
+  report the location. Reuses v1's Newcombe/Wilson instruments; adds only the one ceiling
+  constant. The silent mis-sum (source_first EMITs the drift past the cliff, worse-than-empty) is
+  reported via the grader's existing attractor/abstain split.
+
+## D30 · M5 N-grid, budgets, trials + riders (both yes)
+
+- **Date / decider:** 2026-07-09 / Kyle (M5 brief sign-off; the grid re-shaped by D28-B — the
+  paper economy is now the source-size grid, not a single N)
+- **Options:** (A) source-size grid N∈{2,4,6,8,12,16,24} (bracketing both crossovers) × budgets
+  {300,600} × {source_first, lossy_padded}, N_BANK=40 taken per size, N_TRIALS=40 per cell, the
+  N=20 checkpoint, judged once, no escalation; (B) the full paper economy (8 stores × 3 seeds ×
+  13 Ns); (C) N=60 as signed pre-reopen.
+- **Decision: A** (the paid grid sizes are constants in `m5.py`, confirmable at the paid gate).
+  The gate resolves well under 40; N is bought for the descriptive cliff shape. One bank per
+  source size feeds both budgets and both policies (D5 pairing: the budget/policy is a
+  note-write-time knob over the same taken trajectory).
+- **Riders (both YES):** (a) the verbatim paper-boundary extraction, done in the free build
+  (`evidence/m5/paper-extraction-boundary.md`) — its first job (record the anchor's thinness)
+  overturned the "thin anchor" assumption and drove D28's reopen; (b) the mechanism-provenance
+  note, same file — the budget-truncation mechanism is faithful to the author's `SizeFake`
+  (reclaim iff every clause present, else emit the drift = silent mis-sum), re-typed not imported.
+- **Outcome:** pending the paid run (banks are the first paid step, gated on Kyle's explicit go).

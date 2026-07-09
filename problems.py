@@ -181,6 +181,59 @@ def validate(p: Problem) -> bool:
     return True
 
 
+# ── M5 (source-size boundary arm; gated post-v1, opened 2026-07-09) ───────────────────
+#    OUR CONSTRUCTION, not the author's (M5-BRIEF D28 / evidence/m5 rider b): the released
+#    reclaim-eval harness has NO source-size sweep — only integrity, depth, and a DISTANCE
+#    sweep (error pushed behind filler) — so the mechanism M5 needs does not exist in their
+#    code. generate_sized generalizes the two-item arithmetic grammar above (generate(),
+#    prices $2–15, quantities 3–12, one subtotal corrupted by a Δ from DELTAS) to a K-item
+#    receipt, so the recomputable source (the K line items) can outgrow a fixed note budget —
+#    the boundary the source_first fix cliffs at. v1's generate() is left BYTE-IDENTICAL (its
+#    cells are judged-once); this is a separate function on a separate schedule. The facts
+#    string keeps the exact `"<good> at $<p> each (<q> bought)"` clause format joined by
+#    " and ", so notes.item_clauses can split it back into the line items the budget sheds.
+K_ITEMS = 6   # the M5 receipt size (D28): moderately large — a graded budget sweep fits, and
+              # a model with the full source still reclaims ~1.00 (so the cliff has headroom)
+
+
+def generate_sized(rng: random.Random, pid: str, k_items: int = K_ITEMS) -> Problem:
+    """Mint one fresh K-item receipt from the extended grammar (k_items distinct goods,
+    each a price×quantity subtotal; exactly one subtotal corrupted by a Δ from DELTAS).
+    Pure given the rng state; validated and independently re-proved before return."""
+    if k_items < 2:
+        raise ValueError(f"k_items must be >= 2, got {k_items}")
+    goods = rng.sample(GOODS, k_items)
+    prices = [rng.randint(2, 15) for _ in range(k_items)]
+    quantities = [rng.randint(3, 12) for _ in range(k_items)]
+    subs = [p * q for p, q in zip(prices, quantities)]
+    correct = sum(subs)
+    idx = rng.randrange(k_items)                                  # the corrupted line item
+    name = goods[idx]
+    delta = rng.choice([d for d in DELTAS if subs[idx] + d > 0])
+    wrong_sub = subs[idx] + delta
+    drift = correct - subs[idx] + wrong_sub
+    items = [f"{g} at ${p} each ({q} bought)"
+             for g, p, q in zip(goods, prices, quantities)]
+    prices_clause = ", ".join(f"{g} cost ${p} each" for g, p in zip(goods, prices))
+    buys_clause = ", ".join(f"{q} {g}" for q, g in zip(quantities, goods))
+    problem = Problem(
+        pid,
+        f"{prices_clause.capitalize()}. A buyer gets {buys_clause}. "
+        f"What is the total before tax?",
+        wrong_premise=f"a colleague worked out the {name} at ${wrong_sub}",
+        locus=f"the {name} subtotal",
+        correct=float(correct), drift=float(drift),
+        facts=" and ".join(items))
+    validate(problem)
+    # re-prove the constructed numbers independently of the assembly above
+    assert problem.correct == sum(p * q for p, q in zip(prices, quantities)), \
+        f"{pid}: total is not the literal K-item sum"
+    assert problem.drift == problem.correct - subs[idx] + wrong_sub, f"{pid}: drift math"
+    assert len(items) == k_items, f"{pid}: wrong item count"
+    assert abs(problem.correct - problem.drift) >= 7, f"{pid}: corruption below the TOL gap"
+    return problem
+
+
 # ── the logic family: constraint-deduction puzzles (M4; gated post-v1, opened 2026-07-08).
 #    Re-typed VERBATIM from reclaim-eval problems.py PROBLEMS_LOGIC + FACTS_LOGIC (D6). Same
 #    shape as the arithmetic family — a planted-wrong clue drifts a single-token answer that a

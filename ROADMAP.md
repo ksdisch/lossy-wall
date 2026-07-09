@@ -10,7 +10,7 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | **complete (2026-07-07)** — claim 2 CLEARED 3/3, claim 3 CLEARED (deepseek) |
 | M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | **complete (2026-07-08)** — cross-check **AGREE** (6/6 intervals) |
 | **M4 — logic family** | soft wall / task-generality; gap-gated + taxonomy, N=60 | **in progress** — brief signed 2026-07-08 (D23-A core) |
-| M5 — boundary arm | gated post-v1 (gated-open, not denied) | gated |
+| **M5 — boundary arm** | source-size cliff: where source_first fails, the paper's design | **in progress** — brief signed 2026-07-09 (D27-A); D28 reopened to the paper design (D28-B) |
 
 ---
 
@@ -571,3 +571,33 @@ deepseek's 52% take rate (115 trials to bank 60). **Running project total ≈ $1
 - [ ] Kyle's answers to M4's three recall questions (LEARNING.md — open, as M3's remain)
 
 M5 (source-size boundary arm) stays gated-open, not denied.
+
+---
+
+## M5 — the source-size boundary arm · IN PROGRESS (opened 2026-07-09)
+
+The falsification stage: where does the source_first FIX fail? Fix the note character budget
+and grow the source size N — as N outgrows the budget the note keeps only k<N line items, an
+exact sum needs all N, so source_first cliffs to the lossy floor; two budgets show the cliff
+**tracks the budget, not problem size**. Brief `docs/M5-BRIEF.md` (D27-A · deepseek/arithmetic).
+
+**D28 reopened, same day.** The brief recommended and signed **D28-A** (fix N, sweep budget).
+The rider-a paper extraction (free build) then found the anchor is **concrete, not thin**: the
+author's clone ships `bench_sizesweep.py` / `analyze_sizesweep.py` / `sizesweep.py`, whose design
+is **grow N at two budgets** (B∈{300,600}), source_first vs lossy_padded, with anchors
+**crossover N≈5 @ B=300, N≈14 @ B=600** and a full-vs-partial-source mechanism split. Surfaced to
+Kyle; he chose to **adopt the paper's design (D28-B)**. Record:
+`evidence/m5/paper-extraction-boundary.md`; decisions D27–D30 in `DECISIONS.md`.
+
+**Free build landed (this PR):** `m5.py` (bank-per-N → grid over N×budget×policy → checkpoint →
+judge → figure), with D29's gate + verdict mapping pre-committed as pure functions
+(ceiling / per-budget drop / monotone / crossover-tracks-budget / full-vs-partial mechanism);
+`generate_sized` (K-item receipts), `build_sized_note` (budget-fit source_first + budget-matched
+lossy_padded), the graded `retained_fraction` gate, and `SourceSizeFake` (the author's `SizeFake`:
+reclaim iff every clause present, else emit the drift = the silent mis-sum). Full `pytest` green
+(**245 tests**, +23 for M5); the driver reproduces the paper's structure on the fake — crossover
+{300:2, 600:8}, tracks-budget True, mechanism True, and the silent mis-sum past the cliff.
+
+**Paid steps pending Kyle's go (in order):** banks per source size N → grid to N=20 checkpoint
+(mandatory hand-read: budget-fit note + graded gate + silent-mis-sum confound watch) → extend to
+N=40 → judge (D29) → figure → close-out. Estimated ≈ $0.4–0.6 on deepseek (one bank per N).

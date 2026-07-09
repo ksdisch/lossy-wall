@@ -96,6 +96,84 @@ def memory_note(problem: Problem, integrity: float, policy: str = "lossy") -> st
     raise ValueError(f"unknown policy: {policy!r} (expected one of {POLICIES})")
 
 
+# ── M5 (source-size boundary arm; opened 2026-07-09) ──────────────────────────────────
+# OUR CONSTRUCTION (M5-BRIEF D28): the budget-capped source_first note and the graded
+# source gate. The source_first FIX keeps the recomputable source and drops the
+# re-derivable conclusion; M5 asks what happens when the source itself no longer fits the
+# note budget. We realize the budget by the number of WHOLE line items it holds: at
+# retained fraction s = n_keep / K the note carries the first n_keep of the receipt's K
+# line-item clauses (the budget that fits exactly n_keep items), dropping the overflow.
+# lossy is unchanged — the tiny wrong conclusion always fits, so it is the flat wall floor
+# the cliff falls toward, identical at every s.
+
+
+def item_clauses(facts: str) -> list[str]:
+    """Split a K-item receipt's facts string into its line-item clauses — the units the
+    budget sheds. The clause format (`"<good> at $<p> each (<q> bought)"` joined by
+    " and ") carries no internal " and ", so the split is exact."""
+    return [c.strip() for c in facts.split(" and ") if c.strip()]
+
+
+def memory_note_sized(problem: Problem, policy: str, n_keep: int) -> str:
+    """The M5 budget-capped memory note. `source_first` keeps the first `n_keep` whole
+    line items (the budget that fits n_keep) and drops the conclusion (the wall variant of
+    the fix — keep source, shed the re-derivable answer); `lossy` keeps only the wrong
+    conclusion (always fits, so the same note at every budget). Pure: same inputs → same
+    string."""
+    clauses = item_clauses(problem.facts)
+    if not 0 <= n_keep <= len(clauses):
+        raise ValueError(f"n_keep must be 0..{len(clauses)}, got {n_keep}")
+    if policy == "source_first":
+        kept = " and ".join(clauses[:n_keep])
+        return (f"(Memory of an earlier session.) The facts were: {kept}. You were "
+                f"determining {problem.ask}; the earlier answer may be off.")
+    if policy == "lossy":
+        return (f"(Memory of an earlier session.) You concluded {problem.ask} was "
+                f"{_concl(problem)}.")
+    raise ValueError(f"unknown M5 policy: {policy!r} (expected 'lossy' or 'source_first')")
+
+
+def retained_fraction(note: str, problem: Problem) -> float:
+    """The GRADED per-trial source gate (M5's generalization of source_present from
+    binary to a count): the fraction of the receipt's K line-item clauses demonstrably
+    present in the note. Run on every trial — a source_first cell claiming s must carry
+    exactly ⌊s·K⌋ line items; a lossy cell must carry zero. A mechanical property of the
+    emitted string, never an assumption."""
+    clauses = item_clauses(problem.facts)
+    if not clauses:
+        return 0.0
+    low = (note or "").lower()
+    present = sum(1 for c in clauses if c.lower() in low)
+    return present / len(clauses)
+
+
+def build_sized_note(problem: Problem, budget: int, policy: str) -> tuple[str, int]:
+    """The paper's `sizesweep.build_note` (D28-B): fix a CHARACTER budget and fit the
+    note to it. `source_first` greedily keeps whole line items in listed order while the
+    note stays within `budget` chars (k items kept); `lossy_padded` is the wrong
+    conclusion padded with neutral filler to the source_first note's length at that
+    budget (the budget-matched floor — the paper's comparator: any source_first advantage
+    can't be 'it had more text'). Returns (note, k). As N outgrows the budget, k < N and an
+    exact sum needs all N, so source_first cliffs — the boundary M5 measures."""
+    clauses = item_clauses(problem.facts)
+    if policy == "source_first":
+        k = 0
+        for i in range(len(clauses) + 1):
+            if len(memory_note_sized(problem, "source_first", i)) <= budget:
+                k = i
+            else:
+                break
+        return memory_note_sized(problem, "source_first", k), k
+    if policy == "lossy_padded":
+        target = len(build_sized_note(problem, budget, "source_first")[0])
+        base = memory_note_sized(problem, "lossy", 0)   # the wrong conclusion, no source
+        while len(base) < target:
+            base += PAD
+        return base, 0
+    raise ValueError(f"unknown M5 budget policy: {policy!r} "
+                     f"(expected 'source_first' or 'lossy_padded')")
+
+
 def source_present(note: str, problem: Problem) -> bool:
     """The per-trial source gate: is the recomputable source demonstrably in the note?
     Their exact mechanism — the first SRC_MARKER chars of the facts string, lowercased
