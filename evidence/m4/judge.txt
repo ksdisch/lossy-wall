@@ -1,0 +1,40 @@
+M4 judge — D25: claim 1 gates the GAP (sf − lossy > 0, both g), claim 2 gates SEPARATION (sf − padded > 0, both g); the soft floor and the equivalence are reported, never gated
+
+[llama]
+  claim-1 verdict: None   claim-2 verdict: None
+
+[deepseek]
+  lossy@0.1               39/60  Wilson [52.4%, 75.8%] taxonomy {'recov': 39, 'inherit': 6, 'novel': 0, 'abst': 15} floor ~0.23
+  lossy@0.3               14/60  Wilson [14.4%, 35.4%] taxonomy {'recov': 14, 'inherit': 27, 'novel': 0, 'abst': 19} floor ~0.23
+  lossy_padded@0.1        43/60  Wilson [59.2%, 81.5%] taxonomy {'recov': 43, 'inherit': 6, 'novel': 0, 'abst': 11} floor ~0.23
+  lossy_padded@0.3         4/60  Wilson [2.6%, 15.9%] taxonomy {'recov': 4, 'inherit': 42, 'novel': 0, 'abst': 14} floor ~0.23
+  source_first@0.1        60/60  Wilson [94.0%, 100.0%] taxonomy {'recov': 60, 'inherit': 0, 'novel': 0, 'abst': 0} floor ~0.23
+  source_first@0.3        60/60  Wilson [94.0%, 100.0%] taxonomy {'recov': 60, 'inherit': 0, 'novel': 0, 'abst': 0} floor ~0.23
+  claim-1 gap (sf - lossy) @ g=0.1: +35% [+22.6%, +47.6%] POSITIVE
+  claim-1 gap (sf - lossy) @ g=0.3: +77% [+63.2%, +85.6%] POSITIVE
+  claim-2 sep (sf - padded) @ g=0.1: +28% [+16.8%, +40.8%] POSITIVE
+  claim-2 sep (sf - padded) @ g=0.3: +93% [+82.3%, +97.4%] POSITIVE
+  equivalence (padded - lossy) @ g=0.1: +7% [-9.8%, +22.7%] — overlap (descriptive)
+  equivalence (padded - lossy) @ g=0.3: -17% [-29.4%, -3.8%] — SEPARATED (descriptive)
+  claim-1 verdict: cleared   claim-2 verdict: cleared
+
+[qwen72b]
+  lossy@0.1               45/60  Wilson [62.8%, 84.2%] taxonomy {'recov': 45, 'inherit': 5, 'novel': 0, 'abst': 10} floor ~0.26
+  lossy@0.3               39/60  Wilson [52.4%, 75.8%] taxonomy {'recov': 39, 'inherit': 18, 'novel': 0, 'abst': 3} floor ~0.26
+  lossy_padded@0.1        45/60  Wilson [62.8%, 84.2%] taxonomy {'recov': 45, 'inherit': 6, 'novel': 0, 'abst': 9} floor ~0.26
+  lossy_padded@0.3        29/60  Wilson [36.2%, 60.7%] taxonomy {'recov': 29, 'inherit': 27, 'novel': 0, 'abst': 4} floor ~0.26
+  source_first@0.1        43/60  Wilson [59.2%, 81.5%] taxonomy {'recov': 43, 'inherit': 17, 'novel': 0, 'abst': 0} floor ~0.26
+  source_first@0.3        38/60  Wilson [50.7%, 74.4%] taxonomy {'recov': 38, 'inherit': 22, 'novel': 0, 'abst': 0} floor ~0.26
+  claim-1 gap (sf - lossy) @ g=0.1: -3% [-18.8%, +12.4%] not positive
+  claim-1 gap (sf - lossy) @ g=0.3: -2% [-18.3%, +15.1%] not positive
+  claim-2 sep (sf - padded) @ g=0.1: -3% [-18.8%, +12.4%] not positive
+  claim-2 sep (sf - padded) @ g=0.3: +15% [-2.7%, +31.4%] not positive
+  equivalence (padded - lossy) @ g=0.1: +0% [-15.3%, +15.3%] — overlap (descriptive)
+  equivalence (padded - lossy) @ g=0.3: -17% [-33.0%, +1.0%] — overlap (descriptive)
+  claim-1 verdict: not_cleared   claim-2 verdict: not_cleared
+
+
+M4 claim-1 verdict: PARTIAL
+M4 claim-2 verdict: PARTIAL
+
+(padded ≈ lossy is reported descriptively, never gated: δ=0.10 equivalence is unpowerable at hobby N on a mid-range rate (Newcombe ±0.15 at N=60 on rates ≈0.25; ~N≥150/arm would be needed) — pre-registered in docs/M4-BRIEF.md (D25).)

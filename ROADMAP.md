@@ -480,3 +480,94 @@ separation-gates claim 2, recov/inherit/novel/abst taxonomy, verdict mapping pre
 **D26-A** N=60 flat; riders (a) arXiv logic extraction and (b) taxonomy readout both yes. M5
 stays gated-open, not denied. M4 progress tracked in the table above; the milestone's close-out
 section will land here at M4 close.
+
+---
+
+## M4 — the logic family (the soft wall) · CLOSED 2026-07-08 · **PARTIAL**
+
+**Verdict: claim 1 (fix generalizes) PARTIAL; claim 2 (content, not length) PARTIAL.** Judged
+once at N=60 under D25's pre-committed gap/separation mapping. The brittle-memory fix generalizes
+to logic **decisively on deepseek**, but the wall is soft and qwen's ordering cells are confounded
+by a directed-correction interaction; with llama sat out (D24 trigger), that is one clean model of
+the two the ≥2-model bar requires → PARTIAL. A genuine, well-characterised outcome — the most
+falsification-shaped milestone in the project (KICKOFF flagged logic as the one place a
+partial/null was plausible).
+
+### The judged grid (N=60, directed, temperature 0.0; recov = reclaim)
+
+| cell | deepseek | qwen72b | paper (llama, ref) |
+|---|:--:|:--:|:--:|
+| lossy@0.1 | 0.65 W[52.4, 75.8] | 0.75 W[62.8, 84.2] | 0.12 |
+| lossy@0.3 | **0.23** W[14.4, 35.4] | 0.65 W[52.4, 75.8] | 0.25 |
+| lossy_padded@0.1 | 0.72 | 0.75 | 0.04 |
+| lossy_padded@0.3 | **0.07** | 0.48 | — |
+| source_first@0.1 | **1.00** W[94.0, 100] | 0.72 W[59.2, 81.5] | 0.67 |
+| source_first@0.3 | **1.00** W[94.0, 100] | 0.63 W[50.7, 74.4] | 0.67 |
+
+**Claim-1 gap (sf − lossy), Newcombe 95%:** deepseek +35% [+22.6, +47.6] @g0.1, +77% [+63.2, +85.6]
+@g0.3 — both exclude zero → **cleared**. qwen −3% [−18.8, +12.4], −2% [−18.3, +15.1] — straddle
+zero → **not cleared**. **Claim-2 separation (sf − padded):** deepseek +28%, +93% (cleared); qwen
+−3%, +15% (not cleared). Equivalence (padded − lossy) reported descriptively, never gated
+(δ=0.10 unpowerable at N=60 on a mid-range rate — D25).
+
+### The two substantive findings
+
+- **Worse-than-empty, on deepseek's lossy floor (the thesis, on logic).** lossy@0.3 inherits the
+  planted drift 27/60 (45%); *padded*@0.3 inherits 42/60 (70%) — padding the corrupted note to
+  source length makes the error **stickier**, not safer. The g-inversion (lossy 0.65 at g=0.1 vs
+  0.23 at g=0.3) is the mechanism: the barer g=0.1 note carries only the drift conclusion (model
+  flips it via the correction → recovers), while the g=0.3 note keeps the *corrupted premise*
+  (model reasons from it → inherits).
+- **The directed correction × ordering-logic confound (the checkpoint's catch).** On ordering
+  puzzles, the correction "the X-vs-Y order was wrong" reads as a flip instruction. qwen obeys it:
+  in lossy it flips the bare drift conclusion → correct (lossy inflated to ~0.75); in source_first
+  it flips the *true* fact → the drift (sf deflated to ~0.4; every sf error is `inherit`, `novel`=0).
+  deepseek re-derives and resists it (sf 1.00). Stratified by type: on **assignment** puzzles both
+  models show the effect cleanly (deepseek gap +0.67, qwen +0.83); the confound is entirely in the
+  **ordering** stratum. The take-biased bank is ordering-heavy (deepseek banks only 3 assignment
+  trials/cell — it rarely takes assignment drift), so a stratified 2-model test is underpowered;
+  reported descriptively, not gated (Kyle's call, this session).
+
+### Roster (D24 pilot) and the take-probe bug
+
+The D24 logic drift-take pilot froze the grid roster **two-model** (deepseek AMBER 10/20, qwen72b
+GREEN 15/20; **llama TRIGGER 9/20 → sits out**). llama's first pilot read a false 0/20 TRIGGER from
+a take-probe format bug (`TAKE_PROBE_LOGIC` wasn't format-explicit → llama's bare-token drift commits
+slipped the strict `ANSWER:` parser); the mandatory hand-read caught it, the fix (PR #28) restored
+llama to its true 9/20, and the fidelity audit vs `experiment.py` confirmed the recipe faithful
+(deepseek/qwen took on the same problems). llama's trigger is real; its abstainer disposition at the
+wall (0/9 emit) matches v1. Anchor-out: scope B (llama·logic cross-check) moot; D25's REPRODUCED
+anchored-shape clause not evaluable; the ≥2-model gap governed (Kyle, this session).
+
+### M4 cost ledger (OpenRouter-measured)
+
+| item | cost |
+|---|:--:|
+| D24 pilot (3×20 + wall reads) | $0.061 |
+| llama re-pilot (corrected probe) | $0.002 |
+| bank deepseek (60 taken / 115 trials) | $0.174 |
+| bank qwen72b (60 taken / 83 trials) | $0.112 |
+| grid@20 (checkpoint, both) | $0.028 |
+| grid extend 20→60 (both) | $0.056 |
+| free (extraction, judge, figure) | $0 |
+| **M4 total** | **≈ $0.433 measured** |
+
+The driver above the brief's mid-estimate was long logic prompts (8 accumulating follow-ups) and
+deepseek's 52% take rate (115 trials to bank 60). **Running project total ≈ $1.40** of KICKOFF's
+"likely under $10."
+
+### Exit criteria checklist
+
+- [x] claim-1 (gap) + claim-2 (separation) verdicts per surviving model per wall g, both arms'
+      intervals, judged only by the pre-committed D25 mapping (above; `evidence/m4/judge.txt`)
+- [x] soft-floor characterisation + four-way taxonomy + chance floor reported (above; figure)
+- [x] D24 drift-take pilot verdicts recorded per model (D24 outcome; llama sits out)
+- [x] the mandatory checkpoint hand-read documented (the confound diagnosis, above)
+- [x] figure committed (`docs/figs/m4-logic-wall.png`)
+- [x] evidence committed per D15 (`evidence/m4/`, 8 run JSONLs + judge + extraction)
+- [x] measured M4 cost in the ledger (above)
+- [x] spine updates in the same PR (this PR: ROADMAP M4, DECISIONS D24–D26 outcomes,
+      LEARNING M4, README status, M4-BRIEF header)
+- [ ] Kyle's answers to M4's three recall questions (LEARNING.md — open, as M3's remain)
+
+M5 (source-size boundary arm) stays gated-open, not denied.

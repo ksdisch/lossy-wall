@@ -541,7 +541,7 @@ def make_figure(judged: dict, path=FIGURE_PATH) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    models = judged["models"]
+    models = {k: m for k, m in judged["models"].items() if m["cells"]}
     ncols = max(1, len(models))
     fig, axes = plt.subplots(2, ncols, figsize=(5.2 * ncols, 8.0), squeeze=False)
     for col, (key, m) in enumerate(models.items()):
@@ -556,8 +556,8 @@ def make_figure(judged: dict, path=FIGURE_PATH) -> None:
                     continue
                 xs.append(g)
                 ys.append(cell["rate"])
-                lo_err.append(cell["rate"] - cell["wilson_lo"])
-                hi_err.append(cell["wilson_hi"] - cell["rate"])
+                lo_err.append(max(0.0, cell["rate"] - cell["wilson_lo"]))
+                hi_err.append(max(0.0, cell["wilson_hi"] - cell["rate"]))
                 ns.append(cell["n"])
             ax.errorbar(xs, ys, yerr=[lo_err, hi_err], color=color, marker=marker,
                         capsize=4, label=policy)
