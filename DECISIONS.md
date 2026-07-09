@@ -608,6 +608,25 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   soft-wall shape matches the paper within noise; **PARTIAL** = holds on some (model, g) but
   not the bar, or the shape diverges; **NULL** = no gap (fix doesn't generalize); **DISCREPANT**
   = scope B/C cross-check divergence → D20's protocol audit.
+- **Outcome (2026-07-08, M4 close — claim 1 PARTIAL, claim 2 PARTIAL):** judged once at N=60
+  under this exact mapping. **deepseek CLEARED both claims** — claim-1 gap (sf − lossy)
+  +35% [+22.6%, +47.6%] @g0.1 and +77% [+63.2%, +85.6%] @g0.3 (both exclude zero); claim-2
+  separation (sf − padded) +28% and +93%; source_first 60/60 both g; and a textbook
+  worse-than-empty on the lossy floor — lossy@0.3 inherits the drift 27/60 (45%), padded@0.3
+  42/60 (70%), so keeping the corrupted premise makes the error *stickier* than dropping it.
+  **qwen72b NOT cleared** — gap −3% [−18.8%, +12.4%] and −2% [−18.3%, +15.1%], both straddling
+  zero. The checkpoint hand-read traced qwen's null to a real, non-bug **confound**: on ORDERING
+  puzzles the directed correction ("the X-vs-Y order was wrong") reads as a *flip* instruction,
+  which qwen obeys — flipping the bare drift conclusion to correct in lossy (inflating it) and
+  flipping the *true* fact to the drift in source_first (deflating it; every sf error is
+  `inherit`, zero `novel`). deepseek re-derives and resists it (sf 1.00). On assignment puzzles
+  both models show the effect cleanly (deepseek +0.67, qwen +0.83), but the take-biased bank is
+  ordering-heavy (deepseek 3 assignment trials/cell), so a stratified 2-model test is
+  underpowered — reported descriptively, not gated (Kyle's call, this session). **M4 = PARTIAL**
+  on both claims: the fix generalizes decisively on deepseek but not on the ≥2-model bar (llama
+  sat out per D24), with the directed-correction × ordering-logic interaction as a first-class
+  finding. The anchored-shape clause (llama) was **not evaluable** (anchor sat out, per D24's
+  anchor-out resolution); the ≥2-model gap governed the verdict.
 
 ## D26 · N=60 flat for the soft wall, no escalation ladder (+ two riders, both yes)
 
@@ -626,3 +645,14 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   before judging (→ `evidence/m4/paper-extraction-logic.md`, `m4.PAPER` logic constants pinned
   by a test, README-vs-paper variance footnoted — mirrors M3); (b) adopt the recov / inherit /
   novel / abst taxonomy (re-typed from `logic_failmode.py`, D6) as the standard logic readout.
+- **Outcome (2026-07-08, M4 close):** N=60 flat held — every cell judged once at 60, no
+  escalation, no mid-run extension. The descriptive floor read as bought: deepseek lossy 0.65
+  [52.4%, 75.8%] @g0.1 → 0.23 [14.4%, 35.4%] @g0.3; qwen ~0.63–0.75. Rider (a) delivered before
+  judging (`evidence/m4/paper-extraction-logic.md`; `m4.PAPER` pinned by a test). Rider (b) — the
+  recov/inherit/novel/abst taxonomy — carried the whole interpretation: raw reclaim rate alone
+  could not have separated deepseek's worse-than-empty from qwen's correction-flip confound, and
+  `novel`=0 everywhere was the tell that qwen's source_first errors were the *planted drift*, not
+  mis-solving. The N=20 checkpoint also earned its keep independently — its first job (bug-catch
+  the new readout) turned up no scoring bug, but its hand-read is what diagnosed the confound
+  before the N=60 spend. Grid cost $0.084 measured (N=20 $0.028 + extend-to-60 $0.056); full
+  ledger in ROADMAP M4.

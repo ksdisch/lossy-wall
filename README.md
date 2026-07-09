@@ -119,11 +119,26 @@ KICKOFF's "likely under $10." The post-v1 fork (gated M4 logic family / M5 bound
 arm vs close-and-`/seed-hunt`) is presented as a decision brief in `ROADMAP.md` M3 —
 Kyle's call, deliberately not made here.*
 
+*Status: **M4 complete (2026-07-08) — the logic family, PARTIAL** (first post-v1 extension).
+Tested whether the effect survives a change of task (arithmetic → constraint-deduction puzzles).
+**The fix generalizes decisively on deepseek** — source_first reclaims 60/60 at both wall g while
+the lossy floor collapses and a note that keeps the *corrupted premise* drives inheritance to
+45–70% (worse-than-empty, on logic). **qwen did not clear**, for a real (non-bug) reason the
+mandatory checkpoint hand-read diagnosed: on ordering puzzles the directed correction acts as a
+*flip* instruction, which qwen obeys (inflating lossy, breaking source_first) and deepseek resists.
+With llama sat out (its D24 drift-take pilot fired a real trigger, 9/20 — surfaced only after a
+take-probe format bug was caught and fixed, PR #28), that is one clean model of the two the
+≥2-model bar needs → **PARTIAL on both claims**. Two first-class findings ride along: deepseek's
+worse-than-empty, and the directed-correction × ordering-logic interaction. Figure:
+[`docs/figs/m4-logic-wall.png`](docs/figs/m4-logic-wall.png). M4 spend $0.433 measured; project
+≈ $1.40. (M5, the source-size boundary arm, stays gated-open.)*
+
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
-record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D22)
+record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D26)
 · [`ROADMAP.md`](ROADMAP.md) (milestone status + verdict tables and cost ledgers) ·
 [`LEARNING.md`](LEARNING.md) (teaching notes + vocabulary) ·
 [`docs/M0-BRIEF.md`](docs/M0-BRIEF.md) (the M0 start-of-stage brief) ·
 [`docs/M1-BRIEF.md`](docs/M1-BRIEF.md) (the M1 start-of-stage brief, signed) ·
 [`docs/M2-BRIEF.md`](docs/M2-BRIEF.md) (the M2 start-of-stage brief, signed) ·
-[`docs/M3-BRIEF.md`](docs/M3-BRIEF.md) (the M3 start-of-stage brief, signed).
+[`docs/M3-BRIEF.md`](docs/M3-BRIEF.md) (the M3 start-of-stage brief, signed) ·
+[`docs/M4-BRIEF.md`](docs/M4-BRIEF.md) (the M4 start-of-stage brief, signed & closed — PARTIAL).

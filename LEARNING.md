@@ -369,3 +369,57 @@ paid.
    the comparison table says this "may under-read escaped commits" only *shrinks*
    their deepseek lossy−blank gap. Walk the direction: why can that bug only make
    their Δ+0.83 a floor rather than an artifact?
+
+---
+
+## M4 — the logic family: a soft wall, a real confound, and a bug the checkpoint caught
+
+M4 asked whether the brittle-memory effect survives a change of task — arithmetic ledgers →
+constraint-deduction puzzles. Plain answer: **yes, but softly, and only where the correction is
+unambiguous.** deepseek reproduced it cleanly (fix recovers 100%, the lossy floor collapses, and
+— the money shot — a note that *keeps the corrupted premise* drives 45–70% inheritance, worse
+than dropping it). qwen did not, and the *why* is the lesson: on ordering puzzles the directed
+correction "the X-vs-Y order was wrong" is really a *flip* instruction, and qwen flips whatever
+it's shown — the bare drift conclusion (→ correct, inflating lossy) or the true fact (→ the drift,
+breaking source_first). deepseek recomputes instead of flipping, so it's immune. That interaction
+— not any code defect — is why M4 is PARTIAL rather than REPRODUCED.
+
+Two process lessons compounded from earlier milestones. First, **the take-probe bug**: the same
+D11 failure that bit arithmetic (llama drops the ANSWER format and commits in prose) recurred on
+logic because the logic take-probe was never made format-explicit — and 222 green tests missed it
+because the deterministic fake always emits a clean ANSWER line. The mandatory hand-read caught a
+*perfect 0/20* that should have been ~50%, saving the paper's anchor model from a false benching.
+Second, **the checkpoint is not a formality**: it wasn't a scoring bug this time, but the same
+hand-read is what surfaced the ordering confound — before the N=60 spend, not after. A too-clean
+number (a perfect 0, a perfect even/odd split, a negative gap) is always worth a hand-read.
+
+### New words
+
+- **Soft wall** — a wall whose lossy floor does not collapse to ~0 (logic: 0.23–0.75), because a
+  strong model can partially re-derive the answer in a tiny closed set; the fix still wins *where
+  the correction is clean*, but the floor is a property of the task, not the model.
+- **Chance floor** — with k closed options a pure guesser scores ~1/k; on logic (k=3–5) this makes
+  raw reclaim rate a noisy read, so the recov/inherit/novel/abst taxonomy carries the interpretation.
+- **Emission taxonomy (recov / inherit / novel / abst)** — the four ways a logic reply lands.
+  `novel`=0 everywhere was the diagnostic tell in M4: qwen's source_first errors were *exactly* the
+  planted drift, never a random wrong token — proof the drift was *produced by the correction-flip*,
+  not by mis-solving.
+- **Directed-correction confound** — a correction that names an error locus can, on ordering
+  puzzles, function as a flip instruction; applied to a true source it manufactures the wrong
+  answer. A protocol behaving differently on a task family it wasn't designed around — a first-class
+  finding, not a bug to hide.
+- **Take bias → bank composition** — a model only banks trajectories where the drift *took*;
+  deepseek takes ordering drift readily but refuses assignment drift (it contradicts an explicit
+  constraint), so its bank is ordering-heavy and the clean assignment stratum is underpowered.
+
+### Recall questions
+
+1. deepseek's lossy reclaim is 0.65 at g=0.1 but 0.23 at g=0.3 — *higher* at the more-degraded
+   note. That looks backwards. Explain the mechanism (what differs between the g=0.1 and g=0.3
+   lossy notes) and why it is the brittle-memory thesis rather than a contradiction of it.
+2. Every one of qwen's source_first errors was `inherit` (the drift) and *zero* were `novel`. Why
+   is that specific zero the evidence that ruled out "qwen just mis-solves the puzzle" and pointed
+   at the directed correction — and which stratum (ordering/assignment) did it localise the effect to?
+3. The take-probe bug made llama read 0/20 when it truly took 9/20, and 222 tests stayed green.
+   Name the property of the deterministic fake that made those tests structurally blind to it, and
+   the one project rule that turned the bug from silent-in-the-grid into caught-at-the-checkpoint.

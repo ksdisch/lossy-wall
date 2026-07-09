@@ -1,8 +1,8 @@
 # M4 Start-of-Stage Brief — the logic family (the soft wall)
 
-*Written 2026-07-08 · status: **awaiting sign-off** — D23–D26 proposed below; no M4 code
-and no paid call until Kyle signs · scope source of truth: `docs/KICKOFF.md` (Milestone 4,
-gated) · format follows `docs/M1-BRIEF.md`.*
+*Written 2026-07-08 · status: **signed & CLOSED — M4 PARTIAL (2026-07-08)** — D23–D26 signed;
+outcomes in `DECISIONS.md`, verdict + cost ledger in `ROADMAP.md` M4 · scope source of truth:
+`docs/KICKOFF.md` (Milestone 4, gated) · format follows `docs/M1-BRIEF.md`.*
 
 ## What M4 is, in plain terms
 
