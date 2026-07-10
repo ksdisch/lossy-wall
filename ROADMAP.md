@@ -9,7 +9,7 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | M1 — the wall | lossy vs source_first @ g=0.1/0.3, claim 1, wall figure | **complete (2026-07-06)** — claim 1 CLEARED, 3/3 models |
 | M2 — the controls | lossy_padded (claim 2) + blank/emission (claim 3), knob fills | **complete (2026-07-07)** — claim 2 CLEARED 3/3, claim 3 CLEARED (deepseek) |
 | M3 — cross-check + capstone | author's harness on the overlap cell, comparison table, capstone | **complete (2026-07-08)** — cross-check **AGREE** (6/6 intervals) |
-| **M4 — logic family** | soft wall / task-generality; gap-gated + taxonomy, N=60 | **in progress** — brief signed 2026-07-08 (D23-A core) |
+| **M4 — logic family** | soft wall / task-generality; gap-gated + taxonomy, N=60 | **complete (2026-07-08)** — **PARTIAL**; deepseek clears both claims, qwen confounded (ordering × directed correction) |
 | **M5 — boundary arm** | source-size cliff: where source_first fails, the paper's design | **complete (2026-07-09)** — **REPRODUCED**; crossover tracks the budget (N=4@300, N=12@600) |
 
 ---
