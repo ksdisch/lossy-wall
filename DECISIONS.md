@@ -775,3 +775,21 @@ record of `docs/KICKOFF.md`; this ledger carries them plus everything decided si
   (b) `SourceSizeFake` is the author's `SizeFake` re-typed. **Cost: banks $0.634 + grid $0.092 =
   $0.726 measured** (over the brief's $0.4–0.6 estimate — 7 banks, long multi-item prompts, and
   low-take large-N receipts; the miss noted). Running project total ≈ $2.13.
+
+## D31 · M5 closes the project: the phased plan is exhausted, lossy-wall declared complete
+
+- **Date / decider:** 2026-07-09 / Kyle
+- **Context:** M5 closed REPRODUCED (D30). With it, every unit of KICKOFF's phased plan is
+  judged: v1 (M0–M3, claims 1–3 REPRODUCED, cross-check AGREE) and both gated post-v1 arms —
+  M4 the logic family (PARTIAL) and M5 the source-size boundary (REPRODUCED). Total measured
+  spend ≈ $2.13 of KICKOFF's "likely under $10."
+- **Options:** (A) declare the project closed and run `/seed-hunt` for the next paper;
+  (B) open a new arm beyond KICKOFF's gated scope (an "M6"); (C) leave the repo formally open
+  pending the non-blocking loose ends (LEARNING.md recall answers, `/wrap` back-fills).
+- **Decision: A — lossy-wall is closed; the next move is `/seed-hunt`.**
+- **Why:** KICKOFF D2 gated exactly two post-v1 extensions, and both are now done — there is
+  no in-scope work left, so anything further is a new project's brief, not this one's
+  continuation ("one more arm first" is how scope creeps — decay-pin D21's reasoning). The
+  repo returns to a finished, defensible artifact at its natural stopping place. The loose
+  ends in C are durable (the recall questions live in LEARNING.md and don't expire) and don't
+  hold a closed project open.
