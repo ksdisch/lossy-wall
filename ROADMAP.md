@@ -12,6 +12,10 @@ Scope source of truth: `docs/KICKOFF.md` (phased plan + gate record). Decisions 
 | **M4 — logic family** | soft wall / task-generality; gap-gated + taxonomy, N=60 | **complete (2026-07-08)** — **PARTIAL**; deepseek clears both claims, qwen confounded (ordering × directed correction) |
 | **M5 — boundary arm** | source-size cliff: where source_first fails, the paper's design | **complete (2026-07-09)** — **REPRODUCED**; crossover tracks the budget (N=4@300, N=12@600) |
 
+**PROJECT CLOSED 2026-07-09 (D31).** KICKOFF's phased plan is exhausted — v1 claims 1–3
+REPRODUCED + cross-check AGREE, and both gated post-v1 arms judged (M4 PARTIAL, M5 REPRODUCED).
+Total measured spend ≈ $2.13. Next move: `/seed-hunt`.
+
 ---
 
 ## M0 — the fit-pilot · complete 2026-07-06
