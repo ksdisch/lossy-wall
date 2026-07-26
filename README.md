@@ -160,3 +160,7 @@ record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledge
 [`docs/M4-BRIEF.md`](docs/M4-BRIEF.md) (the M4 start-of-stage brief, signed & closed — PARTIAL) ·
 [`docs/M5-BRIEF.md`](docs/M5-BRIEF.md) (the M5 start-of-stage brief, signed & closed — REPRODUCED;
 D28 reopened A→B on the paper extraction).
+
+---
+
+📚 **Project wiki:** [PROJECT.md](PROJECT.md) — status, scope, and next actions · [Wiki/_index.md](Wiki/_index.md) — topic pages and history
