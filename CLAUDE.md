@@ -101,3 +101,16 @@ leave him able to *defend every decision*. These rules bind **every session and 
   honestly. Scope is one legible deliverable, not breadth.
 - **Secrets:** never print or commit the `.env` value; only `.env.example` is tracked.
 - Conventions beyond decay-pin's ported standard: TBD as the harness takes shape.
+
+## Project Wiki
+
+This project uses the project-wiki skill. When integrating new sources, recording decisions, or pausing work:
+- Update `PROJECT.md` status and next actions
+- Update `HANDOFF.md` with what changed and what's next
+- Add durable understanding to `Wiki/` topic pages
+- Record decisions in `Decisions.md`
+- Keep `Wiki/_index.md` current
+
+(`Wiki/`, `Decisions.md`, and `Sources.md` are created on first need — templates live in the skill. Note: this repo's decision ledger already exists as the root `DECISIONS.md` — use it; do not create a second `Decisions.md`.)
+
+Invoke the `project-wiki` skill when wiki updates are needed.
