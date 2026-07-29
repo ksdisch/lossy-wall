@@ -1,5 +1,7 @@
 # lossy-wall
 
+[![CI](https://github.com/ksdisch/lossy-wall/actions/workflows/ci.yml/badge.svg)](https://github.com/ksdisch/lossy-wall/actions/workflows/ci.yml)
+
 Reproduce and measure, at hobby scale, the **Brittle Memory** effect (arXiv
 [2606.25449](https://arxiv.org/abs/2606.25449), *"Reclaim Evaluation: A Lossy Memory Is
 Worse Than an Empty One"*): at a matched memory budget, a lossy note that keeps a wrong
