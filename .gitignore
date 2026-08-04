@@ -18,3 +18,6 @@ runs/
 docs/session-logs/*.mp3
 docs/session-logs/*.wav
 docs/session-logs/*.m4a
+
+# Session-log scratch scripts (handoff drafts) — never committed
+docs/session-logs/.script-*.txt

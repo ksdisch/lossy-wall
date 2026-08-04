@@ -2,6 +2,12 @@
 
 [![CI](https://github.com/ksdisch/lossy-wall/actions/workflows/ci.yml/badge.svg)](https://github.com/ksdisch/lossy-wall/actions/workflows/ci.yml)
 
+**v1 complete (2026-07-08).** All three pre-registered claims REPRODUCED at their
+pre-registered bars, and the independent-build cross-check came back AGREE: lossy
+reclaim ≤ 1/290 with every Wilson-95 ceiling under 0.10 vs source_first 240/240;
+"worse than empty" wrong-emission gap +58% [+44.2%, +67.5%]; cross-check AGREE
+(6/6 intervals contain zero). Full verdict table below.
+
 Reproduce and measure, at hobby scale, the **Brittle Memory** effect (arXiv
 [2606.25449](https://arxiv.org/abs/2606.25449), *"Reclaim Evaluation: A Lossy Memory Is
 Worse Than an Empty One"*): at a matched memory budget, a lossy note that keeps a wrong
@@ -150,6 +156,41 @@ grow-N-at-two-budgets, not the fixed-N sweep the brief proposed, so D28 was reop
 reproduce the paper's actual result. Judged at N=20 (the 0/1 effect resolved decisively; the signed
 N=40 would have been low-value spend). Figure: [`docs/figs/m5-boundary.png`](docs/figs/m5-boundary.png).
 M5 spend $0.726 measured; project ≈ $2.13, far inside KICKOFF's "under $10."*
+
+## Reproducing
+
+```bash
+git clone https://github.com/ksdisch/lossy-wall && cd lossy-wall
+cp .env.example .env               # then fill in a real OPENROUTER_API_KEY — never commit .env
+
+uv run pytest                      # 245 tests, no API calls, $0 — anti-rig suite + all unit tests
+
+uv run ping.py                     # verify the 3 model slugs before any arm spends real tokens
+
+# Milestone runners are free-before-paid pipelines; each stage is a subcommand.
+# M0 — the fit-pilots (does drift take? is the gap powerable?), ≈ $0.17 total:
+uv run m0.py pilot
+uv run m0.py probe
+
+# M1 — the wall grid (claim 1), ≈ $0.45 measured:
+uv run m1.py bank
+uv run m1.py grid
+uv run m1.py checkpoint
+uv run m1.py judge
+uv run m1.py figure
+
+# M2 — controls (claims 2 & 3), $0.293 measured: same bank/grid/checkpoint/judge/figures shape
+# M3 — cross-check + capstone: paid step is the author's own run_pilot.py in ITS OWN clone/venv
+#      ($0.055 measured, ~7.6h serial background) — this repo's m3.py only reads its output
+# M4 — logic family (post-v1), $0.433 measured; M5 — source-size boundary (post-v1), $0.726 measured:
+#      same pilot/bank/grid/checkpoint/judge/figure shape as M1
+```
+
+Every runner prints OpenRouter-measured cost after each command
+(`usage.include`), so nothing paid runs silently. Project total across all of
+v1 + both post-v1 arms: **≈ $2.13**. No API calls happen without a real
+`OPENROUTER_API_KEY` in `.env` — `.env` is gitignored, only `.env.example` is
+tracked.
 
 The docs spine: [`docs/KICKOFF.md`](docs/KICKOFF.md) (approved scope, phased plan, gate
 record — the source of truth) · [`DECISIONS.md`](DECISIONS.md) (running ledger, D1–D30)
