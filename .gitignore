@@ -21,3 +21,4 @@ docs/session-logs/*.m4a
 
 # Session-log scratch scripts (handoff drafts) — never committed
 docs/session-logs/.script-*.txt
+junit.xml
